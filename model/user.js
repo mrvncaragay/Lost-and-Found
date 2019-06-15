@@ -19,14 +19,14 @@ const User = mongoose.model(
       trim: true,
       lowercase: true,
       match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Must be valid email address.'],
-      minlength: [5, 'must be greater than 3 characters.'],
+      minlength: [5, 'must be greater than 5 characters.'],
       maxlength: [50, 'must be less than 10 characters.']
     },
 
     password: {
       type: String,
-      minlength: [10, 'must be greater than 3 characters.'],
-      maxlength: [1024, 'must be less than 10 characters.'],
+      minlength: [10, 'must be greater than 10 characters.'],
+      maxlength: [512, 'must be less than 512 characters.'],
       required: true
     },
 
@@ -37,9 +37,11 @@ const User = mongoose.model(
       required: true
     },
 
-    property: {
-      type: Property.schema,
-      required: true
+    propertyCode: {
+      type: String,
+      required: true,
+      minlength: [3, 'must be greater than 3 characters.'],
+      maxlength: [10, 'must be less than 10 characters.']
     }
   })
 );

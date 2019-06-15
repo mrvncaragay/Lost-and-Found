@@ -1,8 +1,6 @@
 require('dotenv').config();
 process.env.LOCALDB = process.env.TESTDB;
 const User = require('../../../model/user');
-const Property = require('../../../model/property');
-const Organization = require('../../../model/organization');
 const mongoose = require('mongoose');
 
 describe('User', () => {
@@ -11,7 +9,7 @@ describe('User', () => {
   let email;
   let password;
   let adminType;
-  let property;
+  let propertyCode;
 
   beforeEach(() => {
     name = 'Valid name';
@@ -19,9 +17,13 @@ describe('User', () => {
     propertyCode = 'VALID';
     password = '12345@67890';
     adminType = 'propAdmin';
-    property = mongoose.Types.ObjectId();
 
-    mockUser = new User({ name, email, password, adminType, property });
+    property = mongoose.Types.ObjectId();
+    mockUser = new User({ name, email, password, adminType, propertyCode });
+  });
+
+  afterEach(async () => {
+    await User.deleteMany({});
   });
 
   afterAll(async done => {
@@ -97,105 +99,81 @@ describe('User', () => {
     mockUser.email = 'dsadasddas@yahoo.com';
 
     const err = mockUser.validateSync();
-    expect(err.errors.email).toBeFalsy();
+    expect(err).toBeFalsy();
   });
 
-  it('should be invalid if email exist', () => {
-    mockUser.save();
-    mockUser2 = new User({ name, email, password, adminType, property });
+  it('should be invalid if email exist', async () => {
+    await mockUser.save();
 
-    const err = mockUser2.validateSync();
-    expect(err.errors.email).toBeTruthy();
-    expect(err.errors.email.message).toEqual('Must be valid email address.');
+    mockUser2 = new User({ name, email, password, adminType, propertyCode });
+
+    await mockUser2.save().catch(err => {
+      expect(err.errmsg).toBeTruthy();
+    });
   });
 
-  // it('should be invalid if propertyCode is empty', () => {
-  //   mockProp.propertyCode = '';
+  it('should be invalid if password is empty', () => {
+    mockUser.password = '';
 
-  //   mockProp.validate(err => {
-  //     expect(err.errors.propertyCode).toBeTruthy();
-  //     expect(err.errors.propertyCode.message).toBe('Path `propertyCode` is required.');
-  //   });
-  // });
+    const err = mockUser.validateSync();
+    expect(err.errors.password).toBeTruthy();
+    expect(err.errors.password.message).toBe('Path `password` is required.');
+  });
 
-  // it('should be invalid if phone is empty', () => {
-  //   mockProp.phone = '';
+  it('should be invalid if password is less than 10 characters', () => {
+    mockUser.password = '12345678';
 
-  //   mockProp.validate(err => {
-  //     expect(err.errors.phone).toBeTruthy();
-  //     expect(err.errors.phone.message).toBe('Path `phone` is required.');
-  //   });
-  // });
+    const err = mockUser.validateSync();
+    expect(err.errors.password).toBeTruthy();
+    expect(err.errors.password.message).toBe('must be greater than 10 characters.');
+  });
 
-  // it('should be invalid if organization is empty', () => {
-  //   mockProp.organization = null;
+  it('should be invalid if password is more than 1024 characters', () => {
+    mockUser.password = new Array(514).join('a');
 
-  //   mockProp.validate(err => {
-  //     expect(err.errors.organization).toBeTruthy();
-  //     expect(err.errors.organization.message).toBe('Path `organization` is required.');
-  //   });
-  // });
+    const err = mockUser.validateSync();
+    expect(err.errors.password).toBeTruthy();
+    expect(err.errors.password.message).toBe('must be less than 512 characters.');
+  });
 
-  // it('should be invalid if name is less than 10 chars', () => {
-  //   mockProp.name = 'five';
+  it('should be invalid if adminType is invalid', () => {
+    let adminType2 = 'superAdmin';
+    mockUser.adminType = adminType2;
 
-  //   mockProp.validate(err => {
-  //     expect(err.errors.name).toBeTruthy();
-  //     expect(err.errors.name.message).toBe('must be greater than 10 characters.');
-  //   });
-  // });
+    const err = mockUser.validateSync();
+    expect(err.errors.adminType).toBeTruthy();
+    expect(err.errors.adminType.message).toBeTruthy();
+  });
 
-  // it('should be invalid if address is less than 10 chars', () => {
-  //   mockProp.address = 'five';
+  it('should be valid if adminType is valid', () => {
+    let adminType2 = 'swAdmin';
+    mockUser.adminType = adminType2;
 
-  //   mockProp.validate(err => {
-  //     expect(err.errors.address).toBeTruthy();
-  //     expect(err.errors.address.message).toBe('must be greater than 10 characters.');
-  //   });
-  // });
+    const err = mockUser.validateSync();
+    expect(err).toBeFalsy();
+  });
 
-  // it('should be invalid if address is less than 10 chars', () => {
-  //   mockProp.phone = '1234';
+  it('should be invalid if propertyCode is empty', () => {
+    mockUser.propertyCode = '';
 
-  //   mockProp.validate(err => {
-  //     expect(err.errors.phone).toBeTruthy();
-  //     expect(err.errors.phone.message).toBe('must be greater than 5 characters.');
-  //   });
-  // });
+    const err = mockUser.validateSync();
+    expect(err.errors.propertyCode).toBeTruthy();
+    expect(err.errors.propertyCode.message).toBe('Path `propertyCode` is required.');
+  });
 
-  // it('should be invalid if propertyCode is less than 3 chars', () => {
-  //   mockProp.propertyCode = 'AS';
+  it('should be invalid if propertyCode is less than 3 characters', () => {
+    mockUser.propertyCode = 'AB';
 
-  //   mockProp.validate(err => {
-  //     expect(err.errors.propertyCode).toBeTruthy();
-  //     expect(err.errors.propertyCode.message).toBe('must be greater than 3 characters.');
-  //   });
-  // });
+    const err = mockUser.validateSync();
+    expect(err.errors.propertyCode).toBeTruthy();
+    expect(err.errors.propertyCode.message).toBe('must be greater than 3 characters.');
+  });
 
-  // it('should be invalid if name is more than 100 chars', () => {
-  //   mockProp.name = new Array(102).join('a');
+  it('should be invalid if propertyCode is less than 10 characters', () => {
+    mockUser.propertyCode = 'ABdsadssdadsadadasd';
 
-  //   mockProp.validate(err => {
-  //     expect(err.errors.name).toBeTruthy();
-  //     expect(err.errors.name.message).toBe('must be less than 100 characters.');
-  //   });
-  // });
-
-  // it('should be invalid if address is more than 100 chars', () => {
-  //   mockProp.address = new Array(102).join('a');
-
-  //   mockProp.validate(err => {
-  //     expect(err.errors.address).toBeTruthy();
-  //     expect(err.errors.address.message).toBe('must be less than 100 characters.');
-  //   });
-  // });
-
-  // it('should be invalid if phone is more than 20 chars', () => {
-  //   mockProp.phone = new Array(22).join('a');
-
-  //   mockProp.validate(err => {
-  //     expect(err.errors.phone).toBeTruthy();
-  //     expect(err.errors.phone.message).toBe('must be less than 20 characters.');
-  //   });
-  // });
+    const err = mockUser.validateSync();
+    expect(err.errors.propertyCode).toBeTruthy();
+    expect(err.errors.propertyCode.message).toBe('must be less than 10 characters.');
+  });
 });

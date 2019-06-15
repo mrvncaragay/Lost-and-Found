@@ -7,7 +7,7 @@ const Property = mongoose.model(
     propertyCode: {
       type: String,
       required: true,
-      minlength: [5, 'must be greater than 3 characters.'],
+      minlength: [3, 'must be greater than 3 characters.'],
       maxlength: [10, 'must be less than 10 characters.']
     },
 
