@@ -1,5 +1,5 @@
 const mongoose = require('../startup/dbConnection');
-const Property = require('./property');
+const jwt = require('jsonwebtoken');
 
 const User = mongoose.model(
   'User',
@@ -42,6 +42,21 @@ const User = mongoose.model(
       required: true,
       minlength: [3, 'must be greater than 3 characters.'],
       maxlength: [10, 'must be less than 10 characters.']
+    },
+
+    jwtToken: {
+      type: String,
+      get: function() {
+        return jwt.sign(
+          {
+            _id: this._id,
+            email: this.email,
+            propertyCode: this.propertyCode,
+            adminType: this.adminType
+          },
+          process.env.JWT
+        );
+      }
     }
   })
 );
