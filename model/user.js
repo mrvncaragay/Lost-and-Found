@@ -37,6 +37,11 @@ const User = mongoose.model(
       required: true
     },
 
+    status: {
+      type: String,
+      enum: ['active', 'inactive']
+    },
+
     propertyCode: {
       type: String,
       required: true,

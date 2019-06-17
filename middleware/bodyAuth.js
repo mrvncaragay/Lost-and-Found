@@ -10,7 +10,13 @@ exports.isBodyValid = (req, res, next) => {
       error = validateLogIn(req.body);
       break;
     case 'users':
-      error = validateUser(req.body);
+      error = validateUser(req.route.methods.put, req.body);
+      break;
+    case 'properties':
+      error = validateProperty(req.body);
+      break;
+    case 'organizations':
+      error = validateOrganization(req.body);
       break;
   }
 
@@ -18,6 +24,51 @@ exports.isBodyValid = (req, res, next) => {
 
   next();
 };
+
+function validateOrganization(req) {
+  const schema = {
+    propertyCode: Joi.string()
+      .required()
+      .min(3)
+      .max(10),
+    name: Joi.string()
+      .min(10)
+      .max(100)
+      .required(),
+    address: Joi.string()
+      .min(10)
+      .max(100)
+      .required()
+  };
+
+  const { error } = Joi.validate(req, schema);
+  return error;
+}
+
+function validateProperty(req) {
+  const schema = {
+    propertyCode: Joi.string()
+      .required()
+      .min(3)
+      .max(10),
+    name: Joi.string()
+      .min(10)
+      .max(50)
+      .required(),
+    address: Joi.string()
+      .min(10)
+      .max(100)
+      .required(),
+    phone: Joi.string()
+      .min(5)
+      .max(20)
+      .required(),
+    organization: Joi.string().required()
+  };
+
+  const { error } = Joi.validate(req, schema);
+  return error;
+}
 
 function validateLogIn(req) {
   const schema = {
@@ -36,7 +87,7 @@ function validateLogIn(req) {
   return error;
 }
 
-function validateUser(req) {
+function validateUser(put, req) {
   const schema = {
     name: Joi.string()
       .min(5)
@@ -59,6 +110,8 @@ function validateUser(req) {
       .min(3)
       .max(10)
   };
+
+  if (put) delete schema['password'];
 
   const { error } = Joi.validate(req, schema);
   return error;

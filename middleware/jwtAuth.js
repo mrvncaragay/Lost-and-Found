@@ -8,6 +8,7 @@ exports.isTokenValid = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT);
     req.user = decoded;
+
     next();
   } catch (error) {
     //400 bad request client send us is invalid

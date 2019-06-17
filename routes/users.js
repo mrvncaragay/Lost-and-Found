@@ -2,13 +2,28 @@ const express = require('express');
 const router = express.Router();
 const user = require('../controller/users');
 const jwtAuth = require('../middleware/jwtAuth');
-const authBody = require('../middleware/bodyAuth');
+const objIdAuth = require('../middleware/objectIdAuth');
+const auth = require('../middleware/bodyAuth');
+const admin = require('../middleware/admin');
 
-router.get('/', authBody.isBodyValid, user.getUsers);
+router.get('/', user.getUsers);
 router.get('/me', jwtAuth.isTokenValid, user.getCurrentUser);
-// router.get('/:id', user.index);
-router.post('/', authBody.isBodyValid, user.postUser);
-// router.put('/:id', user.index);
-// router.delete('/:id', user.index);
+router.get('/:id', objIdAuth.validateObjectId, jwtAuth.isTokenValid, admin.isAdmin, user.getUser);
+router.post('/', jwtAuth.isTokenValid, admin.isAdmin, auth.isBodyValid, user.postUser);
+router.put(
+  '/:id',
+  objIdAuth.validateObjectId,
+  jwtAuth.isTokenValid,
+  admin.isAdmin,
+  auth.isBodyValid,
+  user.updateUser
+);
+router.delete(
+  '/:id',
+  objIdAuth.validateObjectId,
+  jwtAuth.isTokenValid,
+  admin.isAdmin,
+  user.removeUser
+);
 
 module.exports = router;
