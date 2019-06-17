@@ -1,5 +1,4 @@
 const Joi = require('@hapi/joi');
-const objectIdAuth = require('./objectIdAuth');
 
 exports.isBodyValid = (req, res, next) => {
   const modelRegex = /(\/api\/)/gi;
@@ -10,8 +9,8 @@ exports.isBodyValid = (req, res, next) => {
     case 'auth':
       error = validateLogIn(req.body);
       break;
-    case 'users':
-      error = validateUser(req.route.methods.put, req.body);
+    case 'admins':
+      error = validateAdmin(req.route.methods.put, req.body);
       break;
     case 'properties':
       error = validateProperty(req.body);
@@ -88,7 +87,7 @@ function validateLogIn(req) {
   return error;
 }
 
-function validateUser(put, req) {
+function validateAdmin(put, req) {
   const schema = {
     name: Joi.string()
       .min(5)

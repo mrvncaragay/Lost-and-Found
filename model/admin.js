@@ -1,8 +1,8 @@
 const mongoose = require('../startup/dbConnection');
 const jwt = require('jsonwebtoken');
 
-const User = mongoose.model(
-  'User',
+const Admin = mongoose.model(
+  'Admin',
   new mongoose.Schema({
     name: {
       type: String,
@@ -66,4 +66,4 @@ const User = mongoose.model(
   })
 );
 
-module.exports = User;
+module.exports = Admin;
