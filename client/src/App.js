@@ -1,8 +1,8 @@
 import React from 'react';
-import Nav from './Nav';
+import LostAndFound from './LostAndFoundApp';
 
 function App() {
-  return <Nav />;
+  return <LostAndFound />;
 }
 
 export default App;
