@@ -1,41 +1,36 @@
 const express = require('express');
 const router = express.Router();
-const organization = require('../controller/organizations');
+const property = require('../controller/properties');
 const jwtAuth = require('../middleware/jwtAuth');
 const objIdAuth = require('../middleware/objectIdAuth');
 const auth = require('../middleware/bodyAuth');
 const admin = require('../middleware/admin');
 
-router.get('/', organization.index);
+router.get('/', property.index);
 router.get(
   '/:id',
   objIdAuth.validateObjectId,
   jwtAuth.isTokenValid,
-  admin.isSwAdmin,
-  organization.getOrganization
+  admin.isOSAdmin,
+  property.getProperty
 );
-router.post(
-  '/',
-  jwtAuth.isTokenValid,
-  admin.isSwAdmin,
-  auth.isBodyValid,
-  organization.postOrganization
-);
+router.post('/', jwtAuth.isTokenValid, admin.isOSAdmin, auth.isBodyValid, property.postProperty);
+
 router.put(
   '/:id',
   objIdAuth.validateObjectId,
   jwtAuth.isTokenValid,
-  admin.isSwAdmin,
+  admin.isOSAdmin,
   auth.isBodyValid,
-  organization.updateOrganization
+  property.updateProperty
 );
 
 router.delete(
   '/:id',
   objIdAuth.validateObjectId,
   jwtAuth.isTokenValid,
-  admin.isSwAdmin,
-  organization.removeOrganization
+  admin.isOSAdmin,
+  property.removeProperty
 );
 
 module.exports = router;

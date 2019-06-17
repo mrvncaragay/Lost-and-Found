@@ -6,10 +6,10 @@ exports.isAdmin = (req, res, next) => {
   next();
 };
 
-exports.isOrgAdmin = (req, res, next) => {
-  const orgAdmin = 'orgAdmin';
+exports.isOSAdmin = (req, res, next) => {
+  const adminType = ['swAdmin', 'orgAdmin'];
 
-  if (req.user.adminType !== orgAdmin) return res.status(403).send('Access denied.');
+  if (!adminType.includes(req.user.adminType)) return res.status(403).send('Access denied.');
 
   next();
 };

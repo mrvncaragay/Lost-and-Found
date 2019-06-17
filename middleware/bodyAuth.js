@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi');
+const objectIdAuth = require('./objectIdAuth');
 
 exports.isBodyValid = (req, res, next) => {
   const modelRegex = /(\/api\/)/gi;
