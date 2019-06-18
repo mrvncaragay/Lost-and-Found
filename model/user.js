@@ -1,8 +1,8 @@
 const mongoose = require('../startup/dbConnection');
 const jwt = require('jsonwebtoken');
 
-const Admin = mongoose.model(
-  'Admin',
+const User = mongoose.model(
+  'User',
   new mongoose.Schema({
     name: {
       type: String,
@@ -32,14 +32,9 @@ const Admin = mongoose.model(
 
     adminType: {
       type: String,
-      //sw (Software Admin), org (Organization Admin), prop (Property Admin)
+      //sw (Software User), org (Organization User), prop (Property User)
       enum: ['swAdmin', 'orgAdmin', 'propAdmin'],
       required: true
-    },
-
-    status: {
-      type: String,
-      enum: ['active', 'inactive']
     },
 
     propertyCode: {
@@ -47,6 +42,18 @@ const Admin = mongoose.model(
       required: true,
       minlength: [3, 'must be greater than 3 characters.'],
       maxlength: [10, 'must be less than 10 characters.']
+    },
+
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'inactive'
+    },
+
+    role: {
+      type: String,
+      enum: ['admin', 'user'],
+      default: 'user'
     },
 
     jwtToken: {
@@ -66,4 +73,4 @@ const Admin = mongoose.model(
   })
 );
 
-module.exports = Admin;
+module.exports = User;

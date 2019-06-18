@@ -9,8 +9,8 @@ exports.isBodyValid = (req, res, next) => {
     case 'auth':
       error = validateLogIn(req.body);
       break;
-    case 'admins':
-      error = validateAdmin(req.route.methods.put, req.body);
+    case 'users':
+      error = validateUser(req.route.methods.put, req.body);
       break;
     case 'properties':
       error = validateProperty(req.body);
@@ -87,7 +87,7 @@ function validateLogIn(req) {
   return error;
 }
 
-function validateAdmin(put, req) {
+function validateUser(put, req) {
   const schema = {
     name: Joi.string()
       .min(5)

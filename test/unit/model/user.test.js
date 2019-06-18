@@ -3,7 +3,7 @@ process.env.LOCALDB = process.env.TESTDB;
 const User = require('../../../model/user');
 const mongoose = require('mongoose');
 
-// test: status
+// test: status, role
 
 describe('User', () => {
   let mockUser;
