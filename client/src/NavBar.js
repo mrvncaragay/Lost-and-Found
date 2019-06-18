@@ -9,7 +9,8 @@ import './css/NavBar.scss';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
-    borderBottom: `1px solid ${theme.palette.divider}`
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    backgroundColor: `${theme.palette.common.white}`
   },
   toolbar: {
     flexWrap: 'wrap'
@@ -20,8 +21,9 @@ const useStyles = makeStyles(theme => ({
   },
   link: {
     margin: theme.spacing(1, 1.5),
+    textTransform: 'capitalize',
     fontFamily: 'Montserrat',
-    fontWeight: 'bold'
+    padding: '5px'
   }
 }));
 
