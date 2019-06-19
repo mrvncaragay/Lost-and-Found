@@ -10,7 +10,7 @@ import { withStyles, withWidth } from '@material-ui/core';
 import { Drawer } from '@material-ui/core';
 
 // Custom components
-import { Topbar } from './components';
+import { Topbar, Sidebar } from './components';
 
 // Component styles
 import styles from './styles';
@@ -46,7 +46,7 @@ function Dashboard({classes, title}) {
           open={isOpen}
           variant={'persistent'}//{isMobile ? 'temporary' : 'persistent'}
         >
-          {/* <Sidebar className={classes.sidebar} /> */}
+          <Sidebar className={classes.sidebar} />
         </Drawer> 
 
         <main 
