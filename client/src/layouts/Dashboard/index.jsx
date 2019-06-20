@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 
 // Externals
 import classNames from 'classnames';
@@ -15,19 +15,21 @@ import { Topbar, Sidebar } from './components';
 // Component styles
 import styles from './styles';
 
-function Dashboard({classes, title}) {
+function Dashboard({classes, width, title, children}) {
+  
+  const isMobile = ['xs', 'sm', 'md'].includes(width);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(!isMobile);
 
-  const shiftTopbar = isOpen; //&& !isMobile;
-  const shiftContent = isOpen; //&& !isMobile;
+  const shiftTopbar = isOpen && !isMobile;
+  const shiftContent = isOpen && !isMobile;
 
   const handleToggleOpen = () => {
     setIsOpen(!isOpen);
   };
 
   const handleClose = () => {
-    setIsOpen({ isOpen: false });
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -44,16 +46,17 @@ function Dashboard({classes, title}) {
           classes={{ paper: classes.drawerPaper }}
           onClose={handleClose}
           open={isOpen}
-          variant={'persistent'}//{isMobile ? 'temporary' : 'persistent'}
+          variant={isMobile ? 'temporary' : 'persistent'}
         >
           <Sidebar className={classes.sidebar} />
         </Drawer> 
 
         <main 
             className={classNames(classes.content, { [classes.contentShift]: shiftContent })} >
+            {children}
         </main>
     </Fragment>
   );
 }
 
-export default withStyles(styles)(Dashboard);
+export default withWidth()(withStyles(styles)(Dashboard));

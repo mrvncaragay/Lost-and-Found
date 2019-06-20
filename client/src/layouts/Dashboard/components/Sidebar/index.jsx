@@ -39,6 +39,10 @@ function Sidebar({classes, className}) {
 
   const rootClassName = classNames(classes.root, className);
 
+  const myNavLink = React.forwardRef((props, ref) => {
+    return <NavLink to={props.to} {...props} innerRef={ref} />
+  });
+
   return (
     <nav className={rootClassName}>
       <div className={classes.logoWrapper}>
@@ -84,17 +88,35 @@ function Sidebar({classes, className}) {
           <ListItem
               activeClassName={classes.activeListItem}
               className={classes.listItem}
-              component={NavLink}
+              component={myNavLink}
               to="/dashboard"
             >
-              <ListItemIcon className={classes.listItemIcon}>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText
-                classes={{ primary: classes.listItemText }}
-                primary="Dashboard"
-              />
-            </ListItem>
+            <ListItemIcon className={classes.listItemIcon}>
+              <DashboardIcon />
+            </ListItemIcon>
+
+            <ListItemText
+              classes={{ primary: classes.listItemText }}
+              primary="Dashboard"
+            />
+          </ListItem>
+
+          <ListItem
+              activeClassName={classes.activeListItem}
+              className={classes.listItem}
+              component={myNavLink}
+              to="/users"
+            >
+            <ListItemIcon className={classes.listItemIcon}>
+              <PeopleIcon />
+            </ListItemIcon>
+
+            <ListItemText
+              classes={{ primary: classes.listItemText }}
+              primary="Users"
+            />
+          </ListItem>
+          
 
         </List>
     </nav>
