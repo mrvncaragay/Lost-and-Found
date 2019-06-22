@@ -39,7 +39,7 @@ function Sidebar({classes, className}) {
 
   const rootClassName = classNames(classes.root, className);
 
-  const myNavLink = React.forwardRef((props, ref) => {
+  const myNavLink = forwardRef((props, ref) => {
     return <NavLink to={props.to} {...props} innerRef={ref} />
   });
 
