@@ -20,7 +20,8 @@ export default theme => ({
       },
     rightLink: {
         fontSize: '16px',
-        color: 'red'
+        textDecoration: 'none',
+        fontWeight: '500'
     } ,
     image: {
         height: '63px'

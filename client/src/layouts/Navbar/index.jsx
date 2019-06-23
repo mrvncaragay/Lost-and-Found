@@ -15,7 +15,7 @@ import styles from './styles';
 function Navbar({classes, className}) {
  
     const rootClassName = classNames(classes.root, className)
-  
+    
     return(
         <div className={rootClassName} >
             <AppBar elevation={0} className={classes.appbar} position="fixed" color="default">
@@ -33,9 +33,9 @@ function Navbar({classes, className}) {
                             {'Sign In'}
                         </NavLink>
                         {/* dont use it not a  react link */}
-                        <Link  href="/dashboard" className={classes.rightLink} variant="h6" underline="none" exact to="#">
+                        <NavLink  href="/dashboard" className={classes.rightLink} variant="h6" underline="none" exact to="#">
                             {'Sign Up'}
-                        </Link>
+                        </NavLink>
                     </div>
 
                </Toolbar>
