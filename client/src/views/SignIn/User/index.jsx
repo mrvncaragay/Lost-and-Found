@@ -74,7 +74,7 @@ function SignIn() {
               </Typography>
 
               <Typography className={classes.adminLink} variant="body1">
-                have an admin account?{" "}
+                Have an admin account?{" "}
                 <Link className={classes.signUpUrl} to="/admin/sign-in">
                   Sign in
                 </Link>

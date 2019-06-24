@@ -5,7 +5,14 @@ export default initialVal => {
 
   const handleChange = (field, e) => {
     const newValues = { ...state };
-    newValues[field] = e.target.value;
+
+    if (field === "error") {
+      newValues[field] = true;
+      newValues.errorMessage = e;
+    } else {
+      newValues.error = false;
+      newValues[field] = e.target.value;
+    }
 
     setValue(newValues);
   };
@@ -14,6 +21,8 @@ export default initialVal => {
     const newValues = { ...state };
     newValues.email = "";
     newValues.password = "";
+    newValues.errorMessage = "";
+    newValues.error = false;
 
     setValue(newValues);
   };

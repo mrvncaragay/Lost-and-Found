@@ -1,35 +1,39 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Joi from "@hapi/joi";
 
 // Material components
 import { Grid, Typography, TextField, Button } from "@material-ui/core";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 /// Component styles
 import styles from "../styles";
 
-// Form validation schema
-import schema from "./schema";
-
 // Input State
 import useInputState from "../../../hooks/userInputState";
 
-function AdminSignIn() {
+function AdminSignIn({ history }) {
   const classes = styles();
 
   const [values, handleChange, reset] = useInputState({
     email: "",
-    password: ""
+    password: "",
+    error: false,
+    errorType: "",
+    errorMessage: ""
   });
 
   const handleSubmit = async () => {
-    const result = await axios.post("/api/auth", {
-      email: values.email,
-      pasword: values.password
-    });
-
-    console.log(result);
+    axios
+      .post("/api/auth", {
+        email: values.email,
+        password: values.password
+      })
+      .then(res => {
+        localStorage.setItem("x-auth-token", res.data);
+        history.push("/dashboard");
+      })
+      .catch(err => handleChange("error", err.response.data));
   };
 
   return (
@@ -49,6 +53,7 @@ function AdminSignIn() {
 
             <form className={classes.form}>
               <TextField
+                error={values.error}
                 value={values.email}
                 className={classes.textField}
                 onChange={e => handleChange("email", e)}
@@ -59,6 +64,7 @@ function AdminSignIn() {
               />
 
               <TextField
+                error={values.error}
                 value={values.password}
                 className={classes.textField}
                 onChange={e => handleChange("password", e)}
@@ -67,6 +73,10 @@ function AdminSignIn() {
                 type="password"
                 variant="outlined"
               />
+
+              <FormHelperText className={classes.error}>
+                {values.error ? values.errorMessage : ""}
+              </FormHelperText>
 
               <Button
                 onClick={handleSubmit}

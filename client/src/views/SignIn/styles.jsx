@@ -68,5 +68,8 @@ export default makeStyles(theme => ({
   adminLink: {
     marginTop: theme.spacing(2),
     color: theme.palette.text.secondary
+  },
+  error: {
+    color: theme.palette.danger.main
   }
 }));

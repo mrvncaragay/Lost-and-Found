@@ -19,7 +19,6 @@ exports.isBodyValid = (req, res, next) => {
       error = validateOrganization(req.body);
       break;
   }
-  console.log('got here');
   if (error) return res.status(400).send(error.details[0].message);
 
   next();
@@ -76,11 +75,21 @@ function validateLogIn(req) {
       .min(5)
       .max(50)
       .required()
-      .email(),
+      .email()
+      .error(error => {
+        return {
+          message: 'Invalid email or password.'
+        };
+      }),
     password: Joi.string()
       .min(5)
       .max(255)
       .required()
+      .error(error => {
+        return {
+          message: 'Invalid email or password.'
+        };
+      })
   };
 
   const { error } = Joi.validate(req, schema);
