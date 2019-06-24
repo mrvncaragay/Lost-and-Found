@@ -1,42 +1,42 @@
 export default theme => ({
   root: {
     backgroundColor: theme.palette.common.white,
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
     paddingLeft: theme.spacing(0),
     paddingRight: theme.spacing(0)
   },
   logoWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '63px',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "63px",
     flexShrink: 0
   },
   logoLink: {
     fontSize: 0
   },
   logoImage: {
-    cursor: 'pointer'
+    cursor: "pointer"
   },
   logoDivider: {
-    marginTop: '1px;',
+    marginTop: "1px;",
     marginBottom: theme.spacing(2)
   },
   image: {
-    height: '63px'
+    height: "63px"
   },
   profile: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    minHeight: 'fit-content',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    minHeight: "fit-content",
     marginBottom: theme.spacing(2)
   },
   avatar: {
-    width: '100px',
-    height: '100px'
+    width: "100px",
+    height: "100px"
   },
   nameText: {
     marginTop: theme.spacing(1)
@@ -53,30 +53,30 @@ export default theme => ({
     color: theme.palette.text.secondary
   },
   listItem: {
-    cursor: 'pointer',
-    '&:hover': {
+    cursor: "pointer",
+    "&:hover": {
       backgroundColor: theme.palette.primary.light,
       borderLeft: `4px solid ${theme.palette.primary.main}`,
-      borderRadius: '4px',
-      '& $listItemIcon': {
+      borderRadius: "4px",
+      "& $listItemIcon": {
         color: theme.palette.primary.main,
-        marginLeft: '-4px'
+        marginLeft: "-4px"
       }
     },
-    '& + &': {
+    "& + &": {
       marginTop: theme.spacing(1)
     }
   },
   activeListItem: {
     borderLeft: `4px solid ${theme.palette.primary.main}`,
-    borderRadius: '4px',
+    borderRadius: "4px",
     backgroundColor: theme.palette.primary.light,
-    '& $listItemText': {
+    "& $listItemText": {
       color: theme.palette.text.primary
     },
-    '& $listItemIcon': {
+    "& $listItemIcon": {
       color: theme.palette.primary.main,
-      marginLeft: '-4px'
+      marginLeft: "-4px"
     }
   },
   listItemIcon: {

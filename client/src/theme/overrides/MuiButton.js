@@ -1,11 +1,16 @@
 // Palette
-import palette from '../palette';
+import palette from "../palette";
 
 export default {
-  outlined: {},
+  outlined: {
+    backgroundColor: palette.common.white,
+    "&:hover": {
+      backgroundColor: palette.danger.main
+    }
+  },
   contained: {
     backgroundColor: palette.common.white,
-    '&:hover': {
+    "&:hover": {
       backgroundColor: palette.common.neutral
     }
   }

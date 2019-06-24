@@ -1,13 +1,13 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
 
-import LostAndFound from './LostAndFoundApp';
+import LostAndFound from "./LostAndFoundApp";
 
 // Material helpers
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from "@material-ui/styles";
 
 // Theme
-import theme from './theme';
+import theme from "./theme";
 
 function App() {
   return (

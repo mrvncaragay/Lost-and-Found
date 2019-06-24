@@ -19,7 +19,7 @@ exports.isBodyValid = (req, res, next) => {
       error = validateOrganization(req.body);
       break;
   }
-
+  console.log('got here');
   if (error) return res.status(400).send(error.details[0].message);
 
   next();
