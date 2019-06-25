@@ -11,7 +11,7 @@ export default initialVal => {
       newValues.errorMessage = e;
     } else {
       newValues.error = false;
-      newValues[field] = e.target.value;
+      newValues.user[field] = e.target.value;
     }
 
     setValue(newValues);
@@ -19,10 +19,14 @@ export default initialVal => {
 
   const reset = () => {
     const newValues = { ...state };
-    newValues.email = "";
-    newValues.password = "";
-    newValues.errorMessage = "";
-    newValues.error = false;
+
+    for (const key in newValues) {
+      let value = newValues[key];
+
+      typeof value === "boolean"
+        ? (newValues[key] = false)
+        : (newValues[key] = "");
+    }
 
     setValue(newValues);
   };

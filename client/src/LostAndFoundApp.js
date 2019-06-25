@@ -6,6 +6,7 @@ import Dashboard from "./views/Dashboard";
 import User from "./views/User";
 import SignIn from "./views/SignIn/User";
 import AdminSignIn from "./views/SignIn/Admin";
+import AdminSignUp from "./views/SignUp/Admin";
 
 function LostAndFound() {
   return (
@@ -15,6 +16,7 @@ function LostAndFound() {
       <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/users" component={User} />
       <Route exact path="/admin/sign-in" component={AdminSignIn} />
+      <Route exact path="/admin/sign-up" component={AdminSignUp} />
       <Route render={() => <h1>PAGE NOT FOUND!</h1>} />
     </Switch>
   );

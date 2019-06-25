@@ -36,8 +36,7 @@ exports.postUser = async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
-    adminType: req.body.adminType,
-    propertyCode: req.body.propertyCode
+    adminType: req.body.adminType
   });
 
   newUser.save();

@@ -39,15 +39,15 @@ const User = mongoose.model(
 
     propertyCode: {
       type: String,
-      required: true,
       minlength: [3, 'must be greater than 3 characters.'],
-      maxlength: [10, 'must be less than 10 characters.']
+      maxlength: [10, 'must be less than 10 characters.'],
+      default: 'none'
     },
 
     status: {
       type: String,
       enum: ['active', 'inactive'],
-      default: 'inactive'
+      default: 'active'
     },
 
     role: {

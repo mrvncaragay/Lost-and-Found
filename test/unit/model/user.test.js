@@ -4,6 +4,7 @@ const User = require('../../../model/user');
 const mongoose = require('mongoose');
 
 // test: status, role
+// property code is not required anymore
 
 describe('User', () => {
   let mockUser;

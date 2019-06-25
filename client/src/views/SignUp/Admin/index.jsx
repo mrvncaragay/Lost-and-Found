@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { CurrentUserContext } from "../../../contexts/currentUser";
 
 // Material components
 import { Grid, Typography, TextField, Button } from "@material-ui/core";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
 
 /// Component styles
 import styles from "../styles";
@@ -13,30 +15,30 @@ import styles from "../styles";
 // Input State
 import useInputState from "../../../hooks/userInputState";
 
-function AdminSignIn({ history }) {
+function AdminSignUp({ history }) {
   const classes = styles();
-  const { dispatch } = useContext(CurrentUserContext);
 
   const [values, handleChange, reset] = useInputState({
-    user: {
-      email: "",
-      password: ""
-    },
+    name: "",
+    email: "",
+    password: "",
+    adminType: "",
     error: false,
     errorType: "",
     errorMessage: ""
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     axios
-      .post("/api/auth", {
-        email: values.user.email,
-        password: values.user.password
+      .post("/api/users", {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        adminType: values.adminType
       })
       .then(res => {
         reset();
-        localStorage.setItem("x-auth-token", res.data);
-        history.push("/dashboard");
+        history.push("/admin/sign-in");
       })
       .catch(err => handleChange("error", err.response.data));
   };
@@ -59,7 +61,18 @@ function AdminSignIn({ history }) {
             <form className={classes.form}>
               <TextField
                 error={values.error}
-                value={values.user.email}
+                value={values.name}
+                className={classes.textField}
+                onChange={e => handleChange("name", e)}
+                label="Name"
+                name="name"
+                type="text"
+                variant="outlined"
+              />
+
+              <TextField
+                error={values.error}
+                value={values.email}
                 className={classes.textField}
                 onChange={e => handleChange("email", e)}
                 label="Email address"
@@ -70,7 +83,7 @@ function AdminSignIn({ history }) {
 
               <TextField
                 error={values.error}
-                value={values.user.password}
+                value={values.password}
                 className={classes.textField}
                 onChange={e => handleChange("password", e)}
                 label="Password"
@@ -79,29 +92,43 @@ function AdminSignIn({ history }) {
                 variant="outlined"
               />
 
+              <InputLabel
+                className={classes.textField}
+                htmlFor="adminType-helper"
+              >
+                Admin Type
+              </InputLabel>
+              <Select
+                value={values.adminType}
+                onChange={e => handleChange("adminType", e)}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={"propAdmin"}>propAdmin</MenuItem>
+                <MenuItem value={"orgAdmin"}>orgAdmin</MenuItem>
+                <MenuItem value={"swAdmin"}>swAdmin</MenuItem>
+              </Select>
+
               <FormHelperText className={classes.error}>
                 {values.error ? values.errorMessage : ""}
               </FormHelperText>
 
               <Button
-                //onClick={handleSubmit}
-                onClick={e => {
-                  dispatch({ type: "LOGIN", user: values.user });
-                  // reset(); not wokring because of Values.user is an object
-                }}
+                onClick={handleSubmit}
                 fullWidth
                 className={classes.signInButton}
                 color="primary"
                 size="large"
                 variant="contained"
               >
-                Sign in
+                Register
               </Button>
 
               <Typography className={classes.signUp} variant="body1">
-                don't have an admin account?{" "}
-                <Link className={classes.signUpUrl} to="/admin/sign-up">
-                  Sign up
+                Have an admin account?{" "}
+                <Link className={classes.signUpUrl} to="/admin/sign-in">
+                  Sign In
                 </Link>
               </Typography>
             </form>
@@ -112,4 +139,4 @@ function AdminSignIn({ history }) {
   );
 }
 
-export default AdminSignIn;
+export default AdminSignUp;

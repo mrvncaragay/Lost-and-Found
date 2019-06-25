@@ -3,6 +3,9 @@ import { BrowserRouter } from "react-router-dom";
 
 import LostAndFound from "./LostAndFoundApp";
 
+//CurrentUser
+import { CurrentUserProvider } from "./contexts/currentUser";
+
 // Material helpers
 import { ThemeProvider } from "@material-ui/styles";
 
@@ -13,7 +16,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <LostAndFound />
+        <CurrentUserProvider>
+          <LostAndFound />
+        </CurrentUserProvider>
       </BrowserRouter>
     </ThemeProvider>
   );

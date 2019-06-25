@@ -113,9 +113,13 @@ function validateUser(put, req) {
       .required(),
     adminType: Joi.string()
       .valid('swAdmin', 'orgAdmin', 'propAdmin')
-      .required(),
-    propertyCode: Joi.string()
       .required()
+      .error(error => {
+        return {
+          message: 'AdminType is required.'
+        };
+      }),
+    propertyCode: Joi.string()
       .min(3)
       .max(10)
   };
