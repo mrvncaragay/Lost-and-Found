@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import axios from "axios";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../../contexts/currentUser";
+import { DispatchContext } from "../../../contexts/currentUser";
 
 // Material components
 import { Grid, Typography, TextField, Button } from "@material-ui/core";
@@ -13,33 +13,19 @@ import styles from "../styles";
 // Input State
 import useInputState from "../../../hooks/userInputState";
 
-function AdminSignIn({ history }) {
+function AdminSignIn() {
   const classes = styles();
-  const { dispatch } = useContext(CurrentUserContext);
+  const { dispatch, loggin } = useContext(DispatchContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const [values, handleChange, reset] = useInputState({
-    user: {
+    userData: {
       email: "",
       password: ""
-    },
-    error: false,
-    errorType: "",
-    errorMessage: ""
+    }
   });
 
-  const handleSubmit = async () => {
-    axios
-      .post("/api/auth", {
-        email: values.user.email,
-        password: values.user.password
-      })
-      .then(res => {
-        reset();
-        localStorage.setItem("x-auth-token", res.data);
-        history.push("/dashboard");
-      })
-      .catch(err => handleChange("error", err.response.data));
-  };
+  console.log(currentUser);
 
   return (
     <div className={classes.root}>
@@ -59,7 +45,7 @@ function AdminSignIn({ history }) {
             <form className={classes.form}>
               <TextField
                 error={values.error}
-                value={values.user.email}
+                value={values.userData.email}
                 className={classes.textField}
                 onChange={e => handleChange("email", e)}
                 label="Email address"
@@ -70,7 +56,7 @@ function AdminSignIn({ history }) {
 
               <TextField
                 error={values.error}
-                value={values.user.password}
+                value={values.userData.password}
                 className={classes.textField}
                 onChange={e => handleChange("password", e)}
                 label="Password"
@@ -80,14 +66,13 @@ function AdminSignIn({ history }) {
               />
 
               <FormHelperText className={classes.error}>
-                {values.error ? values.errorMessage : ""}
+                {currentUser.error.message ? currentUser.error.message : ""}
               </FormHelperText>
 
               <Button
                 //onClick={handleSubmit}
                 onClick={e => {
-                  dispatch({ type: "LOGIN", user: values.user });
-                  // reset(); not wokring because of Values.user is an object
+                  loggin(values.userData);
                 }}
                 fullWidth
                 className={classes.signInButton}

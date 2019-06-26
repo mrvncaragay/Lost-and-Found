@@ -78,7 +78,8 @@ function validateLogIn(req) {
       .email()
       .error(error => {
         return {
-          message: 'Invalid email or password.'
+          message: 'Invalid email or password.',
+          type: 'email'
         };
       }),
     password: Joi.string()
@@ -87,7 +88,8 @@ function validateLogIn(req) {
       .required()
       .error(error => {
         return {
-          message: 'Invalid email or password.'
+          message: 'Invalid email or password.',
+          type: 'password'
         };
       })
   };

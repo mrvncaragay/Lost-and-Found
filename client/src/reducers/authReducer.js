@@ -1,12 +1,12 @@
 import { LogIn } from "../actions/authActions";
 
-const reducer = (state, action) => {
+const reducer = (user, action) => {
   switch (action.type) {
     case "LOGIN":
-      return LogIn(state, action.user);
+      return { ...user, error: { message: action.error } };
 
     default:
-      return LogIn("Defaul");
+      return user;
   }
 };
 

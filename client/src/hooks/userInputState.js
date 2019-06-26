@@ -6,27 +6,16 @@ export default initialVal => {
   const handleChange = (field, e) => {
     const newValues = { ...state };
 
-    if (field === "error") {
-      newValues[field] = true;
-      newValues.errorMessage = e;
-    } else {
-      newValues.error = false;
-      newValues.user[field] = e.target.value;
-    }
+    newValues.error = false;
+    newValues.userData[field] = e.target.value;
 
     setValue(newValues);
   };
 
   const reset = () => {
     const newValues = { ...state };
-
-    for (const key in newValues) {
-      let value = newValues[key];
-
-      typeof value === "boolean"
-        ? (newValues[key] = false)
-        : (newValues[key] = "");
-    }
+    newValues.userData.email = "";
+    newValues.userData.password = "";
 
     setValue(newValues);
   };
