@@ -1,12 +1,21 @@
-import { LogIn } from "../actions/authActions";
-
-const reducer = (user, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
-    case "LOGIN":
-      return { ...user, error: { message: action.error } };
+    case "SUBMIT_ERROR":
+      return {
+        ...state,
+        submitted: false,
+        errorMessage: action.payload,
+        loading: false
+      };
+
+    case "SUBMIT_STARTED":
+      return { ...state, submitted: false, loading: true };
+
+    case "SET_CURRENT_USER":
+      return { ...state, user: action.payload };
 
     default:
-      return user;
+      return state;
   }
 };
 

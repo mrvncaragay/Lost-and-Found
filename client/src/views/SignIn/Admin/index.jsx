@@ -1,10 +1,25 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../../contexts/currentUser";
 import { DispatchContext } from "../../../contexts/currentUser";
+import {
+  submitError,
+  submitStarted,
+  setCurrentUser
+} from "../../../actions/authActions";
+import setAuthJwtToken from "../../../util/setAuthJwtToken";
+import jwt from "jsonwebtoken";
+// External
+import axios from "axios";
 
 // Material components
-import { Grid, Typography, TextField, Button } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress
+} from "@material-ui/core";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 /// Component styles
@@ -13,20 +28,38 @@ import styles from "../styles";
 // Input State
 import useInputState from "../../../hooks/userInputState";
 
-function AdminSignIn() {
+function AdminSignIn({ history }) {
   const classes = styles();
-  const { dispatch, loggin } = useContext(DispatchContext);
-  const { currentUser } = useContext(CurrentUserContext);
+  const dispatch = useContext(DispatchContext);
+  const currentUser = useContext(CurrentUserContext);
 
   const [values, handleChange, reset] = useInputState({
-    userData: {
-      email: "",
-      password: ""
-    }
+    email: "",
+    password: ""
   });
 
-  console.log(currentUser);
+  const handleSubmit = () => {
+    dispatch(submitStarted());
 
+    axios
+      .post("/api/auth", {
+        email: values.email,
+        password: values.password
+      })
+      .then(res => {
+        localStorage.setItem("x-auth-token", res.data);
+        setAuthJwtToken(res.data);
+        const decoded = jwt.verify(res.data, process.env.REACT_APP_JWT);
+        dispatch(setCurrentUser(decoded));
+        history.push("/dashboard");
+      })
+      .catch(err => {
+        reset();
+        dispatch(submitError(err.response.data));
+      });
+  };
+
+  console.log(currentUser);
   return (
     <div className={classes.root}>
       <Grid container className={classes.grid}>
@@ -45,7 +78,7 @@ function AdminSignIn() {
             <form className={classes.form}>
               <TextField
                 error={values.error}
-                value={values.userData.email}
+                value={values.email}
                 className={classes.textField}
                 onChange={e => handleChange("email", e)}
                 label="Email address"
@@ -56,7 +89,7 @@ function AdminSignIn() {
 
               <TextField
                 error={values.error}
-                value={values.userData.password}
+                value={values.password}
                 className={classes.textField}
                 onChange={e => handleChange("password", e)}
                 label="Password"
@@ -66,22 +99,24 @@ function AdminSignIn() {
               />
 
               <FormHelperText className={classes.error}>
-                {currentUser.error.message ? currentUser.error.message : ""}
+                {currentUser.errorMessage ? currentUser.errorMessage : ""}
               </FormHelperText>
 
-              <Button
-                //onClick={handleSubmit}
-                onClick={e => {
-                  loggin(values.userData);
-                }}
-                fullWidth
-                className={classes.signInButton}
-                color="primary"
-                size="large"
-                variant="contained"
-              >
-                Sign in
-              </Button>
+              {currentUser.loading ? (
+                // loading icon need to fix
+                <CircularProgress className={classes.progress} />
+              ) : (
+                <Button
+                  onClick={handleSubmit}
+                  fullWidth
+                  className={classes.signInButton}
+                  color="primary"
+                  size="large"
+                  variant="contained"
+                >
+                  Sign in
+                </Button>
+              )}
 
               <Typography className={classes.signUp} variant="body1">
                 don't have an admin account?{" "}

@@ -1,18 +1,19 @@
-import axios from "axios";
+const SUBMIT_STARTED = "SUBMIT_STARTED";
+const SUBMIT_ERROR = "SUBMIT_ERROR";
+const SET_CURRENT_USER = "SET_CURRENT_USER";
 
-export function LogIn(user, userData) {
-  axios
-    .post("/api/auth", {
-      email: userData.email,
-      password: userData.password
-    })
-    .then(res => {
-      console.log(res.data);
-      // localStorage.setItem("x-auth-token", res.data);
-      // history.push("/dashboard");
-    })
-    .catch(err => {
-      return { ...user, error: err.response.data };
-      //errorDispatch(addError(err.response.data));
-    });
-}
+export const submitError = payload => {
+  if (!payload) return;
+
+  return { type: SUBMIT_ERROR, payload };
+};
+
+export const submitStarted = () => {
+  return { type: SUBMIT_STARTED };
+};
+
+export const setCurrentUser = payload => {
+  if (!payload) return;
+
+  return { type: SET_CURRENT_USER, payload };
+};

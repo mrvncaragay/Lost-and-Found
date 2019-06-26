@@ -7,15 +7,15 @@ export default initialVal => {
     const newValues = { ...state };
 
     newValues.error = false;
-    newValues.userData[field] = e.target.value;
+    newValues[field] = e.target.value;
 
     setValue(newValues);
   };
 
   const reset = () => {
     const newValues = { ...state };
-    newValues.userData.email = "";
-    newValues.userData.password = "";
+    newValues.email = "";
+    newValues.password = "";
 
     setValue(newValues);
   };

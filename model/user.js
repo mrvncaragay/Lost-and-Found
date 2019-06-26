@@ -62,6 +62,7 @@ const User = mongoose.model(
         return jwt.sign(
           {
             _id: this._id,
+            name: this.name,
             email: this.email,
             propertyCode: this.propertyCode,
             adminType: this.adminType
