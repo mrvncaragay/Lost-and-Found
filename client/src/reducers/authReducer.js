@@ -1,22 +1,27 @@
-const reducer = (state, action) => {
+import { LOGIN_USER, UPDATE_USER } from "../actions/types";
+
+const initialState = {
+  isAuthenticated: false,
+  loading: false,
+  submitted: false,
+  response: null,
+  errorMessage: null,
+  user: {}
+};
+
+export default function(state = initialState, action) {
   switch (action.type) {
-    case "SUBMIT_ERROR":
+    case LOGIN_USER:
       return {
         ...state,
-        submitted: false,
-        errorMessage: action.payload,
-        loading: false
+        user: action.payload
       };
-
-    case "SUBMIT_STARTED":
-      return { ...state, submitted: false, loading: true };
-
-    case "SET_CURRENT_USER":
-      return { ...state, user: action.payload };
-
+    case UPDATE_USER:
+      return {
+        ...state,
+        loading: true
+      };
     default:
       return state;
   }
-};
-
-export default reducer;
+}

@@ -1,6 +1,5 @@
-import React, { forwardRef, useContext } from "react";
+import React, { forwardRef, useContext, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { CurrentUserContext } from "../../../../contexts/currentUser";
 
 // Externals
 import classNames from "classnames";
@@ -38,14 +37,15 @@ import styles from "./styles";
 
 function Sidebar({ classes, className }) {
   const rootClassName = classNames(classes.root, className);
-  const currentUser = useContext(CurrentUserContext);
 
   const myNavLink = forwardRef((props, ref) => {
     return <NavLink to={props.to} {...props} innerRef={ref} />;
   });
 
-  // will not work if not signed in
-  console.log(currentUser);
+  useEffect(() => {
+    console.log("inside Sidebar");
+  });
+
   return (
     <nav className={rootClassName}>
       <div className={classes.logoWrapper}>
@@ -69,7 +69,7 @@ function Sidebar({ classes, className }) {
           />
         </Link>
         <Typography className={classes.nameText} variant="h6">
-          {currentUser.user.name}
+          Test User
         </Typography>
         <Typography className={classes.bioText} variant="caption">
           Software Engineer

@@ -12,13 +12,17 @@ import { ThemeProvider } from "@material-ui/styles";
 // Theme
 import theme from "./theme";
 
+// Externals
+import { Provider } from "react-redux";
+import store from "./store";
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <CurrentUserProvider>
+        <Provider store={store}>
           <LostAndFound />
-        </CurrentUserProvider>
+        </Provider>
       </BrowserRouter>
     </ThemeProvider>
   );

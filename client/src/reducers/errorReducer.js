@@ -1,22 +1,15 @@
-const ADD = "ADD";
+import { GET_ERRORS, RESET_ERRORS } from "../actions/types";
 
-export const addError = data => {
-  if (!data) return;
+const initialState = "";
 
-  return {
-    type: ADD,
-    data
-  };
-};
-
-const reducer = (state, action) => {
+export default function(state = initialState, action) {
   switch (action.type) {
-    case "ADD":
-      return { ...state, error: action.error };
+    case RESET_ERRORS:
+      return initialState;
+    case GET_ERRORS:
+      return action.payload;
 
     default:
       return state;
   }
-};
-
-export default reducer;
+}

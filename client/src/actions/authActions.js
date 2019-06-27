@@ -1,19 +1,39 @@
-const SUBMIT_STARTED = "SUBMIT_STARTED";
-const SUBMIT_ERROR = "SUBMIT_ERROR";
-const SET_CURRENT_USER = "SET_CURRENT_USER";
+import { LOGIN_USER, GET_ERRORS, RESET_ERRORS, UPDATE_USER } from "./types";
 
-export const submitError = payload => {
-  if (!payload) return;
+// External
+import axios from "axios";
 
-  return { type: SUBMIT_ERROR, payload };
+// Register User
+// export const registerUser = userData => {
+//   return {
+//     type: LogIn_User,
+//     payload: userData
+//   };
+// };
+
+// Register User
+export const logInUser = (userData, history) => dispatch => {
+  axios
+    .post("/api/auth", {
+      email: userData.email,
+      password: userData.password
+    })
+    .then(res => {
+      history.push("/dashboard");
+      dispatch({
+        type: RESET_ERRORS
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };
 
-export const submitStarted = () => {
-  return { type: SUBMIT_STARTED };
-};
-
-export const setCurrentUser = payload => {
-  if (!payload) return;
-
-  return { type: SET_CURRENT_USER, payload };
-};
+// localStorage.setItem("x-auth-token", res.data);
+// setAuthJwtToken(res.data);
+// const decoded = jwt.verify(res.data, process.env.REACT_APP_JWT);
+// localStorage.setItem("user", JSON.stringify(decoded));
+// // JSON.parse(localStorage.setItem("user")); parse string object to json

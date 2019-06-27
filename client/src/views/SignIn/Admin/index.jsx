@@ -1,16 +1,13 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { CurrentUserContext } from "../../../contexts/currentUser";
-import { DispatchContext } from "../../../contexts/currentUser";
-import {
-  submitError,
-  submitStarted,
-  setCurrentUser
-} from "../../../actions/authActions";
+import { logInUser } from "../../../actions/authActions";
+
 import setAuthJwtToken from "../../../util/setAuthJwtToken";
 import jwt from "jsonwebtoken";
+
 // External
-import axios from "axios";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // Material components
 import {
@@ -28,10 +25,8 @@ import styles from "../styles";
 // Input State
 import useInputState from "../../../hooks/userInputState";
 
-function AdminSignIn({ history }) {
+function AdminSignIn({ logInUser, auth, errors, history }) {
   const classes = styles();
-  const dispatch = useContext(DispatchContext);
-  const currentUser = useContext(CurrentUserContext);
 
   const [values, handleChange, reset] = useInputState({
     email: "",
@@ -39,27 +34,15 @@ function AdminSignIn({ history }) {
   });
 
   const handleSubmit = () => {
-    dispatch(submitStarted());
+    const userData = {
+      email: values.email,
+      password: values.password
+    };
 
-    axios
-      .post("/api/auth", {
-        email: values.email,
-        password: values.password
-      })
-      .then(res => {
-        localStorage.setItem("x-auth-token", res.data);
-        setAuthJwtToken(res.data);
-        const decoded = jwt.verify(res.data, process.env.REACT_APP_JWT);
-        dispatch(setCurrentUser(decoded));
-        history.push("/dashboard");
-      })
-      .catch(err => {
-        reset();
-        dispatch(submitError(err.response.data));
-      });
+    logInUser(userData, history);
+    reset();
   };
 
-  console.log(currentUser);
   return (
     <div className={classes.root}>
       <Grid container className={classes.grid}>
@@ -99,10 +82,10 @@ function AdminSignIn({ history }) {
               />
 
               <FormHelperText className={classes.error}>
-                {currentUser.errorMessage ? currentUser.errorMessage : ""}
+                {errors}
               </FormHelperText>
 
-              {currentUser.loading ? (
+              {false ? (
                 // loading icon need to fix
                 <CircularProgress className={classes.progress} />
               ) : (
@@ -132,4 +115,18 @@ function AdminSignIn({ history }) {
   );
 }
 
-export default AdminSignIn;
+AdminSignIn.prototype = {
+  logInUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.string.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { logInUser }
+)(AdminSignIn);
