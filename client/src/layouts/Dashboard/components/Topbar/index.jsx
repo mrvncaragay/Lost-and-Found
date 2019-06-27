@@ -1,34 +1,41 @@
 import React, { Fragment } from "react";
-import { withStyles, withWidth } from "@material-ui/core";
+import { logOutUser } from "../../../../actions/authActions";
 
 // Externals
 import classNames from "classnames";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // Material components
-import {
-  Badge,
-  IconButton,
-  Popover,
-  Toolbar,
-  Typography
-} from "@material-ui/core";
+import { IconButton, Toolbar, Typography } from "@material-ui/core";
 
 // Material icons
 import {
   Menu as MenuIcon,
   Close as CloseIcon,
-  NotificationsOutlined as NotificationsIcon,
   Input as InputIcon
 } from "@material-ui/icons";
 
 // Component styles
 import styles from "./styles";
 
-function Topbar({ classes, className, title, isSideBarOpen, onToggleSidebar }) {
-  const rootClassName = classNames(classes.root, className);
+function Topbar({
+  logOutUser,
+  className,
+  title,
+  isSideBarOpen,
+  onToggleSidebar
+}) {
+  const classes = styles();
+
+  const handleLogOut = e => {
+    e.preventDefault();
+    logOutUser();
+  };
+
   return (
     <Fragment>
-      <div className={rootClassName}>
+      <div className={`${classes.root} ${className}`}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             className={classes.menuButton}
@@ -41,7 +48,7 @@ function Topbar({ classes, className, title, isSideBarOpen, onToggleSidebar }) {
             {title}
           </Typography>
 
-          <IconButton className={classes.signOutButton}>
+          <IconButton className={classes.signOutButton} onClick={handleLogOut}>
             <InputIcon />
           </IconButton>
         </Toolbar>
@@ -50,4 +57,16 @@ function Topbar({ classes, className, title, isSideBarOpen, onToggleSidebar }) {
   );
 }
 
-export default withStyles(styles)(Topbar);
+Topbar.propTypes = {
+  logOutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logOutUser }
+)(Topbar);

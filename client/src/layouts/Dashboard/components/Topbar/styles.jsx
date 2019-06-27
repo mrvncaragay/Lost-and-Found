@@ -1,4 +1,6 @@
-export default theme => ({
+import { makeStyles } from "@material-ui/core/styles";
+
+export default makeStyles(theme => ({
   root: {
     borderBottom: `1px solid ${theme.palette.border}`,
     backgroundColor: theme.palette.common.white,
@@ -23,4 +25,4 @@ export default theme => ({
   signOutButton: {
     marginLeft: "auto"
   }
-});
+}));

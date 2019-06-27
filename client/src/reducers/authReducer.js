@@ -1,11 +1,8 @@
-import { LOGIN_USER, UPDATE_USER } from "../actions/types";
+import { LOGIN_USER, SET_CURRENT_USER } from "../actions/types";
+import isEmpty from "../util/validation";
 
 const initialState = {
   isAuthenticated: false,
-  loading: false,
-  submitted: false,
-  response: null,
-  errorMessage: null,
   user: {}
 };
 
@@ -16,10 +13,11 @@ export default function(state = initialState, action) {
         ...state,
         user: action.payload
       };
-    case UPDATE_USER:
+    case SET_CURRENT_USER:
       return {
         ...state,
-        loading: true
+        isAuthenticated: !isEmpty(action.payload),
+        user: action.payload
       };
     default:
       return state;

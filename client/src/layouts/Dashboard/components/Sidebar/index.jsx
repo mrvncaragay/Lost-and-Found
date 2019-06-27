@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect } from "react";
+import React, { forwardRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 // Externals
@@ -40,10 +40,6 @@ function Sidebar({ classes, className }) {
 
   const myNavLink = forwardRef((props, ref) => {
     return <NavLink to={props.to} {...props} innerRef={ref} />;
-  });
-
-  useEffect(() => {
-    console.log("inside Sidebar");
   });
 
   return (

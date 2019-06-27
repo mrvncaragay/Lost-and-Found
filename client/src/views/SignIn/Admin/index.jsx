@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { logInUser } from "../../../actions/authActions";
-
-import setAuthJwtToken from "../../../util/setAuthJwtToken";
-import jwt from "jsonwebtoken";
 
 // External
 import { connect } from "react-redux";
@@ -38,9 +35,7 @@ function AdminSignIn({ logInUser, auth, errors, history }) {
       email: values.email,
       password: values.password
     };
-
     logInUser(userData, history);
-    reset();
   };
 
   return (
@@ -115,7 +110,7 @@ function AdminSignIn({ logInUser, auth, errors, history }) {
   );
 }
 
-AdminSignIn.prototype = {
+AdminSignIn.propTypes = {
   logInUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.string.isRequired

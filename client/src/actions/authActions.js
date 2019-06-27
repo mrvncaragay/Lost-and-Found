@@ -1,7 +1,10 @@
-import { LOGIN_USER, GET_ERRORS, RESET_ERRORS, UPDATE_USER } from "./types";
+import setAuthJwtToken from "../util/setAuthJwtToken";
+
+import { GET_ERRORS, RESET_ERRORS, SET_CURRENT_USER } from "./types";
 
 // External
 import axios from "axios";
+import jwt from "jsonwebtoken";
 
 // Register User
 // export const registerUser = userData => {
@@ -19,10 +22,20 @@ export const logInUser = (userData, history) => dispatch => {
       password: userData.password
     })
     .then(res => {
-      history.push("/dashboard");
+      // Save jwt token to localStorage
+      localStorage.setItem("x-auth-token", res.data);
+      // Set the jwt token to header
+      setAuthJwtToken(res.data);
+      // Decoded jwt token
+      const decoded = jwt.verify(res.data, process.env.REACT_APP_JWT);
+      // Set Current User
+      dispatch(setCurrentUser(decoded));
+      // Reset Error
       dispatch({
         type: RESET_ERRORS
       });
+      // Redirect to dashboard
+      history.push("/dashboard");
     })
     .catch(err => {
       dispatch({
@@ -32,8 +45,20 @@ export const logInUser = (userData, history) => dispatch => {
     });
 };
 
-// localStorage.setItem("x-auth-token", res.data);
-// setAuthJwtToken(res.data);
-// const decoded = jwt.verify(res.data, process.env.REACT_APP_JWT);
-// localStorage.setItem("user", JSON.stringify(decoded));
-// // JSON.parse(localStorage.setItem("user")); parse string object to json
+// Set logged in user
+export const setCurrentUser = decoded => {
+  return {
+    type: SET_CURRENT_USER,
+    payload: decoded
+  };
+};
+
+// Log out user
+export const logOutUser = () => dispatch => {
+  // Remove token from localStorate
+  localStorage.removeItem("x-auth-token");
+  // Remove auth header from axios
+  setAuthJwtToken(false);
+  // Set current user object to empty
+  dispatch(setCurrentUser({}));
+};

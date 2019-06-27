@@ -18,13 +18,13 @@ import store from "./store";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Provider store={store}>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
           <LostAndFound />
-        </Provider>
-      </BrowserRouter>
-    </ThemeProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
