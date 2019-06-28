@@ -41,7 +41,8 @@ export default {
     contrastText: white,
     main: "#ED4740",
     light: "#FEF6F6",
-    dark: "#BF0E08"
+    dark: "#BF0E08",
+    logo: "#dc6950"
   },
   text: {
     primary: "#12161B",

@@ -1,4 +1,6 @@
-export default theme => ({
+import { makeStyles } from "@material-ui/core/styles";
+
+export default makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.common.white,
     display: "flex",
@@ -13,9 +15,6 @@ export default theme => ({
     alignItems: "center",
     height: "63px",
     flexShrink: 0
-  },
-  logoLink: {
-    fontSize: 0
   },
   logoImage: {
     cursor: "pointer"
@@ -90,4 +89,4 @@ export default theme => ({
     marginBottom: theme.spacing(1),
     marginTop: theme.spacing(1)
   }
-});
+}));

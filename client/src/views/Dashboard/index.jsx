@@ -27,6 +27,9 @@ function Dashboard({ classes }) {
           <Grid item lg={3} sm={6} xl={3} xs={12}>
             <h1>Item 1</h1>
           </Grid>
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+            <h1>Item 2</h1>
+          </Grid>
         </Grid>
       </div>
     </DashboardLayout>

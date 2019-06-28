@@ -2,12 +2,11 @@ import React, { Fragment } from "react";
 import { logOutUser } from "../../../../actions/authActions";
 
 // Externals
-import classNames from "classnames";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // Material components
-import { IconButton, Toolbar, Typography } from "@material-ui/core";
+import { IconButton, Toolbar, Typography, Tooltip } from "@material-ui/core";
 
 // Material icons
 import {
@@ -48,9 +47,14 @@ function Topbar({
             {title}
           </Typography>
 
-          <IconButton className={classes.signOutButton} onClick={handleLogOut}>
-            <InputIcon />
-          </IconButton>
+          <Tooltip title="Logout" placement="left">
+            <IconButton
+              className={classes.signOutButton}
+              onClick={handleLogOut}
+            >
+              <InputIcon />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </div>
     </Fragment>

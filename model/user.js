@@ -69,7 +69,7 @@ const User = mongoose.model(
           },
           process.env.JWT,
           {
-            expiresIn: 60 * 60 * 24 //expires in 24 hours
+            expiresIn: '1hr'
           }
         );
       }

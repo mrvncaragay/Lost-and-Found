@@ -2,10 +2,8 @@ import React, { forwardRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 // Externals
-import classNames from "classnames";
-
-// Material helpers
-import { withStyles } from "@material-ui/core";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // Material components
 import {
@@ -15,7 +13,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
   Typography
 } from "@material-ui/core";
 
@@ -23,6 +20,7 @@ import {
 import {
   DashboardOutlined as DashboardIcon,
   PeopleOutlined as PeopleIcon,
+  AccountBalanceOutlined as BuildingIcon,
   ShoppingBasketOutlined as ShoppingBasketIcon,
   LockOpenOutlined as LockOpenIcon,
   TextFields as TextFieldsIcon,
@@ -35,23 +33,21 @@ import {
 // Component styles
 import styles from "./styles";
 
-function Sidebar({ classes, className }) {
-  const rootClassName = classNames(classes.root, className);
+function Sidebar({ user }) {
+  const classes = styles();
 
   const myNavLink = forwardRef((props, ref) => {
     return <NavLink to={props.to} {...props} innerRef={ref} />;
   });
 
   return (
-    <nav className={rootClassName}>
+    <nav className={classes.root}>
       <div className={classes.logoWrapper}>
-        <Link className={classes.logoLink} to="/">
-          <img
-            alt="Lost-and-Found logo"
-            className={classes.image}
-            src="/images/logos/lofo_logo.png"
-          />
-        </Link>
+        <img
+          alt="Lost-and-Found logo"
+          className={classes.image}
+          src="/images/logos/lofo_logo.png"
+        />
       </div>
 
       <Divider className={classes.logoDivider} />
@@ -65,10 +61,13 @@ function Sidebar({ classes, className }) {
           />
         </Link>
         <Typography className={classes.nameText} variant="h6">
-          Test User
+          {user.name}
         </Typography>
         <Typography className={classes.bioText} variant="caption">
-          Software Engineer
+          {user.propertyCode}
+        </Typography>
+        <Typography className={classes.bioText} variant="caption">
+          {user.adminType}
         </Typography>
       </div>
 
@@ -106,9 +105,33 @@ function Sidebar({ classes, className }) {
             primary="Users"
           />
         </ListItem>
+
+        <ListItem
+          activeClassName={classes.activeListItem}
+          className={classes.listItem}
+          component={myNavLink}
+          to="/organization"
+        >
+          <ListItemIcon className={classes.listItemIcon}>
+            <BuildingIcon />
+          </ListItemIcon>
+
+          <ListItemText
+            classes={{ primary: classes.listItemText }}
+            primary="Organization"
+          />
+        </ListItem>
       </List>
     </nav>
   );
 }
 
-export default withStyles(styles)(Sidebar);
+Sidebar.propTypes = {
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps)(Sidebar);
