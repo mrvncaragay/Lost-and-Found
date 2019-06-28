@@ -10,49 +10,84 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography,
-  TablePagination
+  TablePagination,
+  Typography
 } from "@material-ui/core";
+
+// Shared components
+import { Portlet, PortletContent } from "components";
 
 // Component styles
 import styles from "./styles";
 
-function UsersTable() {
+function UsersTable({ organizations }) {
   const classes = styles();
 
+  const handleChangePage = () => {};
+  const handleChangeRowsPerPage = () => {};
+
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell align="left">
-            <Checkbox color="primary" />
-            Name
-          </TableCell>
-          <TableCell align="left">ID</TableCell>
-          <TableCell align="left">State</TableCell>
-          <TableCell align="left">Phone</TableCell>
-          <TableCell align="left">Registration date</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        <TableRow className={classes.tableRow} hover>
-          <TableCell className={classes.tableCell}>
-            <div className={classes.tableCellInner}>
-              <Checkbox color="primary" value="true" />
-              <Link to="#">
-                <Typography className={classes.nameText} variant="body1">
-                  Name
-                </Typography>
-              </Link>
-            </div>
-          </TableCell>
-          <TableCell className={classes.tableCell}>Id</TableCell>
-          <TableCell className={classes.tableCell}>address</TableCell>
-          <TableCell className={classes.tableCell}>phone</TableCell>
-          <TableCell className={classes.tableCell}>date here</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+    <Portlet className={classes.root}>
+      <PortletContent noPadding>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">
+                <Checkbox color="primary" />
+                Name
+              </TableCell>
+              <TableCell align="left">Property Code</TableCell>
+              <TableCell align="left">Address</TableCell>
+              <TableCell align="left">Number of Properties</TableCell>
+              <TableCell align="left">Registration date</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {organizations.map(orgazanition => (
+              <TableRow
+                key={orgazanition._id}
+                className={classes.tableRow}
+                hover
+              >
+                <TableCell className={classes.tableCell}>
+                  <div className={classes.tableCellInner}>
+                    <Checkbox color="primary" value="true" />
+                    <Link to="#">
+                      <Typography className={classes.nameText} variant="body1">
+                        {orgazanition.name}
+                      </Typography>
+                    </Link>
+                  </div>
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                  {orgazanition.propertyCode}
+                </TableCell>
+                <TableCell className={classes.tableCell}>
+                  {orgazanition.address}
+                </TableCell>
+                <TableCell className={classes.tableCell}>32</TableCell>
+                <TableCell className={classes.tableCell}>June 20</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <TablePagination
+          backIconButtonProps={{
+            "aria-label": "Previous Page"
+          }}
+          component="div"
+          count={12}
+          nextIconButtonProps={{
+            "aria-label": "Next Page"
+          }}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+          page={0}
+          rowsPerPage={10}
+          rowsPerPageOptions={[5, 10, 25]}
+        />
+      </PortletContent>
+    </Portlet>
   );
 }
 

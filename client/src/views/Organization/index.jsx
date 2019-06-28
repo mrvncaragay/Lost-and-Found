@@ -1,4 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { getOrganizations } from "../../actions/organizationsActions";
+import isEmpty from "../../util/validation";
+
+// External
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
@@ -7,7 +13,7 @@ import { OrganizationTable } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid, CircularProgress, Typography } from "@material-ui/core";
 
 const styles = makeStyles(theme => ({
   root: {
@@ -15,11 +21,27 @@ const styles = makeStyles(theme => ({
   },
   item: {
     height: "100%"
+  },
+  progressWrapper: {
+    paddingTop: "48px",
+    paddingBottom: "24px",
+    display: "flex",
+    justifyContent: "center"
+  },
+  noData: {
+    display: "flex",
+    justifyContent: "center",
+    color: theme.palette.common.muted
   }
 }));
 
-function Organization() {
+function Organization({ getOrganizations, organization }) {
   const classes = styles();
+  const { isLoading, organizations } = organization;
+
+  useEffect(() => {
+    getOrganizations();
+  }, [getOrganizations]);
 
   return (
     <DashboardLayout title="Organization">
@@ -29,7 +51,17 @@ function Organization() {
             <OrganizationToolbar />
           </Grid>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
-            <OrganizationTable />
+            {isLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : isEmpty(organizations) ? (
+              <Typography className={classes.noData} variant="h5">
+                There are no organizations
+              </Typography>
+            ) : (
+              <OrganizationTable organizations={organizations} />
+            )}
           </Grid>
         </Grid>
       </div>
@@ -37,4 +69,16 @@ function Organization() {
   );
 }
 
-export default Organization;
+Organization.propTypes = {
+  getOrganizations: PropTypes.func.isRequired,
+  organization: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  organization: state.organization
+});
+
+export default connect(
+  mapStateToProps,
+  { getOrganizations }
+)(Organization);

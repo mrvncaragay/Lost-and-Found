@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { logOutUser } from "../../../../actions/authActions";
+import { clearOrganizations } from "../../../../actions/organizationsActions";
 
 // Externals
 import { connect } from "react-redux";
@@ -20,6 +21,7 @@ import styles from "./styles";
 
 function Topbar({
   logOutUser,
+  clearOrganizations,
   className,
   title,
   isSideBarOpen,
@@ -29,6 +31,7 @@ function Topbar({
 
   const handleLogOut = e => {
     e.preventDefault();
+    clearOrganizations();
     logOutUser();
   };
 
@@ -72,5 +75,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logOutUser }
+  { logOutUser, clearOrganizations }
 )(Topbar);
