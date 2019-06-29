@@ -2,18 +2,20 @@ const Organization = require('../model/organization');
 
 exports.index = async (req, res) => {
   const result = await Organization.find()
-    .limit(5)
+    .limit(10)
     .sort({ name: 1 });
 
-  res.send(result);
+  const count = await Organization.find().countDocuments();
+
+  res.send({ result, count });
 };
 
 exports.searchOrganizations = async (req, res) => {
-  console.log(new RegExp(`/^${req.query.params}/i`));
-  const orgs = await Organization.find({ name: new RegExp(`/^${req.query.params}/i`) });
+  const regx = `^${req.query.params}`;
+  const result = await Organization.find({ name: new RegExp(regx, 'i') });
   if (!orgs) return res.status(404).send('No organizations found.');
 
-  res.send(orgs);
+  res.send(result);
 };
 
 exports.getOrganization = async (req, res) => {

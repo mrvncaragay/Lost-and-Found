@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { searchOrganizations } from "../../../../actions/organizationsActions";
+import { searchOrganizations } from "../../../../actions/organizationActions";
 
 // External
 import { connect } from "react-redux";

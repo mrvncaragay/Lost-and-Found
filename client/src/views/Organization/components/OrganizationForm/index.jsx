@@ -1,5 +1,5 @@
 import React from "react";
-import { postOrganization } from "../../../../actions/organizationsActions";
+import { postOrganization } from "../../../../actions/organizationActions";
 import useInputState from "../../../../hooks/userInputState";
 
 // External
@@ -28,7 +28,7 @@ function OrganizationalForm({ toggleForm, postOrganization, errors }) {
   return (
     <div className={classes.root}>
       <Grid container className={classes.container}>
-        <Grid item className={classes.contentBody} lg={4} xs={11}>
+        <Grid item className={classes.contentBody} lg={4} md={4} xs={12}>
           <div className={classes.mainForm}>
             <div className={classes.formHeader}>
               <Typography variant="h4">Register Form</Typography>

@@ -1,11 +1,12 @@
 import {
   POST_ORGANIZATION,
   GET_ORGANIZATIONS,
+  COUNT_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
   SET_LOADING,
   CLEAR_CURRENT_ORGANIZATIONS,
   GET_ERRORS
-} from "../actions/types";
+} from "./types";
 
 // External
 import axios from "axios";

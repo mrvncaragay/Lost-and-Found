@@ -14,10 +14,10 @@ export default makeStyles(theme => ({
     }
   },
   contentBody: {
-    flexGrow: 1,
     display: "flex",
-    [theme.breakpoints.down("md")]: {
-      justifyContent: "center"
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center",
+      maxWidth: "100%"
     }
   },
   mainForm: {
@@ -26,7 +26,8 @@ export default makeStyles(theme => ({
     marginTop: theme.spacing(2),
     backgroundColor: theme.palette.common.white,
     border: `1px solid ${theme.palette.border}`,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    width: "100%"
   },
   formHeader: {
     width: "100%",
@@ -59,21 +60,6 @@ export default makeStyles(theme => ({
   signInButton: {
     marginTop: theme.spacing(2),
     marginLeft: theme.spacing(1)
-  },
-  signUp: {
-    marginTop: theme.spacing(2),
-    color: theme.palette.text.secondary
-  },
-  signUpUrl: {
-    color: theme.palette.primary.main,
-    fontWeight: "bold",
-    "&:hover": {
-      color: theme.palette.primary.main
-    }
-  },
-  adminLink: {
-    marginTop: theme.spacing(2),
-    color: theme.palette.text.secondary
   },
   error: {
     color: theme.palette.danger.main,

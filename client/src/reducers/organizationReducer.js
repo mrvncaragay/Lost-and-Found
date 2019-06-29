@@ -2,6 +2,7 @@ import {
   POST_ORGANIZATION,
   GET_ORGANIZATION,
   GET_ORGANIZATIONS,
+  COUNT_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
   SET_LOADING,
   CLEAR_CURRENT_ORGANIZATIONS
@@ -10,6 +11,7 @@ import {
 const initialState = {
   organization: null,
   organizations: null,
+  count: null,
   isLoading: false
 };
 
@@ -23,7 +25,8 @@ export default function(state = initialState, action) {
     case GET_ORGANIZATIONS:
       return {
         ...state,
-        organizations: action.payload,
+        organizations: action.payload.result,
+        count: action.payload.count,
         isLoading: false
       };
     case SEARCH_ORGANIZATIONS:
@@ -42,6 +45,7 @@ export default function(state = initialState, action) {
         ...state,
         organization: null,
         organizations: null,
+        count: null,
         isLoading: false
       };
     default:

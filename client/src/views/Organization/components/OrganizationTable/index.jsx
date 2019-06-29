@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { useState, memo } from "react";
 import { Link } from "react-router-dom";
 
 // Material components
@@ -20,11 +20,18 @@ import { Portlet, PortletContent } from "components";
 // Component styles
 import styles from "./styles";
 
-function UsersTable({ organizations }) {
+function OrganizationTable({ organizations, count, numRowsPerPage }) {
   const classes = styles();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(numRowsPerPage);
 
-  const handleChangePage = () => {};
-  const handleChangeRowsPerPage = () => {};
+  const handleChangePage = e => {
+    console.log(e.target);
+    setPage(page + 1);
+  };
+  const handleChangeRowsPerPage = e => {
+    setRowsPerPage(parseInt(e.target.value, 10));
+  };
 
   return (
     <Portlet className={classes.root}>
@@ -76,19 +83,19 @@ function UsersTable({ organizations }) {
             "aria-label": "Previous Page"
           }}
           component="div"
-          count={12}
+          count={count}
           nextIconButtonProps={{
             "aria-label": "Next Page"
           }}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-          page={0}
-          rowsPerPage={10}
-          rowsPerPageOptions={[5, 10, 25]}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[2, 4, 6]}
         />
       </PortletContent>
     </Portlet>
   );
 }
 
-export default memo(UsersTable);
+export default memo(OrganizationTable);

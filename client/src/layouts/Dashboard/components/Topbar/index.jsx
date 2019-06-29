@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { logOutUser } from "../../../../actions/authActions";
-import { clearOrganizations } from "../../../../actions/organizationsActions";
+import { clearOrganizations } from "../../../../actions/organizationActions";
 
 // Externals
 import { connect } from "react-redux";

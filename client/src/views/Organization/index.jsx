@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getOrganizations } from "../../actions/organizationsActions";
+import { getOrganizations } from "../../actions/organizationActions";
 import isEmpty from "../../util/validation";
 
 // External
@@ -67,11 +67,15 @@ function Organization({ getOrganizations, organization }) {
                   There are no organizations
                 </Typography>
               ) : (
-                <OrganizationTable organizations={organizations} />
+                <OrganizationTable
+                  numRowsPerPage={2}
+                  organizations={organizations}
+                  count={organization.count}
+                />
               )}
             </Grid>
           ) : (
-            <Grid item lg={12} xl={12}>
+            <Grid item lg={12} xl={12} xs={12} sm={12}>
               <OrganizationForm toggleForm={toggleForm} />
             </Grid>
           )}
