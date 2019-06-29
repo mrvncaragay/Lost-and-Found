@@ -10,6 +10,7 @@ export default makeStyles(theme => ({
     boxShadow: "none",
     border: `1px solid ${theme.palette.border}`,
     flexBasis: "300px",
+    marginRight: theme.spacing(1),
     [theme.breakpoints.down("sm")]: {
       flexBasis: "auto"
     }
@@ -20,7 +21,10 @@ export default makeStyles(theme => ({
   searchInput: {
     marginRight: theme.spacing(0),
     fontSize: "14px",
-    flexBasis: "auto"
+    width: "88%",
+    [theme.breakpoints.down("sm")]: {
+      width: "auto"
+    }
   },
   spacer: {
     flexGrow: 1

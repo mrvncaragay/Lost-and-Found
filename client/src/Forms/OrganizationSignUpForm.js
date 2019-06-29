@@ -1,22 +1,22 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   textField: {
-    width: '100%',
-    fontfamily: 'Montserrat'
+    width: "100%",
+    fontfamily: "Montserrat"
   },
 
   form: {
     marginTop: 30,
-    width: '80%'
+    width: "80%"
   },
 
   button: {
-    marginTop: '20px'
+    marginTop: "20px"
   }
 }));
 
@@ -24,7 +24,7 @@ function OrganizationSignUpForm() {
   const classes = useStyles();
 
   const alertMe = () => {
-    alert('clicked');
+    alert("clicked");
   };
   return (
     <form className={classes.form}>
@@ -69,7 +69,12 @@ function OrganizationSignUpForm() {
       </Button>
 
       <NavLink exact className="active-link" to="/signup">
-        <Button fullWidth variant="outlined" color="secondary" className={classes.button}>
+        <Button
+          fullWidth
+          variant="outlined"
+          color="secondary"
+          className={classes.button}
+        >
           Sign up
         </Button>
       </NavLink>

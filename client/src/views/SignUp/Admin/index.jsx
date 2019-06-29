@@ -45,7 +45,7 @@ function AdminSignUp({ history }) {
 
   return (
     <div className={classes.root}>
-      <Grid container className={classes.grid}>
+      <Grid container className={classes.container}>
         <Grid item className={classes.contentBody} lg={4} xs={11}>
           <div className={classes.mainForm}>
             <div className={classes.formHeader}>

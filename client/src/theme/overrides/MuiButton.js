@@ -4,9 +4,7 @@ import palette from "../palette";
 export default {
   outlined: {
     backgroundColor: palette.common.white,
-    "&:hover": {
-      backgroundColor: palette.danger.main
-    }
+    color: palette.common.muted
   },
   contained: {
     backgroundColor: palette.common.white,

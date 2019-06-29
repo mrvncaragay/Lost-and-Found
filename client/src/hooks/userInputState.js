@@ -13,9 +13,9 @@ export default initialVal => {
 
   const reset = () => {
     const newValues = { ...state };
-    newValues.email = "";
-    newValues.password = "";
-    newValues.errorMessage = "";
+    for (const key in newValues) {
+      newValues[key] = "";
+    }
 
     setValue(newValues);
   };

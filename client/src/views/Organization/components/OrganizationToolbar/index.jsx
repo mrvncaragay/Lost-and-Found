@@ -1,15 +1,39 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
+import { searchOrganizations } from "../../../../actions/organizationsActions";
+
+// External
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // Material components
-import { Button, InputBase, IconButton, Paper } from "@material-ui/core";
+import {
+  Button,
+  InputBase,
+  IconButton,
+  Paper,
+  Popover,
+  TextField
+} from "@material-ui/core";
+
 // Material icons
 import { Search as SearchIcon } from "@material-ui/icons";
 
 // Styles
 import styles from "./style";
 
-function OrganizationToolbar() {
+function OrganizationToolbar({ toggleForm, isFormOpen, searchOrganizations }) {
   const classes = styles();
+  const [params, setParams] = useState("");
+
+  const handleSearch = () => {
+    if (params) {
+      searchOrganizations(params);
+    }
+  };
+
+  const handleChange = e => {
+    setParams(e.target.value);
+  };
 
   return (
     <Fragment>
@@ -19,17 +43,38 @@ function OrganizationToolbar() {
             <SearchIcon />
           </IconButton>
           <InputBase
+            value={params}
+            onChange={handleChange}
             className={classes.searchInput}
             placeholder="Search organization"
           />
         </Paper>
-        <span className={classes.spacer} />
-        <Button color="primary" size="small" variant="outlined">
-          Add
+        <Button onClick={handleSearch} size="small" variant="outlined">
+          Search
         </Button>
+        <span className={classes.spacer} />
+        {isFormOpen ? (
+          <Button
+            color="primary"
+            size="small"
+            variant="outlined"
+            onClick={toggleForm}
+          >
+            Add
+          </Button>
+        ) : (
+          ""
+        )}
       </div>
     </Fragment>
   );
 }
 
-export default OrganizationToolbar;
+OrganizationToolbar.propTypes = {
+  searchOrganizations: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { searchOrganizations }
+)(OrganizationToolbar);

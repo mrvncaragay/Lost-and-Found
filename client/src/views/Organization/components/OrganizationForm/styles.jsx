@@ -2,11 +2,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.default,
     height: "100vh"
   },
   container: {
-    height: "60%",
+    height: "50%",
     display: "flex",
     justifyContent: "center",
     [theme.breakpoints.down("sm")]: {
@@ -23,7 +23,7 @@ export default makeStyles(theme => ({
   mainForm: {
     display: "flex",
     flexDirection: "column",
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(2),
     backgroundColor: theme.palette.common.white,
     border: `1px solid ${theme.palette.border}`,
     padding: theme.spacing(3)
@@ -31,7 +31,8 @@ export default makeStyles(theme => ({
   formHeader: {
     width: "100%",
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginBottom: theme.spacing(2)
   },
   image: {
     height: theme.spacing(12),
@@ -51,8 +52,13 @@ export default makeStyles(theme => ({
       marginTop: theme.spacing(2)
     }
   },
+  btnContainer: {
+    display: "flex",
+    justifyContent: "flex-end"
+  },
   signInButton: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(1)
   },
   signUp: {
     marginTop: theme.spacing(2),

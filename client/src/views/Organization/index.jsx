@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getOrganizations } from "../../actions/organizationsActions";
 import isEmpty from "../../util/validation";
 
@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import { Dashboard as DashboardLayout } from "layouts";
 import { OrganizationToolbar } from "./components";
 import { OrganizationTable } from "./components";
+import { OrganizationForm } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -38,6 +39,11 @@ const styles = makeStyles(theme => ({
 function Organization({ getOrganizations, organization }) {
   const classes = styles();
   const { isLoading, organizations } = organization;
+  const [form, setForm] = useState(true);
+
+  const toggleForm = () => {
+    setForm(!form);
+  };
 
   useEffect(() => {
     getOrganizations();
@@ -48,21 +54,27 @@ function Organization({ getOrganizations, organization }) {
       <div className={classes.root}>
         <Grid container spacing={4}>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
-            <OrganizationToolbar />
+            <OrganizationToolbar toggleForm={toggleForm} isFormOpen={form} />
           </Grid>
-          <Grid item lg={12} sm={12} xl={12} xs={12}>
-            {isLoading ? (
-              <div className={classes.progressWrapper}>
-                <CircularProgress />
-              </div>
-            ) : isEmpty(organizations) ? (
-              <Typography className={classes.noData} variant="h5">
-                There are no organizations
-              </Typography>
-            ) : (
-              <OrganizationTable organizations={organizations} />
-            )}
-          </Grid>
+          {form ? (
+            <Grid item lg={12} sm={12} xl={12} xs={12}>
+              {isLoading ? (
+                <div className={classes.progressWrapper}>
+                  <CircularProgress />
+                </div>
+              ) : isEmpty(organizations) ? (
+                <Typography className={classes.noData} variant="h5">
+                  There are no organizations
+                </Typography>
+              ) : (
+                <OrganizationTable organizations={organizations} />
+              )}
+            </Grid>
+          ) : (
+            <Grid item lg={12} xl={12}>
+              <OrganizationForm toggleForm={toggleForm} />
+            </Grid>
+          )}
         </Grid>
       </div>
     </DashboardLayout>

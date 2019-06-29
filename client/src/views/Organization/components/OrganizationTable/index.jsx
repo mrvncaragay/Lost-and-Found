@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
 // Material components
@@ -91,4 +91,4 @@ function UsersTable({ organizations }) {
   );
 }
 
-export default UsersTable;
+export default memo(UsersTable);

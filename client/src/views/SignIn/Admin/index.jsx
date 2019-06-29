@@ -5,6 +5,7 @@ import { logInUser } from "../../../actions/authActions";
 // External
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import useInputState from "../../../hooks/userInputState";
 
 // Material components
 import {
@@ -18,9 +19,6 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 
 /// Component styles
 import styles from "../styles";
-
-// Input State
-import useInputState from "../../../hooks/userInputState";
 
 function AdminSignIn({ logInUser, auth, errors, history }) {
   const classes = styles();
