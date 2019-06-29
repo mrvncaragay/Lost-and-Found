@@ -6,7 +6,7 @@ const objIdAuth = require('../middleware/objectIdAuth');
 const auth = require('../middleware/bodyAuth');
 const admin = require('../middleware/admin');
 
-router.get('/', jwtAuth.isTokenValid, organization.index);
+router.post('/dashboard', jwtAuth.isTokenValid, organization.index);
 router.post('/search', jwtAuth.isTokenValid, admin.isSwAdmin, organization.searchOrganizations);
 router.get(
   '/:id',

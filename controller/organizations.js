@@ -1,19 +1,21 @@
 const Organization = require('../model/organization');
 
 exports.index = async (req, res) => {
+  const { rowsPerPage, pageNumber } = req.query;
+
   const result = await Organization.find()
-    .limit(10)
+    .skip(parseInt(pageNumber * rowsPerPage, 10))
+    .limit(parseInt(rowsPerPage, 10))
     .sort({ name: 1 });
 
   const count = await Organization.find().countDocuments();
-
   res.send({ result, count });
 };
 
 exports.searchOrganizations = async (req, res) => {
   const regx = `^${req.query.params}`;
   const result = await Organization.find({ name: new RegExp(regx, 'i') });
-  if (!orgs) return res.status(404).send('No organizations found.');
+  if (!result) return res.status(404).send('No organizations found.');
 
   res.send(result);
 };

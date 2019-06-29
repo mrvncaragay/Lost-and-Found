@@ -1,5 +1,8 @@
-import React, { useState, memo } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { getOrganizations } from "../../../../actions/organizationActions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // Material components
 import {
@@ -20,17 +23,22 @@ import { Portlet, PortletContent } from "components";
 // Component styles
 import styles from "./styles";
 
-function OrganizationTable({ organizations, count, numRowsPerPage }) {
+function OrganizationTable({ getOrganizations, organizations }) {
   const classes = styles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(numRowsPerPage);
 
-  const handleChangePage = e => {
-    console.log(e.target);
-    setPage(page + 1);
+  const handleChangePage = (e, page) => {
+    getOrganizations(organizations.perRow, page);
   };
+
   const handleChangeRowsPerPage = e => {
-    setRowsPerPage(parseInt(e.target.value, 10));
+    const pageRow = parseInt(e.target.value, 10);
+    const maxPageNum = Math.floor(organizations.count / pageRow);
+
+    if (organizations.pageNum > maxPageNum) {
+      return getOrganizations(pageRow, maxPageNum);
+    }
+
+    getOrganizations(pageRow, organizations.pageNum);
   };
 
   return (
@@ -50,7 +58,7 @@ function OrganizationTable({ organizations, count, numRowsPerPage }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {organizations.map(orgazanition => (
+            {organizations.data.map(orgazanition => (
               <TableRow
                 key={orgazanition._id}
                 className={classes.tableRow}
@@ -83,19 +91,28 @@ function OrganizationTable({ organizations, count, numRowsPerPage }) {
             "aria-label": "Previous Page"
           }}
           component="div"
-          count={count}
+          count={organizations.count}
           nextIconButtonProps={{
             "aria-label": "Next Page"
           }}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          rowsPerPageOptions={[2, 4, 6]}
+          page={organizations.pageNum}
+          rowsPerPage={organizations.perRow}
+          rowsPerPageOptions={[5, 10, 20]}
         />
       </PortletContent>
     </Portlet>
   );
 }
 
-export default memo(OrganizationTable);
+OrganizationTable.propTypes = {
+  getOrganizations: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({});
+
+export default connect(
+  mapStateToProps,
+  { getOrganizations }
+)(OrganizationTable);

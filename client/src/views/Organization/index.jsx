@@ -46,7 +46,7 @@ function Organization({ getOrganizations, organization }) {
   };
 
   useEffect(() => {
-    getOrganizations();
+    getOrganizations(5, 0);
   }, [getOrganizations]);
 
   return (

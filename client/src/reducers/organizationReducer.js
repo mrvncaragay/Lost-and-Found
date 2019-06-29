@@ -11,7 +11,6 @@ import {
 const initialState = {
   organization: null,
   organizations: null,
-  count: null,
   isLoading: false
 };
 
@@ -20,19 +19,33 @@ export default function(state = initialState, action) {
     case POST_ORGANIZATION:
       return {
         ...state,
-        organizations: [action.payload, ...state.organizations]
+        organizations: {
+          data: state.organizations.data,
+          count: state.organizations.count + 1,
+          perRow: state.organizations.perRow,
+          pageNum: state.organizations.pageNum
+        }
       };
     case GET_ORGANIZATIONS:
       return {
         ...state,
-        organizations: action.payload.result,
-        count: action.payload.count,
+        organizations: {
+          data: action.payload.result,
+          count: action.payload.count,
+          perRow: action.pagination.rowsPerPage,
+          pageNum: action.pagination.pageNumber
+        },
         isLoading: false
       };
     case SEARCH_ORGANIZATIONS:
       return {
         ...state,
-        organizations: action.payload,
+        organizations: {
+          data: action.payload,
+          count: state.organizations.count,
+          perRow: state.organizations.perRow,
+          pageNum: state.organizations.pageNum
+        },
         isLoading: false
       };
     case SET_LOADING:

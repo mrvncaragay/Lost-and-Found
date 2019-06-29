@@ -1,7 +1,6 @@
 import {
   POST_ORGANIZATION,
   GET_ORGANIZATIONS,
-  COUNT_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
   SET_LOADING,
   CLEAR_CURRENT_ORGANIZATIONS,
@@ -22,14 +21,20 @@ export const postOrganization = orgData => dispatch => {
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
-export const getOrganizations = () => dispatch => {
+export const getOrganizations = (rowsPerPage, pageNumber) => dispatch => {
   dispatch(setLoading());
   axios
-    .get("/api/organizations")
+    .post("/api/organizations/dashboard", null, {
+      params: {
+        rowsPerPage: rowsPerPage,
+        pageNumber: pageNumber
+      }
+    })
     .then(res =>
       dispatch({
         type: GET_ORGANIZATIONS,
-        payload: res.data
+        payload: res.data,
+        pagination: { rowsPerPage, pageNumber }
       })
     )
     .catch(err => console.log(err));
