@@ -42,9 +42,9 @@ export default function(state = initialState, action) {
         ...state,
         organizations: {
           data: action.payload,
-          count: state.organizations.count,
+          count: action.payload.length,
           perRow: state.organizations.perRow,
-          pageNum: state.organizations.pageNum
+          pageNum: 0
         },
         isLoading: false
       };

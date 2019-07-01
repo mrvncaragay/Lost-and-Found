@@ -2,19 +2,31 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.background.default,
-    height: "100vh"
+    // backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.default
+    // height: "100vh"
   },
   container: {
     height: "50%",
     display: "flex",
-    justifyContent: "center",
+    //justifyContent: "center",
     [theme.breakpoints.down("sm")]: {
       height: "50%"
     }
   },
-  contentBody: {
+  formInput: {
     display: "flex",
+    flex: 3,
+    justifyContent: "space-between",
+    paddingRight: theme.spacing(3)
+  },
+  formControl: {
+    display: "flex",
+    flex: 1,
+    justifyContent: "flex-start",
+    paddingLeft: theme.spacing(3)
+  },
+  contentBody: {
     [theme.breakpoints.down("sm")]: {
       justifyContent: "center",
       maxWidth: "100%"
@@ -22,7 +34,6 @@ export default makeStyles(theme => ({
   },
   mainForm: {
     display: "flex",
-    flexDirection: "column",
     marginTop: theme.spacing(2),
     backgroundColor: theme.palette.common.white,
     border: `1px solid ${theme.palette.border}`,
@@ -34,12 +45,6 @@ export default makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     marginBottom: theme.spacing(2)
-  },
-  image: {
-    height: theme.spacing(12),
-    [theme.breakpoints.down("sm")]: {
-      height: theme.spacing(8)
-    }
   },
   form: {
     [theme.breakpoints.down("sm")]: {
@@ -64,5 +69,8 @@ export default makeStyles(theme => ({
   error: {
     color: theme.palette.danger.main,
     textAlign: "center"
+  },
+  input: {
+    margin: theme.spacing(1)
   }
 }));

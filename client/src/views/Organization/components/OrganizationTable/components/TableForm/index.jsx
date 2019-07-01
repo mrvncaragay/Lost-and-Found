@@ -1,19 +1,31 @@
 import React from "react";
-import { postOrganization } from "../../../../actions/organizationActions";
-import useInputState from "../../../../hooks/userInputState";
-
+import { postOrganization } from "../../../../../../actions/organizationActions";
+import useInputState from "../../../../../../hooks/userInputState";
 // External
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // Material components
-import { Grid, Typography, TextField, Button } from "@material-ui/core";
+import {
+  Grid,
+  Input,
+  Typography,
+  TextField,
+  IconButton,
+  Tooltip
+} from "@material-ui/core";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import {
+  Clear as Cancel,
+  Done as Save,
+  DeleteOutline,
+  AddBox
+} from "@material-ui/icons";
 
 /// Component styles
 import styles from "./styles";
 
-function OrganizationalForm({ toggleForm, postOrganization, errors }) {
+function TableForm({ toggleForm, postOrganization, errors }) {
   const classes = styles();
   const [values, handleChange, reset] = useInputState({
     name: "",
@@ -28,6 +40,52 @@ function OrganizationalForm({ toggleForm, postOrganization, errors }) {
   return (
     <div className={classes.root}>
       <Grid container className={classes.container}>
+        <Grid item sm={12} className={classes.formControl}>
+          <Tooltip title="Save">
+            <IconButton>
+              <Save />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Cancel">
+            <IconButton>
+              <Cancel />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+        <Grid item sm={12} className={classes.formInput}>
+          <Input
+            value={values.name}
+            onChange={e => handleChange("name", e)}
+            placeholder="Name"
+            className={classes.input}
+            inputProps={{
+              "aria-label": "Name"
+            }}
+          />
+
+          <Input
+            value={values.propertyCode}
+            onChange={e => handleChange("propertyCode", e)}
+            placeholder="Property Code"
+            className={classes.input}
+            inputProps={{
+              "aria-label": "Property Code"
+            }}
+          />
+
+          <Input
+            value={values.address}
+            onChange={e => handleChange("address", e)}
+            placeholder="Address"
+            className={classes.input}
+            inputProps={{
+              "aria-label": "Address"
+            }}
+          />
+        </Grid>
+      </Grid>
+      {/* <Grid container className={classes.container}>
         <Grid item className={classes.contentBody} lg={4} md={4} xs={12}>
           <div className={classes.mainForm}>
             <div className={classes.formHeader}>
@@ -92,12 +150,12 @@ function OrganizationalForm({ toggleForm, postOrganization, errors }) {
             </form>
           </div>
         </Grid>
-      </Grid>
+      </Grid> */}
     </div>
   );
 }
 
-OrganizationalForm.propTypes = {
+TableForm.propTypes = {
   postOrganization: PropTypes.func.isRequired,
   errors: PropTypes.string.isRequired
 };
@@ -109,4 +167,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { postOrganization }
-)(OrganizationalForm);
+)(TableForm);

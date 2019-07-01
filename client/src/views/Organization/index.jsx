@@ -8,9 +8,7 @@ import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
-import { OrganizationToolbar } from "./components";
 import { OrganizationTable } from "./components";
-import { OrganizationForm } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -39,11 +37,6 @@ const styles = makeStyles(theme => ({
 function Organization({ getOrganizations, organization }) {
   const classes = styles();
   const { isLoading, organizations } = organization;
-  const [form, setForm] = useState(true);
-
-  const toggleForm = () => {
-    setForm(!form);
-  };
 
   useEffect(() => {
     getOrganizations(5, 0);
@@ -54,31 +47,21 @@ function Organization({ getOrganizations, organization }) {
       <div className={classes.root}>
         <Grid container spacing={4}>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
-            <OrganizationToolbar toggleForm={toggleForm} isFormOpen={form} />
+            {isLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : isEmpty(organizations) ? (
+              <Typography className={classes.noData} variant="h5">
+                There are no organizations
+              </Typography>
+            ) : (
+              <OrganizationTable
+                organizations={organizations}
+                count={organization.count}
+              />
+            )}
           </Grid>
-          {form ? (
-            <Grid item lg={12} sm={12} xl={12} xs={12}>
-              {isLoading ? (
-                <div className={classes.progressWrapper}>
-                  <CircularProgress />
-                </div>
-              ) : isEmpty(organizations) ? (
-                <Typography className={classes.noData} variant="h5">
-                  There are no organizations
-                </Typography>
-              ) : (
-                <OrganizationTable
-                  numRowsPerPage={2}
-                  organizations={organizations}
-                  count={organization.count}
-                />
-              )}
-            </Grid>
-          ) : (
-            <Grid item lg={12} xl={12} xs={12} sm={12}>
-              <OrganizationForm toggleForm={toggleForm} />
-            </Grid>
-          )}
         </Grid>
       </div>
     </DashboardLayout>

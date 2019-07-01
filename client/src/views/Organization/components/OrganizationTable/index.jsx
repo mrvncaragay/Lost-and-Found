@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { Fragment } from "react";
+import isEmpty from "../../../../util/validation";
 import { Link } from "react-router-dom";
 import { getOrganizations } from "../../../../actions/organizationActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+
+// Components
+import { TableToolbar, TableForm, OrganizationItem } from "./components";
 
 // Material components
 import {
@@ -14,11 +18,12 @@ import {
   TableHead,
   TableRow,
   TablePagination,
-  Typography
+  Typography,
+  IconButton,
+  Paper
 } from "@material-ui/core";
 
-// Shared components
-import { Portlet, PortletContent } from "components";
+import { Edit, DeleteOutline, AddBox } from "@material-ui/icons";
 
 // Component styles
 import styles from "./styles";
@@ -42,50 +47,40 @@ function OrganizationTable({ getOrganizations, organizations }) {
   };
 
   return (
-    <Portlet className={classes.root}>
-      <PortletContent noPadding>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">
-                <Checkbox color="primary" />
-                Name
-              </TableCell>
-              <TableCell align="left">Property Code</TableCell>
-              <TableCell align="left">Address</TableCell>
-              <TableCell align="left">Number of Properties</TableCell>
-              <TableCell align="left">Registration date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {organizations.data.map(orgazanition => (
-              <TableRow
-                key={orgazanition._id}
-                className={classes.tableRow}
-                hover
-              >
-                <TableCell className={classes.tableCell}>
-                  <div className={classes.tableCellInner}>
-                    <Checkbox color="primary" value="true" />
-                    <Link to="#">
-                      <Typography className={classes.nameText} variant="body1">
-                        {orgazanition.name}
-                      </Typography>
-                    </Link>
-                  </div>
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <TableForm />
+        <TableToolbar
+          title="Active Organizations"
+          organizations={organizations}
+        />
+
+        {isEmpty(organizations.data) ? (
+          <Typography className={classes.noData} variant="h5">
+            There are no active organizations...
+          </Typography>
+        ) : (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.actions} align="left">
+                  Actions
                 </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {orgazanition.propertyCode}
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {orgazanition.address}
-                </TableCell>
-                <TableCell className={classes.tableCell}>32</TableCell>
-                <TableCell className={classes.tableCell}>June 20</TableCell>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="left">Property Code</TableCell>
+                <TableCell align="left">Address</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {organizations.data.map(orgazanition => (
+                <Fragment key={orgazanition._id}>
+                  <OrganizationItem {...orgazanition} />
+                </Fragment>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+
         <TablePagination
           backIconButtonProps={{
             "aria-label": "Previous Page"
@@ -101,8 +96,8 @@ function OrganizationTable({ getOrganizations, organizations }) {
           rowsPerPage={organizations.perRow}
           rowsPerPageOptions={[5, 10, 20]}
         />
-      </PortletContent>
-    </Portlet>
+      </Paper>
+    </div>
   );
 }
 
