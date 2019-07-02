@@ -2,6 +2,7 @@ import {
   POST_ORGANIZATION,
   GET_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
+  UPDATE_ORGANIZATION,
   SET_LOADING,
   CLEAR_CURRENT_ORGANIZATIONS,
   GET_ERRORS
@@ -53,6 +54,24 @@ export const searchOrganizations = params => dispatch => {
     .then(res =>
       dispatch({
         type: SEARCH_ORGANIZATIONS,
+        payload: res.data
+      })
+    )
+    .catch(err => console.log(err));
+};
+
+export const updateOrganization = newData => dispatch => {
+  dispatch(setLoading());
+
+  axios
+    .put("/api/organizations/" + newData.id, {
+      name: newData.name,
+      propertyCode: newData.propertyCode,
+      address: newData.address
+    })
+    .then(res =>
+      dispatch({
+        type: UPDATE_ORGANIZATION,
         payload: res.data
       })
     )

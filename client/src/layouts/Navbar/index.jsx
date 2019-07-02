@@ -2,11 +2,8 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
 // Material components
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Toolbar } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-
-// Externals
-import classNames from "classnames";
 
 // Component styles
 import styles from "./styles";

@@ -3,9 +3,6 @@ import { BrowserRouter } from "react-router-dom";
 
 import LostAndFound from "./LostAndFoundApp";
 
-//CurrentUser
-import { CurrentUserProvider } from "./contexts/currentUser";
-
 // Material helpers
 import { ThemeProvider } from "@material-ui/styles";
 

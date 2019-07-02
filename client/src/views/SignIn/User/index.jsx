@@ -2,13 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // Material components
-import {
-  Grid,
-  Typography,
-  TextField,
-  Button,
-  Divider
-} from "@material-ui/core";
+import { Grid, Typography, TextField, Button } from "@material-ui/core";
 
 /// Component styles
 import styles from "../styles";

@@ -12,7 +12,6 @@ export default makeStyles(theme => ({
     color: theme.palette.text.secondary
   },
   title: {
-    paddingLeft: "12px",
     flex: "0 0 auto"
   },
   searchWrapper: {

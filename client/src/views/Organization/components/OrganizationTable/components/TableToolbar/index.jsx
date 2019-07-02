@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { searchOrganizations } from "../../../../../../actions/organizationActions";
+import { searchOrganizations } from "actions";
 
 import {
   Toolbar,
@@ -11,12 +11,17 @@ import {
   InputBase
 } from "@material-ui/core";
 
-import { Edit, DeleteOutline, Search, AddBox, Clear } from "@material-ui/icons";
+import { Search, AddBox, Clear } from "@material-ui/icons";
 
 // Component styles
 import styles from "./styles";
 
-function TableToolbar({ searchOrganizations, title, organizations }) {
+function TableToolbar({
+  searchOrganizations,
+  title,
+  organizations,
+  toggleAddItem
+}) {
   const [disableSearch, setDisableSearch] = useState(true);
   const [searchParams, setsearchParams] = useState("");
   const classes = styles();
@@ -38,7 +43,9 @@ function TableToolbar({ searchOrganizations, title, organizations }) {
     setDisableSearch(true);
   };
 
-  const handleAdd = () => {};
+  const handleAdd = () => {
+    toggleAddItem(true);
+  };
 
   return (
     <Toolbar>
@@ -70,19 +77,11 @@ function TableToolbar({ searchOrganizations, title, organizations }) {
           <Clear />
         </IconButton>
       </div>
-      <div className={classes.actions}>
-        {/* <Tooltip title="Delete">
-            <IconButton aria-label="Delete">
-              <AddBox />
-            </IconButton>
-          </Tooltip> */}
-
-        <Tooltip title="Add user">
-          <IconButton onClick={handleAdd} color="primary" aria-label="Add user">
-            <AddBox />
-          </IconButton>
-        </Tooltip>
-      </div>
+      <Tooltip title="Add">
+        <IconButton onClick={handleAdd} color="primary" aria-label="Add user">
+          <AddBox />
+        </IconButton>
+      </Tooltip>
     </Toolbar>
   );
 }

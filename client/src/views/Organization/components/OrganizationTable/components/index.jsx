@@ -1,3 +1,4 @@
-export { default as OrganizationItem } from "./OrganizationItem";
+export { default as TableItem } from "./TableItem";
+export { default as EditItem } from "./EditItem";
 export { default as TableToolbar } from "./TableToolbar";
-export { default as TableForm } from "./TableForm";
+export { default as ItemForm } from "./ItemForm";

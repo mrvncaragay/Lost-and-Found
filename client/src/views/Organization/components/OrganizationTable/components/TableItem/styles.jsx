@@ -6,6 +6,7 @@ export default makeStyles(theme => ({
     height: "64px"
   },
   tableCell: {
+    minWidth: "229px",
     whiteSpace: "nowrap"
   },
   tableCellInner: {

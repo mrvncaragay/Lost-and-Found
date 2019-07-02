@@ -1,8 +1,7 @@
 import {
   POST_ORGANIZATION,
-  GET_ORGANIZATION,
   GET_ORGANIZATIONS,
-  COUNT_ORGANIZATIONS,
+  UPDATE_ORGANIZATION,
   SEARCH_ORGANIZATIONS,
   SET_LOADING,
   CLEAR_CURRENT_ORGANIZATIONS
@@ -20,7 +19,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         organizations: {
-          data: state.organizations.data,
+          data: [action.payload, ...state.organizations.data],
           count: state.organizations.count + 1,
           perRow: state.organizations.perRow,
           pageNum: state.organizations.pageNum
@@ -34,6 +33,19 @@ export default function(state = initialState, action) {
           count: action.payload.count,
           perRow: action.pagination.rowsPerPage,
           pageNum: action.pagination.pageNumber
+        },
+        isLoading: false
+      };
+    case UPDATE_ORGANIZATION:
+      return {
+        ...state,
+        organizations: {
+          data: state.organizations.data.map(org =>
+            org._id === action.payload._id ? action.payload : org
+          ),
+          count: state.organizations.count,
+          perRow: state.organizations.perRow,
+          pageNum: state.organizations.pageNum
         },
         isLoading: false
       };

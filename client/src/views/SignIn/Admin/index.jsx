@@ -23,7 +23,7 @@ import styles from "../styles";
 function AdminSignIn({ logInUser, auth, errors, history }) {
   const classes = styles();
 
-  const [values, handleChange, reset] = useInputState({
+  const [values, handleChange] = useInputState({
     email: "",
     password: ""
   });

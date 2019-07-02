@@ -9,5 +9,13 @@ export default makeStyles(theme => ({
   },
   actions: {
     paddingLeft: "36px"
+  },
+  noData: {
+    textAlign: "center",
+    color: theme.palette.common.muted
+  },
+  error: {
+    color: theme.palette.danger.main,
+    textAlign: "center"
   }
 }));

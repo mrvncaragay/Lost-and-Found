@@ -1,8 +1,5 @@
 import React from "react";
 
-// Material components
-import { Grid } from "@material-ui/core";
-
 // Material helpers
 import { withStyles } from "@material-ui/core";
 

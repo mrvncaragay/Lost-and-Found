@@ -1,17 +1,14 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import isEmpty from "../../../../util/validation";
-import { Link } from "react-router-dom";
-import { getOrganizations } from "../../../../actions/organizationActions";
+import { getOrganizations } from "actions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // Components
-import { TableToolbar, TableForm, OrganizationItem } from "./components";
+import { TableToolbar, TableItem, ItemForm } from "./components";
 
 // Material components
 import {
-  Avatar,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -19,16 +16,15 @@ import {
   TableRow,
   TablePagination,
   Typography,
-  IconButton,
-  Paper
+  Paper,
+  FormHelperText
 } from "@material-ui/core";
-
-import { Edit, DeleteOutline, AddBox } from "@material-ui/icons";
 
 // Component styles
 import styles from "./styles";
 
-function OrganizationTable({ getOrganizations, organizations }) {
+function OrganizationTable({ getOrganizations, organizations, errors }) {
+  const [addItem, setAddItem] = useState(false);
   const classes = styles();
 
   const handleChangePage = (e, page) => {
@@ -48,9 +44,11 @@ function OrganizationTable({ getOrganizations, organizations }) {
 
   return (
     <div className={classes.root}>
+      <FormHelperText className={classes.error}>{errors}</FormHelperText>
+
       <Paper className={classes.paper}>
-        <TableForm />
         <TableToolbar
+          toggleAddItem={setAddItem}
           title="Active Organizations"
           organizations={organizations}
         />
@@ -63,18 +61,18 @@ function OrganizationTable({ getOrganizations, organizations }) {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell className={classes.actions} align="left">
-                  Actions
-                </TableCell>
                 <TableCell align="left">Name</TableCell>
                 <TableCell align="left">Property Code</TableCell>
                 <TableCell align="left">Address</TableCell>
+                <TableCell className={classes.actions} align="left"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
+              {addItem ? <ItemForm toggleAddItem={setAddItem} /> : null}
+
               {organizations.data.map(orgazanition => (
                 <Fragment key={orgazanition._id}>
-                  <OrganizationItem {...orgazanition} />
+                  <TableItem data={orgazanition} />
                 </Fragment>
               ))}
             </TableBody>
@@ -105,7 +103,9 @@ OrganizationTable.propTypes = {
   getOrganizations: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  errors: state.errors
+});
 
 export default connect(
   mapStateToProps,

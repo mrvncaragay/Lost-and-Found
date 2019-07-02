@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { getOrganizations } from "../../actions/organizationActions";
+import React, { useEffect } from "react";
+import { getOrganizations } from "actions";
 import isEmpty from "../../util/validation";
 
 // External

@@ -4,6 +4,7 @@ import MuiFab from "./MuiFab";
 import MuiFilledInput from "./MuiFilledInput";
 import MuiIconButton from "./MuiIconButton";
 import MuiInputBase from "./MuiInputBase";
+import MuiInput from "./MuiInput";
 import MuiLinearProgress from "./MuiLinearProgress";
 import MuiListItemIcon from "./MuiListItemIcon";
 import MuiOutlinedInput from "./MuiOutlinedInput";
@@ -20,6 +21,7 @@ export default {
   MuiFilledInput,
   MuiIconButton,
   MuiInputBase,
+  MuiInput,
   MuiLinearProgress,
   MuiListItemIcon,
   MuiOutlinedInput,
