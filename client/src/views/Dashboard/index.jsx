@@ -9,6 +9,9 @@ import { withStyles } from "@material-ui/core";
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
 
+// Custom components
+import { Users } from "./components";
+
 // Component styles
 const styles = theme => ({
   root: {
@@ -25,10 +28,10 @@ function Dashboard({ classes }) {
       <div className={classes.root}>
         <Grid container spacing={4}>
           <Grid item lg={3} sm={6} xl={3} xs={12}>
-            <h1>Item 1</h1>
+            <Users className={classes.item} />
           </Grid>
           <Grid item lg={3} sm={6} xl={3} xs={12}>
-            <h1>Item 2</h1>
+            <Users className={classes.item} />
           </Grid>
         </Grid>
       </div>

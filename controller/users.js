@@ -2,11 +2,16 @@ const User = require('../model/user');
 const bcrypt = require('bcrypt');
 
 exports.getUsers = async (req, res) => {
-  const result = await User.find()
-    .select('-password')
-    .sort('name');
+  const { rowsPerPage, pageNumber } = req.query;
 
-  res.send(result);
+  const result = await User.find()
+    .skip(parseInt(pageNumber * rowsPerPage, 10))
+    .limit(parseInt(rowsPerPage, 10))
+    .select('-password')
+    .sort({ name: 1 });
+
+  const count = await User.find().countDocuments();
+  res.send({ result, count });
 };
 
 exports.getCurrentUser = async (req, res) => {
@@ -27,9 +32,10 @@ exports.getUser = async (req, res) => {
 exports.postUser = async (req, res) => {
   let newUser = req.body;
 
-  res.status(200);
   const user = await User.findOne({ email: newUser.email });
-  if (user) return res.status(400).send('User already registered.');
+
+  if (user && user.email === newUser.email)
+    return res.status(400).send('Email is already registered.');
 
   const hashedPassword = await bcrypt.hash(newUser.password, 12);
   newUser = new User({
@@ -41,24 +47,26 @@ exports.postUser = async (req, res) => {
 
   newUser.save();
 
-  res.header('x-auth-token', newUser.jwtToken).send({
+  res.send({
     name: newUser.name,
     email: newUser.email,
-    adminType: newUser.adminType
+    adminType: newUser.adminType,
+    propertyCode: newUser.propertyCode,
+    status: newUser.status
   });
 };
 
 exports.updateUser = async (req, res) => {
-  const adminEmail = await User.findOne({ email: req.body.email });
-  if (adminEmail) return res.status(400).send('Email is already registered.');
+  // const tempUser = await User.findOne({ email: req.body.email });
+  // if (tempUser) return res.status(400).send('Email is already registered.');
 
   const user = await User.findByIdAndUpdate(
     req.params.id,
     {
       name: req.body.name,
-      email: req.body.email,
       adminType: req.body.adminType,
-      propertyCode: req.body.propertyCode
+      propertyCode: req.body.propertyCode,
+      status: req.body.status
     },
     { new: true }
   ).select('-password');

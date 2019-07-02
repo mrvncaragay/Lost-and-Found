@@ -39,7 +39,7 @@ function Organization({ getOrganizations, organization }) {
   const { isLoading, organizations } = organization;
 
   useEffect(() => {
-    getOrganizations(5, 0);
+    getOrganizations(10, 0);
   }, [getOrganizations]);
 
   return (

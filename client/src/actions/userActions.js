@@ -1,31 +1,32 @@
 import {
-  POST_ORGANIZATION,
-  GET_ORGANIZATIONS,
-  SEARCH_ORGANIZATIONS,
-  UPDATE_ORGANIZATION,
+  POST_USER,
+  GET_USERS,
+  SEARCH_USERS,
+  UPDATE_USER,
   SET_LOADING,
-  CLEAR_CURRENT_ORGANIZATIONS,
+  CLEAR_CURRENT_USERS,
   GET_ERRORS
 } from "./types";
 
 // External
 import axios from "axios";
 
-export const postOrganization = orgData => dispatch => {
+export const postUser = orgData => dispatch => {
   axios
-    .post("/api/organizations", {
+    .post("/api/users", {
       name: orgData.name,
-      propertyCode: orgData.propertyCode,
-      address: orgData.address
+      email: orgData.email,
+      password: orgData.password,
+      adminType: orgData.adminType
     })
-    .then(res => dispatch({ type: POST_ORGANIZATION, payload: res.data }))
+    .then(res => dispatch({ type: POST_USER, payload: res.data }))
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
-export const getOrganizations = (rowsPerPage, pageNumber) => dispatch => {
+export const getUsers = (rowsPerPage, pageNumber) => dispatch => {
   dispatch(setLoading());
   axios
-    .post("/api/organizations/dashboard", null, {
+    .post("/api/users/dashboard", null, {
       params: {
         rowsPerPage: rowsPerPage,
         pageNumber: pageNumber
@@ -33,7 +34,7 @@ export const getOrganizations = (rowsPerPage, pageNumber) => dispatch => {
     })
     .then(res =>
       dispatch({
-        type: GET_ORGANIZATIONS,
+        type: GET_USERS,
         payload: res.data,
         pagination: { rowsPerPage, pageNumber }
       })
@@ -41,37 +42,36 @@ export const getOrganizations = (rowsPerPage, pageNumber) => dispatch => {
     .catch(err => console.log(err));
 };
 
-export const searchOrganizations = params => dispatch => {
+export const searchUsers = params => dispatch => {
   // Search first in the state?
   // then search db
   dispatch(setLoading());
   axios
-    .post("/api/organizations/search", null, {
+    .post("/api/users/search", null, {
       params: {
         params
       }
     })
     .then(res =>
       dispatch({
-        type: SEARCH_ORGANIZATIONS,
+        type: SEARCH_USERS,
         payload: res.data
       })
     )
-    .catch(err => console.log(err));
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
-export const updateOrganization = newData => dispatch => {
-  dispatch(setLoading());
-
+export const updateUser = newData => dispatch => {
   axios
-    .put("/api/organizations/" + newData.id, {
+    .put("/api/users/" + newData.id, {
       name: newData.name,
       propertyCode: newData.propertyCode,
-      address: newData.address
+      adminType: newData.adminType,
+      status: newData.status
     })
     .then(res =>
       dispatch({
-        type: UPDATE_ORGANIZATION,
+        type: UPDATE_USER,
         payload: res.data
       })
     )
@@ -88,6 +88,6 @@ export const setLoading = () => {
 // Clear organizations
 export const clearOrganizations = () => {
   return {
-    type: CLEAR_CURRENT_ORGANIZATIONS
+    type: CLEAR_CURRENT_USERS
   };
 };

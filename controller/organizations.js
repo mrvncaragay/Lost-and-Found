@@ -15,7 +15,7 @@ exports.index = async (req, res) => {
 exports.searchOrganizations = async (req, res) => {
   const regx = `${req.query.params}`;
   const result = await Organization.find({ name: new RegExp(regx, 'i') })
-    .limit(5)
+    .limit(50)
     .sort({ name: 1 });
   if (!result) return res.status(404).send('No organizations found.');
 

@@ -105,7 +105,6 @@ function validateUser(put, req) {
     email: Joi.string()
       .min(5)
       .max(50)
-      .required()
       .email(),
     password: Joi.string()
       .min(10)
@@ -121,7 +120,8 @@ function validateUser(put, req) {
       }),
     propertyCode: Joi.string()
       .min(3)
-      .max(10)
+      .max(10),
+    status: Joi.string().valid('active', 'inactive')
   };
 
   if (put) delete schema['password'];
