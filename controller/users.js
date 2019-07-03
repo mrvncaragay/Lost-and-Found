@@ -2,7 +2,7 @@ const User = require('../model/user');
 const bcrypt = require('bcrypt');
 
 exports.getUsers = async (req, res) => {
-  const { rowsPerPage, pageNumber } = req.query;
+  const { rowsPerPage, pageNumber, propType } = req.query;
 
   const result = await User.find()
     .skip(parseInt(pageNumber * rowsPerPage, 10))

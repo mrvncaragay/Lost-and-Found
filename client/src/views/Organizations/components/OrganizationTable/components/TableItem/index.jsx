@@ -32,7 +32,7 @@ function TableItem({ data }) {
   ) : (
     <TableRow className={classes.tableRow} hover>
       <TableCell className={classes.tableCell}>
-        <Link to={`/organizations/${data.name.replace(" ", "-")}`}>
+        <Link to={`/organization/${data.name.trim().replace(/ /gi, "-")}`}>
           <Typography
             onClick={() => {
               console.log(data._id);
@@ -40,7 +40,7 @@ function TableItem({ data }) {
             className={classes.nameText}
             variant="body1"
           >
-            {`${data.name} - (${data.propertyCode})`}
+            {`${data.name}  (${data.propertyCode})`}
           </Typography>
         </Link>
       </TableCell>

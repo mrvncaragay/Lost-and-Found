@@ -111,7 +111,7 @@ function validateUser(put, req) {
       .max(255)
       .required(),
     adminType: Joi.string()
-      .valid('swAdmin', 'orgAdmin', 'propAdmin')
+      .valid('swAdmin', 'orgAdmin', 'propAdmin', 'security')
       .required()
       .error(error => {
         return {

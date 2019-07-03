@@ -23,13 +23,18 @@ export const postUser = orgData => dispatch => {
     .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
 
-export const getUsers = (rowsPerPage, pageNumber) => dispatch => {
+export const getUsers = (
+  rowsPerPage,
+  pageNumber,
+  propType = null
+) => dispatch => {
   dispatch(setLoading());
   axios
     .post("/api/users/dashboard", null, {
       params: {
         rowsPerPage: rowsPerPage,
-        pageNumber: pageNumber
+        pageNumber: pageNumber,
+        propType: propType
       }
     })
     .then(res =>

@@ -34,13 +34,13 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function User({ getUsers, user }) {
+function User({ getUsers, user, auth }) {
   const classes = styles();
   const { isLoading, users } = user;
 
   useEffect(() => {
-    getUsers(5, 0);
-  }, [getUsers]);
+    getUsers(5, 0, auth.user.propertyCode);
+  }, [auth.user.propertyCode, getUsers]);
 
   return (
     <DashboardLayout title="Users">
@@ -71,6 +71,7 @@ User.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   user: state.user
 });
 

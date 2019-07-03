@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
-import { Properties, Users, PropertiesTable } from "./components";
+import { OrganizationTable } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,7 +34,7 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Organizations({ getOrganizations, organization, name }) {
+function Organizations({ getOrganizations, organization }) {
   const classes = styles();
   const { isLoading, organizations } = organization;
 
@@ -43,18 +43,24 @@ function Organizations({ getOrganizations, organization, name }) {
   }, [getOrganizations]);
 
   return (
-    <DashboardLayout title={name.replace(/-/gi, " ")}>
+    <DashboardLayout title="Organization">
       <div className={classes.root}>
         <Grid container spacing={4}>
-          <Grid item lg={6} xl={6} sm={12} xs={12}>
-            <Properties />
-          </Grid>
-          <Grid item lg={6} xl={6} sm={12} xs={12}>
-            <Users />
-          </Grid>
-
-          <Grid item lg={12} xl={12} sm={12} xs={12}>
-            <PropertiesTable />
+          <Grid item lg={12} sm={12} xl={12} xs={12}>
+            {isLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : isEmpty(organizations) ? (
+              <Typography className={classes.noData} variant="h5">
+                There are no organizations
+              </Typography>
+            ) : (
+              <OrganizationTable
+                organizations={organizations}
+                count={organization.count}
+              />
+            )}
           </Grid>
         </Grid>
       </div>

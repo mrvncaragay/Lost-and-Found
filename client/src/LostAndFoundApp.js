@@ -6,6 +6,7 @@ import setAuthJwtToken from "./util/setAuthJwtToken";
 import Homepage from "./views/Homepage";
 import Dashboard from "./views/Dashboard";
 import User from "./views/User";
+import Organizations from "./views/Organizations";
 import Organization from "./views/Organization";
 import SignIn from "./views/SignIn/User";
 import AdminSignIn from "./views/SignIn/Admin";
@@ -46,7 +47,14 @@ function LostAndFound() {
       <Route exact path="/sign-in" component={SignIn} />
       <PrivateRoute exact path="/dashboard" component={Dashboard} />
       <PrivateRoute exact path="/users" component={User} />
-      <PrivateRoute exact path="/organization" component={Organization} />
+      <PrivateRoute exact path="/organization" component={Organizations} />
+      <PrivateRoute
+        exact
+        path="/organization/:name"
+        component={routeProps => (
+          <Organization name={routeProps.match.params.name} />
+        )}
+      />
       <Route exact path="/admin/sign-in" component={AdminSignIn} />
       <Route exact path="/admin/sign-up" component={AdminSignUp} />
       <Route render={() => <h1>PAGE NOT FOUND!</h1>} />

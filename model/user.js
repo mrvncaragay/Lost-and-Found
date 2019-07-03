@@ -33,7 +33,7 @@ const User = mongoose.model(
     adminType: {
       type: String,
       //sw (Software User), org (Organization User), prop (Property User)
-      enum: ['swAdmin', 'orgAdmin', 'propAdmin'],
+      enum: ['swAdmin', 'orgAdmin', 'propAdmin', 'security'],
       required: true
     },
 

@@ -1,11 +1,11 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import isEmpty from "../../../../util/validation";
-import { getUsers } from "actions";
+import { getOrganizations } from "actions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // Components
-import { TableToolbar, TableItem } from "./components";
+import { TableToolbar, TableItem, ItemForm } from "./components";
 
 // Material components
 import {
@@ -23,22 +23,23 @@ import {
 // Component styles
 import styles from "./styles";
 
-function UserTable({ getUsers, users, errors }) {
+function OrganizationTable({ getOrganizations, organizations, errors }) {
+  const [addItem, setAddItem] = useState(false);
   const classes = styles();
 
   const handleChangePage = (e, page) => {
-    getUsers(users.perRow, page);
+    getOrganizations(organizations.perRow, page);
   };
 
   const handleChangeRowsPerPage = e => {
     const pageRow = parseInt(e.target.value, 10);
-    const maxPageNum = Math.floor(users.count / pageRow);
+    const maxPageNum = Math.floor(organizations.count / pageRow);
 
-    if (users.pageNum > maxPageNum) {
-      return getUsers(pageRow, maxPageNum);
+    if (organizations.pageNum > maxPageNum) {
+      return getOrganizations(pageRow, maxPageNum);
     }
 
-    getUsers(pageRow, users.pageNum);
+    getOrganizations(pageRow, organizations.pageNum);
   };
 
   return (
@@ -46,28 +47,32 @@ function UserTable({ getUsers, users, errors }) {
       <FormHelperText className={classes.error}>{errors}</FormHelperText>
 
       <Paper className={classes.paper}>
-        <TableToolbar />
+        <TableToolbar
+          toggleAddItem={setAddItem}
+          title="Active Organizations"
+          organizations={organizations}
+        />
 
-        {isEmpty(users.data) ? (
+        {isEmpty(organizations.data) ? (
           <Typography className={classes.noData} variant="h5">
-            There are no active users...
+            There are no active organizations...
           </Typography>
         ) : (
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell align="left">Name</TableCell>
-                <TableCell align="left">Email</TableCell>
                 <TableCell align="left">Property Code</TableCell>
-                <TableCell align="left">Admin Type</TableCell>
-                <TableCell align="left">Status</TableCell>
+                <TableCell align="left">Address</TableCell>
                 <TableCell className={classes.actions} align="left"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.data.map(user => (
-                <Fragment key={user._id}>
-                  <TableItem data={user} />
+              {addItem ? <ItemForm toggleAddItem={setAddItem} /> : null}
+
+              {organizations.data.map(orgazanition => (
+                <Fragment key={orgazanition._id}>
+                  <TableItem data={orgazanition} />
                 </Fragment>
               ))}
             </TableBody>
@@ -79,14 +84,14 @@ function UserTable({ getUsers, users, errors }) {
             "aria-label": "Previous Page"
           }}
           component="div"
-          count={users.count}
+          count={organizations.count}
           nextIconButtonProps={{
             "aria-label": "Next Page"
           }}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-          page={users.pageNum}
-          rowsPerPage={users.perRow}
+          page={organizations.pageNum}
+          rowsPerPage={organizations.perRow}
           rowsPerPageOptions={[5, 10, 20]}
         />
       </Paper>
@@ -94,8 +99,8 @@ function UserTable({ getUsers, users, errors }) {
   );
 }
 
-UserTable.propTypes = {
-  getUsers: PropTypes.func.isRequired
+OrganizationTable.propTypes = {
+  getOrganizations: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -104,5 +109,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getUsers }
-)(UserTable);
+  { getOrganizations }
+)(OrganizationTable);

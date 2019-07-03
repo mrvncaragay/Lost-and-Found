@@ -8,6 +8,7 @@ import {
   Tooltip,
   Typography,
   IconButton,
+  Input,
   InputBase
 } from "@material-ui/core";
 
@@ -19,7 +20,7 @@ import { ItemForm } from "../../components";
 // Component styles
 import styles from "./styles";
 
-function TableToolbar({ searchOrganizations, title, toggleAddItem }) {
+function TableToolbar({ searchOrganizations, title }) {
   const [disableSearch, setDisableSearch] = useState(true);
   const [searchParams, setsearchParams] = useState("");
   const [isAddItem, setAddItem] = useState(false);
@@ -57,13 +58,8 @@ function TableToolbar({ searchOrganizations, title, toggleAddItem }) {
         </div>
         <div className={classes.spacer} />
         <div className={classes.searchWrapper}>
-          <IconButton
-            disabled
-            className={classes.iconButton}
-            aria-label="Search"
-          >
-            <Search />
-          </IconButton>
+          <Search className={classes.iconButton} />
+
           <form className={classes.searchForm} onSubmit={handleSubmit}>
             <InputBase
               onChange={handleSearch}

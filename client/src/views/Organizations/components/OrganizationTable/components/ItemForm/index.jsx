@@ -1,16 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { postUser } from "actions";
+import { postOrganization } from "actions";
 import { userInputState } from "hooks";
 
 // Material components
 import {
-  Grid,
+  TableCell,
+  TableRow,
   IconButton,
   Tooltip,
-  Input,
-  NativeSelect
+  Input
 } from "@material-ui/core";
 
 // Material icon components
@@ -19,19 +19,18 @@ import { Clear as Cancel, Done as Save } from "@material-ui/icons";
 // Component stlyes
 import styles from "./styles";
 
-function ItemForm({ postUser, toggleAddItem }) {
+function ItemForm({ postOrganization, toggleAddItem }) {
   const initValue = {
     name: "",
-    email: "",
-    password: "",
-    adminType: ""
+    propertyCode: "",
+    address: ""
   };
   const [state, handleChange, reset] = userInputState(initValue);
 
   const classes = styles();
 
   const handleSave = () => {
-    postUser({ ...state });
+    postOrganization({ ...state });
     reset();
     toggleAddItem(false);
   };
@@ -41,8 +40,8 @@ function ItemForm({ postUser, toggleAddItem }) {
   };
 
   return (
-    <Grid container className={classes.root}>
-      <div xs={12} className={classes.item}>
+    <TableRow hover>
+      <TableCell className={classes.tableCell}>
         <Input
           value={state.name}
           placeholder="Name"
@@ -51,47 +50,29 @@ function ItemForm({ postUser, toggleAddItem }) {
             "aria-label": "Name"
           }}
         />
-      </div>
+      </TableCell>
 
-      <div xs={12} className={classes.item}>
+      <TableCell className={classes.tableCell}>
         <Input
-          value={state.email}
-          placeholder="Email"
-          onChange={e => handleChange("email", e)}
+          value={state.propertyCode}
+          placeholder="Property Code"
+          onChange={e => handleChange("propertyCode", e)}
           inputProps={{
-            "aria-label": "email"
+            "aria-label": "Name"
           }}
         />
-      </div>
-
-      <div xs={12} className={classes.item}>
+      </TableCell>
+      <TableCell className={classes.tableCell}>
         <Input
-          type="password"
-          value={state.password}
-          placeholder="Password"
-          onChange={e => handleChange("password", e)}
+          value={state.address}
+          placeholder="Address"
+          onChange={e => handleChange("address", e)}
           inputProps={{
-            "aria-label": "Password"
+            "aria-label": "Name"
           }}
         />
-      </div>
-
-      <div xs={12} className={classes.item}>
-        <NativeSelect
-          className={classes.selectItem}
-          value={state.adminType}
-          onChange={e => handleChange("adminType", e)}
-        >
-          <option value="" disabled>
-            Admin Type
-          </option>
-          <option value="security">security</option>
-          <option value="propAdmin">propAdmin</option>
-          <option value="orgAdmin">orgAdmin</option>
-          <option value="swAdmin">swAdmin</option>
-        </NativeSelect>
-      </div>
-      <div xs={12} className={classes.actions}>
+      </TableCell>
+      <TableCell>
         <Tooltip title="Save">
           <IconButton onClick={() => handleSave(state._id)}>
             <Save />
@@ -103,18 +84,18 @@ function ItemForm({ postUser, toggleAddItem }) {
             <Cancel />
           </IconButton>
         </Tooltip>
-      </div>
-    </Grid>
+      </TableCell>
+    </TableRow>
   );
 }
 
 ItemForm.propTypes = {
-  postUser: PropTypes.func.isRequired
+  postOrganization: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({});
 
 export default connect(
   mapStateToProps,
-  { postUser }
+  { postOrganization }
 )(ItemForm);
