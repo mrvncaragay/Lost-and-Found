@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 
 // Material icon components
-import { Edit, DeleteOutline } from "@material-ui/icons";
+import { Edit } from "@material-ui/icons";
 
 import styles from "./styles";
 
@@ -40,7 +40,7 @@ function TableItem({ data }) {
             className={classes.nameText}
             variant="body1"
           >
-            {`${data.name}  (${data.propertyCode})`}
+            {`${data.name}  (${data.propertyCode})`}{" "}
           </Typography>
         </Link>
       </TableCell>
@@ -51,12 +51,6 @@ function TableItem({ data }) {
           <Tooltip title="Edit">
             <IconButton onClick={handleEdit}>
               <Edit />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Remove">
-            <IconButton>
-              <DeleteOutline />
             </IconButton>
           </Tooltip>
         </div>

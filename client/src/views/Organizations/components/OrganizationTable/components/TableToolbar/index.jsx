@@ -75,8 +75,12 @@ function TableToolbar({
           <Clear />
         </IconButton>
       </div>
-      <Tooltip title="Add">
-        <IconButton onClick={handleAdd} color="primary" aria-label="Add user">
+      <Tooltip title="Add Organization">
+        <IconButton
+          onClick={handleAdd}
+          color="primary"
+          aria-label="Add Organization"
+        >
           <AddBox />
         </IconButton>
       </Tooltip>

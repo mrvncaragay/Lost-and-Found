@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
-import { Properties, Users, PropertiesTable } from "./components";
+import { Properties, Users, PropertiesTable, PropertyForm } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -49,6 +49,7 @@ function Organizations({ getOrganizations, organization, name }) {
           <Grid item lg={6} xl={6} sm={12} xs={12}>
             <Properties />
           </Grid>
+
           <Grid item lg={6} xl={6} sm={12} xs={12}>
             <Users />
           </Grid>
