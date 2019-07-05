@@ -7,7 +7,7 @@ import { isColumnLink } from "../../../../util/validation";
 import urlSanitizer from "../../../../util/urlSanitizer";
 
 // Shared Component
-import ItemData from "./ItemData";
+import ComponentItem from "./ComponentItem";
 import TableEditRow from "../TableEditRow";
 
 // Material components
@@ -35,8 +35,15 @@ function TableItem({ data, column, options }) {
 
   const handleDisabled = () => {};
 
+  console.log("TODO RE_RENDER", data.name);
+
   return isEditing ? (
-    <TableEditRow data={data} toggleEdit={toggleEdit} />
+    <TableEditRow
+      data={data}
+      column={column}
+      toggleEdit={toggleEdit}
+      options={options}
+    />
   ) : (
     <TableRow className={classes.tableRow} hover>
       {column.map((title, index) => (
@@ -54,7 +61,7 @@ function TableItem({ data, column, options }) {
               </Link>
             </TableCell>
           ) : (
-            <ItemData data={data[camelCase(title)]} />
+            <ComponentItem data={data[camelCase(title)]} />
           )}
         </Fragment>
       ))}

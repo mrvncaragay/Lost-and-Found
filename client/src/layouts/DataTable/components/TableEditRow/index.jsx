@@ -1,8 +1,15 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateOrganization } from "actions";
 import { userInputState } from "hooks";
+
+// Helper function
+import camelCase from "../../../../util/camelCaseStr";
+import { isSelectable } from "../../../../util/validation";
+
+// Shared component
+import { ComponentItemInput, ComponentItemSelect } from "./ComponentItem";
 
 // Material components
 import {
@@ -19,7 +26,13 @@ import { Clear as Cancel, Done as Save } from "@material-ui/icons";
 // Component stlyes
 import styles from "./styles";
 
-function TableEditRow({ data, toggleEdit, updateOrganization }) {
+function TableEditRow({
+  data,
+  column,
+  options,
+  toggleEdit,
+  updateOrganization
+}) {
   const initValue = {
     ...data
   };
@@ -35,36 +48,37 @@ function TableEditRow({ data, toggleEdit, updateOrganization }) {
     toggleEdit(false);
   };
 
+  const newMap = column.map();
+
+  const copyArr = ["Name", "Email", "Property Code"];
+  const copyArr2 = ["Admin Type", "Status"];
+
   return (
     <TableRow hover>
-      <TableCell className={classes.tableCell}>
-        <Input
-          value={state.name}
-          onChange={e => handleChange("name", e)}
-          inputProps={{
-            "aria-label": "Name"
-          }}
-        />
-      </TableCell>
+      {copyArr.map((title, index) => (
+        <Fragment key={index}>
+          <TableCell className={classes.tableCell}>
+            <ComponentItemInput
+              state={state}
+              objKey={camelCase(title)}
+              handleChange={handleChange}
+            />
+          </TableCell>
+        </Fragment>
+      ))}
 
-      <TableCell className={classes.tableCell}>
-        <Input
-          value={state.propertyCode}
-          onChange={e => handleChange("propertyCode", e)}
-          inputProps={{
-            "aria-label": "Name"
-          }}
-        />
-      </TableCell>
-      <TableCell className={classes.tableCell}>
-        <Input
-          value={state.address}
-          onChange={e => handleChange("address", e)}
-          inputProps={{
-            "aria-label": "Name"
-          }}
-        />
-      </TableCell>
+      {copyArr2.map((title, index) => (
+        <Fragment key={index}>
+          <TableCell className={classes.tableCell}>
+            <ComponentItemSelect
+              state={state}
+              objKey={camelCase(title)}
+              handleChange={handleChange}
+            />
+          </TableCell>
+        </Fragment>
+      ))}
+
       <TableCell>
         <Tooltip title="Save">
           <IconButton onClick={() => handleSave(state._id)}>

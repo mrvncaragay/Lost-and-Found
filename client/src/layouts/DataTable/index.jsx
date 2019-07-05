@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, memo } from "react";
 
 // Externals
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -28,7 +28,7 @@ function DataTable({ title, column, data, options = {} }) {
 
   const handleChangePage = () => {};
   const handleChangeRowsPerPage = () => {};
-
+  console.log("Main Table");
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -76,4 +76,4 @@ function DataTable({ title, column, data, options = {} }) {
   );
 }
 
-export default DataTable;
+export default memo(DataTable);

@@ -43,6 +43,18 @@ function User({ getUsers, user, auth }) {
   }, [auth.user.propertyCode, getUsers]);
 
   const column = ["Name", "Email", "Property Code", "Admin Type", "Status"];
+  const options = {
+    selectInput: [
+      {
+        column: "Admin Type",
+        optionValue: ["security", "propAdmin", "orgAdmin", "swAdmin"]
+      },
+      {
+        column: "Status",
+        optionValue: ["active", "inactive"]
+      }
+    ]
+  };
 
   return (
     <DashboardLayout title="Users">
@@ -58,7 +70,13 @@ function User({ getUsers, user, auth }) {
                 There are no users
               </Typography>
             ) : (
-              <DataTable title="Users" column={column} data={users.data} />
+              <h1>Hi</h1>
+              // <DataTable
+              //   title="Users"
+              //   column={column}
+              //   data={users.data}
+              //   option={options}
+              // />
             )}
           </Grid>
         </Grid>
