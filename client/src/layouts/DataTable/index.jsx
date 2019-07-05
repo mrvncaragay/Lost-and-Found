@@ -22,17 +22,30 @@ import {
 import styles from "./styles";
 
 function DataTable({ title, column, data, options = {} }) {
-  const [tableForm, setTableForm] = useState(false);
   const classes = styles();
+  const [dataTable, setDataTable] = useState([...data]);
+  const [tableForm, setTableForm] = useState(false);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleChangePage = () => {};
-  const handleChangeRowsPerPage = () => {};
-  console.log("Main Table");
+  const handleChangePage = (e, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <PerfectScrollbar>
-          <TableToolbar title={title} toggleTableForm={setTableForm} />
+          <TableToolbar
+            title={title}
+            toggleTableForm={setTableForm}
+            data={data}
+            setDataTable={setDataTable}
+          />
 
           <Table>
             <TableHead>
@@ -47,11 +60,13 @@ function DataTable({ title, column, data, options = {} }) {
             </TableHead>
             <TableBody>
               {tableForm ? <TableForm toggleTableForm={setTableForm} /> : null}
-              {data.map((item, index) => (
-                <Fragment key={index}>
-                  <TableItem data={item} column={column} options={options} />
-                </Fragment>
-              ))}
+              {dataTable
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((item, index) => (
+                  <Fragment key={index}>
+                    <TableItem data={item} column={column} options={options} />
+                  </Fragment>
+                ))}
             </TableBody>
           </Table>
         </PerfectScrollbar>
@@ -60,14 +75,14 @@ function DataTable({ title, column, data, options = {} }) {
             "aria-label": "Previous Page"
           }}
           component="div"
-          count={data.length} //organizations.count
+          count={dataTable.length}
           nextIconButtonProps={{
             "aria-label": "Next Page"
           }}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-          page={0} //organizations.pageNum
-          rowsPerPage={5} // organizations.perRow
+          page={page}
+          rowsPerPage={rowsPerPage}
           rowsPerPageOptions={[5, 10, 20]}
         />
       </Paper>

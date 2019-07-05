@@ -16,7 +16,7 @@ import { Search, AddBox, Clear } from "@material-ui/icons";
 // Component styles
 import styles from "./styles";
 
-function TableToolbar({ searchOrganizations, title, toggleTableForm }) {
+function TableToolbar({ data, setDataTable, title, toggleTableForm }) {
   const [disableSearch, setDisableSearch] = useState(true);
   const [searchParams, setsearchParams] = useState("");
   const classes = styles();
@@ -33,7 +33,14 @@ function TableToolbar({ searchOrganizations, title, toggleTableForm }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    searchOrganizations(searchParams);
+
+    setDataTable(
+      data.filter(data => {
+        return (
+          data.name.toLowerCase().indexOf(searchParams.toLowerCase()) !== -1
+        );
+      })
+    );
     setsearchParams("");
     setDisableSearch(true);
   };

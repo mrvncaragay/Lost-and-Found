@@ -35,7 +35,7 @@ function TableItem({ data, column, options }) {
 
   const handleDisabled = () => {};
 
-  console.log("TODO RE_RENDER", data.name);
+  //console.log("TODO RE_RENDER", data.name);
 
   return isEditing ? (
     <TableEditRow
