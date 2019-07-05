@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { getOrganizations } from "actions";
-import isEmpty from "../../util/validation";
+import { isEmpty } from "../../util/validation";
 
 // External
 import { connect } from "react-redux";
@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
-import { OrganizationTable } from "./components";
+import { DataTable } from "layouts";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,6 +42,9 @@ function Organizations({ getOrganizations, organization }) {
     getOrganizations(10, 0);
   }, [getOrganizations]);
 
+  const column = ["Name", "Property Code", "Address"];
+  const options = { colLink: { name: "Name", link: "/organization/" } };
+
   return (
     <DashboardLayout title="Organization">
       <div className={classes.root}>
@@ -56,9 +59,11 @@ function Organizations({ getOrganizations, organization }) {
                 There are no organizations
               </Typography>
             ) : (
-              <OrganizationTable
-                organizations={organizations}
-                count={organization.count}
+              <DataTable
+                title="Organizations"
+                column={column}
+                data={organizations.data}
+                options={options}
               />
             )}
           </Grid>

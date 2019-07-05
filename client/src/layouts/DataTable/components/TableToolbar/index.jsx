@@ -16,12 +16,7 @@ import { Search, AddBox, Clear } from "@material-ui/icons";
 // Component styles
 import styles from "./styles";
 
-function TableToolbar({
-  searchOrganizations,
-  title,
-  organizations,
-  toggleAddItem
-}) {
+function TableToolbar({ searchOrganizations, title, toggleTableForm }) {
   const [disableSearch, setDisableSearch] = useState(true);
   const [searchParams, setsearchParams] = useState("");
   const classes = styles();
@@ -44,7 +39,7 @@ function TableToolbar({
   };
 
   const handleAdd = () => {
-    toggleAddItem(true);
+    toggleTableForm(true);
   };
 
   return (
@@ -60,7 +55,7 @@ function TableToolbar({
             onChange={handleSearch}
             value={searchParams}
             className={classes.searchInput}
-            placeholder="Search organization"
+            placeholder={`Search ${title}`}
           />
         </form>
 
@@ -73,11 +68,11 @@ function TableToolbar({
           <Clear />
         </IconButton>
       </div>
-      <Tooltip title="Add Organization">
+      <Tooltip title={`Add ${title}`}>
         <IconButton
           onClick={handleAdd}
           color="primary"
-          aria-label="Add Organization"
+          aria-label={`Add ${title}`}
         >
           <AddBox />
         </IconButton>

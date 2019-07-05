@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { getUsers } from "actions";
-import isEmpty from "../../util/validation";
+import { isEmpty } from "../../util/validation";
 
 // External
 import { connect } from "react-redux";
@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
-import { UserTable } from "./components";
+import { DataTable } from "layouts";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,6 +42,8 @@ function User({ getUsers, user, auth }) {
     getUsers(5, 0, auth.user.propertyCode);
   }, [auth.user.propertyCode, getUsers]);
 
+  const column = ["Name", "Email", "Property Code", "Admin Type", "Status"];
+
   return (
     <DashboardLayout title="Users">
       <div className={classes.root}>
@@ -56,7 +58,7 @@ function User({ getUsers, user, auth }) {
                 There are no users
               </Typography>
             ) : (
-              <UserTable users={users} count={user.count} />
+              <DataTable title="Users" column={column} data={users.data} />
             )}
           </Grid>
         </Grid>
