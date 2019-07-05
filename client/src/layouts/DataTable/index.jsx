@@ -6,7 +6,6 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 
 // Shared Components
 import { TableItem, TableForm, TableToolbar } from "./components";
-import { TableHeaderColumn } from "./components";
 
 // Material components
 import {
@@ -40,7 +39,7 @@ function DataTable({ title, column, data, options = {} }) {
               <TableRow>
                 {column.map((title, index) => (
                   <Fragment key={index}>
-                    <TableHeaderColumn title={title} />
+                    <TableCell align="left">{title}</TableCell>
                   </Fragment>
                 ))}
                 <TableCell className={classes.actions} align="left"></TableCell>

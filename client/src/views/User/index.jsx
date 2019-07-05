@@ -70,13 +70,12 @@ function User({ getUsers, user, auth }) {
                 There are no users
               </Typography>
             ) : (
-              <h1>Hi</h1>
-              // <DataTable
-              //   title="Users"
-              //   column={column}
-              //   data={users.data}
-              //   option={options}
-              // />
+              <DataTable
+                title="Users"
+                column={column}
+                data={users.data}
+                options={options}
+              />
             )}
           </Grid>
         </Grid>

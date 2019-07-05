@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateOrganization } from "actions";
@@ -6,7 +6,7 @@ import { userInputState } from "hooks";
 
 // Helper function
 import camelCase from "../../../../util/camelCaseStr";
-import { isSelectable } from "../../../../util/validation";
+import { isSelectInput, findOptions } from "../../../../util/validation";
 
 // Shared component
 import { ComponentItemInput, ComponentItemSelect } from "./ComponentItem";
@@ -48,38 +48,30 @@ function TableEditRow({
     toggleEdit(false);
   };
 
-  const newMap = column.map();
-
-  const copyArr = ["Name", "Email", "Property Code"];
-  const copyArr2 = ["Admin Type", "Status"];
-
   return (
     <TableRow hover>
-      {copyArr.map((title, index) => (
+      {column.map((title, index) => (
         <Fragment key={index}>
           <TableCell className={classes.tableCell}>
-            <ComponentItemInput
-              state={state}
-              objKey={camelCase(title)}
-              handleChange={handleChange}
-            />
+            {isSelectInput(title, options) ? (
+              <ComponentItemSelect
+                state={state}
+                objKey={camelCase(title)}
+                options={findOptions(title, options)}
+                handleChange={handleChange}
+              />
+            ) : (
+              <ComponentItemInput
+                state={state}
+                objKey={camelCase(title)}
+                handleChange={handleChange}
+              />
+            )}
           </TableCell>
         </Fragment>
       ))}
 
-      {copyArr2.map((title, index) => (
-        <Fragment key={index}>
-          <TableCell className={classes.tableCell}>
-            <ComponentItemSelect
-              state={state}
-              objKey={camelCase(title)}
-              handleChange={handleChange}
-            />
-          </TableCell>
-        </Fragment>
-      ))}
-
-      <TableCell>
+      <TableCell className={classes.tableCell}>
         <Tooltip title="Save">
           <IconButton onClick={() => handleSave(state._id)}>
             <Save />

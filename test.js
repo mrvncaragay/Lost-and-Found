@@ -1,6 +1,6 @@
 const column = ['Name', 'Email', 'Property Code', 'Admin Type', 'Status'];
 const options = {
-  selecInput: [
+  selectInput: [
     {
       column: 'Admin Type',
       optionValue: ['security', 'propAdmin', 'orgAdmin', 'swAdmin']
@@ -12,40 +12,37 @@ const options = {
   ]
 };
 
-// Name, 0 // Yes, column: "Admin Type", 0
-// Email, 1 // Yes, column: "Status", 1
-// Property Code, 2 // No
-
 const saveArr = [0, 1];
 
-const isSelectable = (col, obj) => {
+const isSelectInput = (col, obj) => {
   // Check if object
   if (typeof obj !== 'object') return false;
 
   // is obj has selectable key?
-  if (!obj.hasOwnProperty('selectable')) return false;
+  if (!obj.hasOwnProperty('selectInput')) return false;
 
   // is selectable length > 0
-  if (!obj.selectable.length > 0) return false;
+  if (!obj.selectInput.length > 0) return false;
 
   // find index
+  const index = obj.selectInput.findIndex(obj => {
+    return obj.column === col;
+  });
 
-  // // is index Number?
-  // if (typeof index !== 'number') return false;
+  // column not found
+  if (index === -1) return false;
 
-  // // is index in selectable?
-  // if (!obj.selectable[index]) return false;
+  // is selectInput has optionValue key?
+  if (!obj.selectInput[index].hasOwnProperty('optionValue')) return false;
 
-  // // is selectable has column key?
-  // if (!obj.selectable[index].hasOwnProperty('column')) return false;
+  // is optionValue has options greater than 1?
+  if (!obj.selectInput[index].optionValue.length > 1) return false;
 
-  // // is selectable has optionValue key?
-  // if (!obj.selectable[index].hasOwnProperty('optionValue')) return false;
-
-  // // is optionValue has options?
-  // if (!obj.selectable[index].optionValue.length > 0) return false;
-
-  return obj.selectable[1].column === col ? true : false;
+  return { result: true, index: index };
 };
 
-console.log(isSelectable('Status', options));
+const result = isSelectInput('Admin Type', options);
+
+result.result ? console.log(true) : console.log(false);
+
+console.log(result.index);

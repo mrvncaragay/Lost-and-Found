@@ -18,8 +18,7 @@ export const isColumnLink = (col, obj) => {
   return obj.colLink.name === col ? true : false;
 };
 
-export const isSelectable = (col, obj, index) => {
-  console.log(col, obj, index);
+export const isSelectInput = (col, obj) => {
   // Check if object
   if (typeof obj !== "object") return false;
 
@@ -30,22 +29,24 @@ export const isSelectable = (col, obj, index) => {
   if (!obj.selectInput.length > 0) return false;
 
   // find index
-  // const index = obj.selectInput.findIndex()
+  const index = obj.selectInput.findIndex(obj => {
+    return obj.column === col;
+  });
 
-  // is index Number?
-  if (typeof index !== "number") return false;
-
-  // is index in selectInput?
-  if (!obj.selectInput[index]) return false;
-
-  // is selectInput has column key?
-  if (!obj.selectInput[index].hasOwnProperty("column")) return false;
+  // column not found
+  if (index === -1) return false;
 
   // is selectInput has optionValue key?
   if (!obj.selectInput[index].hasOwnProperty("optionValue")) return false;
 
-  // is optionValue has options?
-  if (!obj.selectInput[index].optionValue.length > 0) return false;
+  // is optionValue has options greater than 1?
+  if (!obj.selectInput[index].optionValue.length > 1) return false;
 
-  return obj.selectInput[index].column === col ? true : false;
+  return true;
+};
+
+export const findOptions = (column, obj) => {
+  return obj.selectInput.find(obj => {
+    return obj.column === column;
+  });
 };
