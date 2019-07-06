@@ -21,8 +21,13 @@ export const CLEAR_CURRENT_ORGANIZATIONS = "CLEAR_CURRENT_ORGANIZATIONS";
 export const POST_USER = "POST_USER";
 export const GET_USER = "GET_USER";
 export const GET_USERS = "GET_USERS";
-export const UPDATE_USER = "UPDATE_USER";
+export const EDIT_USER = "EDIT_USER";
 export const SEARCH_USERS = "SEARCH_USERS";
 export const USER_LOADING = "USER_LOADING";
 export const USER_NOT_FOUND = "USER_NOT_FOUND";
 export const CLEAR_CURRENT_USERS = "CLEAR_CURRENT_USERS";
+
+// FORM
+export const SET_MODEL = "SET_MODEL";
+export const SET_TYPE = "SET_TYPE";
+export const SAVE_FORM = "SAVE_FORM";

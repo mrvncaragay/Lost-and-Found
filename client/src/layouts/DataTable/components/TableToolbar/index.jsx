@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { searchOrganizations } from "actions";
+import { setType } from "actions";
 
 import {
   Toolbar,
@@ -16,7 +16,7 @@ import { Search, AddBox, Clear } from "@material-ui/icons";
 // Component styles
 import styles from "./styles";
 
-function TableToolbar({ data, setDataTable, title, toggleTableForm }) {
+function TableToolbar({ data, setDataTable, title, toggleTableForm, setType }) {
   const [disableSearch, setDisableSearch] = useState(true);
   const [searchParams, setsearchParams] = useState("");
   const classes = styles();
@@ -46,6 +46,7 @@ function TableToolbar({ data, setDataTable, title, toggleTableForm }) {
   };
 
   const handleAdd = () => {
+    setType("POST");
     toggleTableForm(true);
   };
 
@@ -89,12 +90,12 @@ function TableToolbar({ data, setDataTable, title, toggleTableForm }) {
 }
 
 TableToolbar.propTypes = {
-  searchOrganizations: PropTypes.func.isRequired
+  setType: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({});
 
 export default connect(
   mapStateToProps,
-  { searchOrganizations }
+  { setType }
 )(TableToolbar);

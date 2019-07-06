@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { postOrganization } from "actions";
+import { saveForm } from "actions";
 
 // Shared component
 import { ComponentItemInput, ComponentItemSelect } from "../FormComponents";
@@ -20,14 +20,19 @@ import { Clear as Cancel, Done as Save } from "@material-ui/icons";
 // Component stlyes
 import styles from "../styles";
 
-function TableForm({ column, options, toggleTableForm }) {
-  const initValue = column.map(title => camelCase(title));
+function TableForm({ column, options, toggleTableForm, saveForm, form }) {
+  const initValue = {};
+
+  column.forEach(col => {
+    initValue[camelCase(col)] = "";
+  });
 
   const [state, handleChange, reset] = userInputState(initValue);
 
   const classes = styles();
 
   const handleSave = () => {
+    saveForm(state, form);
     reset();
     toggleTableForm(false);
   };
@@ -77,12 +82,15 @@ function TableForm({ column, options, toggleTableForm }) {
 }
 
 TableForm.propTypes = {
-  postOrganization: PropTypes.func.isRequired
+  saveForm: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  form: state.form
+});
 
 export default connect(
   mapStateToProps,
-  { postOrganization }
+  { saveForm }
 )(TableForm);

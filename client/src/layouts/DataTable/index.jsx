@@ -47,7 +47,7 @@ function DataTable({ title, column, data, options = {} }) {
             setDataTable={setDataTable}
           />
 
-          <Table>
+          <Table size="small">
             <TableHead>
               <TableRow>
                 {column.map((title, index) => (

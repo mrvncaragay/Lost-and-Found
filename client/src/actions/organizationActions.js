@@ -1,5 +1,4 @@
 import {
-  POST_ORGANIZATION,
   GET_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
   UPDATE_ORGANIZATION,
@@ -11,15 +10,12 @@ import {
 // External
 import axios from "axios";
 
-export const postOrganization = orgData => dispatch => {
-  axios
-    .post("/api/organizations", {
-      name: orgData.name,
-      propertyCode: orgData.propertyCode,
-      address: orgData.address
-    })
-    .then(res => dispatch({ type: POST_ORGANIZATION, payload: res.data }))
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+export const postOrganization = orgData => {
+  return axios.post("/api/organizations", {
+    name: orgData.name,
+    propertyCode: orgData.propertyCode,
+    address: orgData.address
+  });
 };
 
 export const getOrganizations = (rowsPerPage, pageNumber) => dispatch => {

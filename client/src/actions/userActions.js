@@ -2,7 +2,7 @@ import {
   POST_USER,
   GET_USERS,
   SEARCH_USERS,
-  UPDATE_USER,
+  EDIT_USER,
   SET_LOADING,
   CLEAR_CURRENT_USERS,
   GET_ERRORS
@@ -11,16 +11,15 @@ import {
 // External
 import axios from "axios";
 
-export const postUser = orgData => dispatch => {
-  axios
-    .post("/api/users", {
-      name: orgData.name,
-      email: orgData.email,
-      password: orgData.password,
-      adminType: orgData.adminType
-    })
-    .then(res => dispatch({ type: POST_USER, payload: res.data }))
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+export const postUser = orgData => {
+  return axios.post("/api/users", {
+    name: orgData.name,
+    email: orgData.email,
+    propertyCode: orgData.propertyCode,
+    password: orgData.password,
+    adminType: orgData.adminType,
+    status: orgData.status
+  });
 };
 
 export const getUsers = (
@@ -76,7 +75,7 @@ export const updateUser = newData => dispatch => {
     })
     .then(res =>
       dispatch({
-        type: UPDATE_USER,
+        type: EDIT_USER,
         payload: res.data
       })
     )

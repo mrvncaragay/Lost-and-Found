@@ -1,5 +1,10 @@
 import React, { useState, Fragment } from "react";
+import { setType } from "actions";
 import { Link } from "react-router-dom";
+
+// External
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 // Helper function
 import camelCase from "../../../../util/camelCaseStr";
@@ -24,12 +29,13 @@ import { Edit, DomainDisabledOutlined as DomainIcon } from "@material-ui/icons";
 
 import styles from "./styles";
 
-function TableItem({ data, column, options }) {
+function TableItem({ data, column, options, setType }) {
   const [isEditing, toggleEdit] = useState(false);
 
   const classes = styles();
 
   const handleEdit = () => {
+    setType("EDIT");
     toggleEdit(!isEditing);
   };
 
@@ -85,4 +91,13 @@ function TableItem({ data, column, options }) {
   );
 }
 
-export default TableItem;
+TableItem.propTypes = {
+  setType: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({});
+
+export default connect(
+  mapStateToProps,
+  { setType }
+)(TableItem);

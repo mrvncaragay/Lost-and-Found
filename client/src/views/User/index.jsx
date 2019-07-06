@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getUsers } from "actions";
+import { getUsers, setModel } from "actions";
 import { isEmpty } from "../../util/validation";
 
 // External
@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
-import { DataTable } from "layouts";
+import { DataTable, ErrorSnackbar } from "layouts";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,12 +34,13 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function User({ getUsers, user, auth }) {
+function User({ getUsers, setModel, user, auth, errors }) {
   const classes = styles();
   const { isLoading, users } = user;
 
   /* eslint-disable */
   useEffect(() => {
+    setModel("USER")
     getUsers(5, 0, auth.user.propertyCode);
   }, []);
   /* eslint-enable */
@@ -60,6 +61,8 @@ function User({ getUsers, user, auth }) {
 
   return (
     <DashboardLayout title="Users">
+      {errors ? <ErrorSnackbar message={errors} /> : null}
+
       <div className={classes.root}>
         <Grid container spacing={4}>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
@@ -88,15 +91,18 @@ function User({ getUsers, user, auth }) {
 
 User.propTypes = {
   getUsers: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  setModel: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  errors: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  user: state.user
+  user: state.user,
+  errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { getUsers }
+  { getUsers, setModel }
 )(User);

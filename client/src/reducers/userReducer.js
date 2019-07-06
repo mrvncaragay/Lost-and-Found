@@ -2,7 +2,7 @@ import {
   POST_USER,
   GET_USERS,
   SEARCH_USERS,
-  UPDATE_USER,
+  EDIT_USER,
   SET_LOADING,
   CLEAR_CURRENT_USERS
 } from "../actions/types";
@@ -36,7 +36,7 @@ export default function(state = initialState, action) {
         },
         isLoading: false
       };
-    case UPDATE_USER:
+    case EDIT_USER:
       return {
         ...state,
         users: {

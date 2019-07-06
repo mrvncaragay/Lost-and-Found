@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { updateOrganization } from "actions";
+import { saveForm } from "actions";
 import { userInputState } from "hooks";
 
 // Helper function
@@ -20,22 +20,18 @@ import { Clear as Cancel, Done as Save } from "@material-ui/icons";
 // Component stlyes
 import styles from "../styles";
 
-function TableEditRow({
-  data,
-  column,
-  options,
-  toggleEdit,
-  updateOrganization
-}) {
+function TableEditRow({ data, column, options, toggleEdit, saveForm, form }) {
   const initValue = {
     ...data
   };
-  const [state, handleChange] = userInputState(initValue);
+  const [state, handleChange, reset] = userInputState(initValue);
 
   const classes = styles();
 
-  const handleSave = id => {
-    updateOrganization({ ...state, id: id });
+  const handleSave = () => {
+    saveForm({ ...state }, form);
+    reset();
+    toggleEdit(false);
   };
 
   const handleCancel = () => {
@@ -67,7 +63,7 @@ function TableEditRow({
 
       <TableCell className={classes.tableCell}>
         <Tooltip title="Save">
-          <IconButton onClick={() => handleSave(state._id)}>
+          <IconButton onClick={handleSave}>
             <Save />
           </IconButton>
         </Tooltip>
@@ -83,12 +79,15 @@ function TableEditRow({
 }
 
 TableEditRow.propTypes = {
-  updateOrganization: PropTypes.func.isRequired
+  saveForm: PropTypes.func.isRequired,
+  form: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  form: state.form
+});
 
 export default connect(
   mapStateToProps,
-  { updateOrganization }
+  { saveForm }
 )(TableEditRow);
