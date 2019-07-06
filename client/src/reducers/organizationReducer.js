@@ -1,7 +1,7 @@
 import {
   POST_ORGANIZATION,
   GET_ORGANIZATIONS,
-  UPDATE_ORGANIZATION,
+  EDIT_ORGANIZATION,
   SEARCH_ORGANIZATIONS,
   SET_LOADING,
   CLEAR_CURRENT_ORGANIZATIONS
@@ -36,7 +36,7 @@ export default function(state = initialState, action) {
         },
         isLoading: false
       };
-    case UPDATE_ORGANIZATION:
+    case EDIT_ORGANIZATION:
       return {
         ...state,
         organizations: {

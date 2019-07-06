@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
-import { DataTable, ErrorSnackbar } from "layouts";
+import { DataTable, NotificationSnackbar } from "layouts";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,14 +34,14 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Organizations({ getOrganizations, setModel, organization, errors }) {
+function Organizations({ getOrganizations, setModel, organization, notify }) {
   const classes = styles();
   const { isLoading, organizations } = organization;
 
   /* eslint-disable */
   useEffect(() => {
-    setModel("ORGANIZATION")
-    getOrganizations(10, 0);
+    setModel("Organization")
+    getOrganizations(50, 0);
   }, []);
     /* eslint-enable */
 
@@ -50,7 +50,9 @@ function Organizations({ getOrganizations, setModel, organization, errors }) {
 
   return (
     <DashboardLayout title="Organization">
-      {errors ? <ErrorSnackbar message={errors} /> : null}
+      {notify ? (
+        <NotificationSnackbar message={notify.message} type={notify.type} />
+      ) : null}
 
       <div className={classes.root}>
         <Grid container spacing={4}>
@@ -65,7 +67,7 @@ function Organizations({ getOrganizations, setModel, organization, errors }) {
               </Typography>
             ) : (
               <DataTable
-                title="Organizations"
+                title=""
                 column={column}
                 data={organizations.data}
                 options={options}
@@ -82,12 +84,12 @@ Organizations.propTypes = {
   getOrganizations: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
   organization: PropTypes.object.isRequired,
-  errors: PropTypes.string.isRequired
+  notify: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   organization: state.organization,
-  errors: state.errors
+  notify: state.notify
 });
 
 export default connect(

@@ -1,12 +1,12 @@
 import {
-  POST_USER,
   GET_USERS,
   SEARCH_USERS,
   EDIT_USER,
   SET_LOADING,
-  CLEAR_CURRENT_USERS,
-  GET_ERRORS
+  CLEAR_CURRENT_USERS
 } from "./types";
+
+import { logError, logSuccess } from "./notificationActions";
 
 // External
 import axios from "axios";
@@ -36,13 +36,12 @@ export const getUsers = (
         propType: propType
       }
     })
-    .then(res =>
+    .then(res => {
       dispatch({
         type: GET_USERS,
-        payload: res.data,
-        pagination: { rowsPerPage, pageNumber }
-      })
-    )
+        payload: res.data
+      });
+    })
     .catch(err => console.log(err));
 };
 
@@ -62,24 +61,17 @@ export const searchUsers = params => dispatch => {
         payload: res.data
       })
     )
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+    .catch(err => dispatch(logError(err.response.data)));
 };
 
-export const updateUser = newData => dispatch => {
-  axios
-    .put("/api/users/" + newData.id, {
-      name: newData.name,
-      propertyCode: newData.propertyCode,
-      adminType: newData.adminType,
-      status: newData.status
-    })
-    .then(res =>
-      dispatch({
-        type: EDIT_USER,
-        payload: res.data
-      })
-    )
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+export const updateUser = newData => {
+  //Email is excluded
+  return axios.put("/api/users/" + newData._id, {
+    name: newData.name,
+    propertyCode: newData.propertyCode,
+    adminType: newData.adminType,
+    status: newData.status
+  });
 };
 
 // Organizations Loading

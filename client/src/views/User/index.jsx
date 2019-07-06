@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
-import { DataTable, ErrorSnackbar } from "layouts";
+import { DataTable, NotificationSnackbar } from "layouts";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,14 +34,15 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function User({ getUsers, setModel, user, auth, errors }) {
+function User({ getUsers, setModel, user, auth, notify }) {
   const classes = styles();
+
   const { isLoading, users } = user;
 
   /* eslint-disable */
   useEffect(() => {
-    setModel("USER")
-    getUsers(5, 0, auth.user.propertyCode);
+    setModel("User")
+    getUsers(50, 0, auth.user.propertyCode);
   }, []);
   /* eslint-enable */
 
@@ -56,12 +57,16 @@ function User({ getUsers, setModel, user, auth, errors }) {
         column: "Status",
         optionValue: ["active", "inactive"]
       }
-    ]
+    ],
+    colLink: { name: "Name", link: "/user/" },
+    passwordField: true
   };
 
   return (
     <DashboardLayout title="Users">
-      {errors ? <ErrorSnackbar message={errors} /> : null}
+      {notify ? (
+        <NotificationSnackbar message={notify.message} type={notify.type} />
+      ) : null}
 
       <div className={classes.root}>
         <Grid container spacing={4}>
@@ -76,7 +81,7 @@ function User({ getUsers, setModel, user, auth, errors }) {
               </Typography>
             ) : (
               <DataTable
-                title="Users"
+                title=""
                 column={column}
                 data={users.data}
                 options={options}
@@ -93,13 +98,13 @@ User.propTypes = {
   getUsers: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  errors: PropTypes.string.isRequired
+  notify: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
   user: state.user,
-  errors: state.errors
+  notify: state.notify
 });
 
 export default connect(

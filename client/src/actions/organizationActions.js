@@ -1,10 +1,8 @@
 import {
   GET_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
-  UPDATE_ORGANIZATION,
   SET_LOADING,
-  CLEAR_CURRENT_ORGANIZATIONS,
-  GET_ERRORS
+  CLEAR_CURRENT_ORGANIZATIONS
 } from "./types";
 
 // External
@@ -56,22 +54,12 @@ export const searchOrganizations = params => dispatch => {
     .catch(err => console.log(err));
 };
 
-export const updateOrganization = newData => dispatch => {
-  dispatch(setLoading());
-
-  axios
-    .put("/api/organizations/" + newData.id, {
-      name: newData.name,
-      propertyCode: newData.propertyCode,
-      address: newData.address
-    })
-    .then(res =>
-      dispatch({
-        type: UPDATE_ORGANIZATION,
-        payload: res.data
-      })
-    )
-    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
+export const updateOrganization = newData => {
+  return axios.put("/api/organizations/" + newData._id, {
+    name: newData.name,
+    propertyCode: newData.propertyCode,
+    address: newData.address
+  });
 };
 
 // Organizations Loading

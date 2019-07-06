@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { logInUser } from "../../../actions/authActions";
 
+// Shared components
+import { NotificationSnackbar } from "layouts";
+
 // External
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -15,12 +18,11 @@ import {
   Button,
   CircularProgress
 } from "@material-ui/core";
-import FormHelperText from "@material-ui/core/FormHelperText";
 
 /// Component styles
 import styles from "../styles";
 
-function AdminSignIn({ logInUser, auth, errors, history }) {
+function AdminSignIn({ logInUser, auth, notify, history }) {
   const classes = styles();
 
   const [values, handleChange] = useInputState({
@@ -74,9 +76,12 @@ function AdminSignIn({ logInUser, auth, errors, history }) {
                 variant="outlined"
               />
 
-              <FormHelperText className={classes.error}>
-                {errors}
-              </FormHelperText>
+              {notify ? (
+                <NotificationSnackbar
+                  message={notify.message}
+                  type={notify.type}
+                />
+              ) : null}
 
               {false ? (
                 // loading icon need to fix
@@ -111,12 +116,12 @@ function AdminSignIn({ logInUser, auth, errors, history }) {
 AdminSignIn.propTypes = {
   logInUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.string.isRequired
+  notify: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  notify: state.notify
 });
 
 export default connect(

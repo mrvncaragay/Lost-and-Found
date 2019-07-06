@@ -16,4 +16,4 @@ export { getUsers, updateUser, postUser, searchUsers } from "./userActions";
 export { setModel, setType, saveForm } from "./formActions";
 
 // Error
-export { resetError } from "./errorActions";
+export { resetError } from "./notificationActions";

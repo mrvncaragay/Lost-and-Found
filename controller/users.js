@@ -10,8 +10,7 @@ exports.getUsers = async (req, res) => {
     .select('-password')
     .sort({ name: 1 });
 
-  const count = await User.find().countDocuments();
-  res.send({ result, count });
+  res.send({ result });
 };
 
 exports.getCurrentUser = async (req, res) => {

@@ -6,18 +6,21 @@ import { resetError } from "actions";
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
 import { Snackbar, SnackbarContent } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
 
 import ErrorIcon from "@material-ui/icons/Error";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles(theme => ({
+  success: {
+    backgroundColor: green[600]
+  },
   error: {
     backgroundColor: theme.palette.error.dark
   },
   icon: {
-    fontSize: 20,
-    color: "black"
+    fontSize: 20
   },
   iconVariant: {
     opacity: 0.9,
@@ -26,11 +29,11 @@ const useStyles = makeStyles(theme => ({
   message: {
     display: "flex",
     alignItems: "center",
-    color: "black"
+    fontWeight: "bold"
   }
 }));
 
-function ErrorSnackbar({ message, resetError }) {
+function NotificationSnackbar({ message, resetError, type }) {
   const classes = useStyles();
 
   const [open, setOpen] = useState(true);
@@ -59,7 +62,7 @@ function ErrorSnackbar({ message, resetError }) {
       onExited={handleExit}
     >
       <SnackbarContent
-        className={classes.error}
+        className={classes[`${type}`]}
         aria-describedby="error-snackbar"
         message={
           <span className={classes.message}>
@@ -82,16 +85,13 @@ function ErrorSnackbar({ message, resetError }) {
   );
 }
 
-ErrorSnackbar.propTypes = {
-  resetError: PropTypes.func.isRequired,
-  errors: PropTypes.string.isRequired
+NotificationSnackbar.propTypes = {
+  resetError: PropTypes.func.isRequired
 };
 
-const myStateToProps = state => ({
-  errors: state.errors
-});
+const myStateToProps = state => ({});
 
 export default connect(
   myStateToProps,
   { resetError }
-)(ErrorSnackbar);
+)(NotificationSnackbar);

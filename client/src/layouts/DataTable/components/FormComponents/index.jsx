@@ -44,6 +44,7 @@ export const ComponentItemSelect = ({
       value={state[objKey]}
       onChange={e => handleChange(objKey, e)}
     >
+      <option></option>
       {options.optionValue.map((value, index) => (
         <Fragment key={index}>
           <option value={value}>{value}</option>

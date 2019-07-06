@@ -35,7 +35,7 @@ function TableItem({ data, column, options, setType }) {
   const classes = styles();
 
   const handleEdit = () => {
-    setType("EDIT");
+    setType("edit");
     toggleEdit(!isEditing);
   };
 

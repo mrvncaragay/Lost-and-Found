@@ -46,7 +46,7 @@ function TableToolbar({ data, setDataTable, title, toggleTableForm, setType }) {
   };
 
   const handleAdd = () => {
-    setType("POST");
+    setType("post");
     toggleTableForm(true);
   };
 

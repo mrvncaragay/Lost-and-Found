@@ -1,6 +1,6 @@
 import setAuthJwtToken from "../util/setAuthJwtToken";
-
-import { GET_ERRORS, RESET_ERRORS, SET_CURRENT_USER } from "./types";
+import { RESET_ERRORS, SET_CURRENT_USER } from "./types";
+import { logError, logSuccess } from "./notificationActions";
 
 // External
 import axios from "axios";
@@ -36,12 +36,12 @@ export const logInUser = (userData, history) => dispatch => {
       });
       // Redirect to dashboard
       history.push("/dashboard");
+
+      // log successful logged in
+      dispatch(logSuccess("Successfully logged in."));
     })
     .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
+      dispatch(logError(err.response.data));
     });
 };
 
@@ -61,4 +61,6 @@ export const logOutUser = () => dispatch => {
   setAuthJwtToken(false);
   // Set current user object to empty
   dispatch(setCurrentUser({}));
+  // log successful logged out
+  dispatch(logSuccess("Successfully logged out."));
 };

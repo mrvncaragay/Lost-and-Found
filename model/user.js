@@ -47,7 +47,8 @@ const User = mongoose.model(
     status: {
       type: String,
       enum: ['active', 'inactive'],
-      default: 'active'
+      default: 'active',
+      required: true
     },
 
     role: {

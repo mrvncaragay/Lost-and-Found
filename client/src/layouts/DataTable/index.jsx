@@ -1,4 +1,4 @@
-import React, { useState, Fragment, memo } from "react";
+import React, { useState, Fragment, memo, useEffect } from "react";
 
 // Externals
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -35,6 +35,12 @@ function DataTable({ title, column, data, options = {} }) {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
+
+  /* eslint-disable */
+  useEffect(() => {
+    setDataTable([...data])
+  }, [data]);
+  /* eslint-enable */
 
   return (
     <div className={classes.root}>

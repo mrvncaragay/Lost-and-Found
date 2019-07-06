@@ -12,7 +12,13 @@ import { userInputState } from "hooks";
 import { isSelectInput, findOptions } from "../../../../util/validation";
 
 // Material components
-import { TableCell, TableRow, IconButton, Tooltip } from "@material-ui/core";
+import {
+  TableCell,
+  TableRow,
+  IconButton,
+  Tooltip,
+  Input
+} from "@material-ui/core";
 
 // Material icon components
 import { Clear as Cancel, Done as Save } from "@material-ui/icons";
@@ -21,7 +27,9 @@ import { Clear as Cancel, Done as Save } from "@material-ui/icons";
 import styles from "../styles";
 
 function TableForm({ column, options, toggleTableForm, saveForm, form }) {
-  const initValue = {};
+  const initValue = {
+    password: ""
+  };
 
   column.forEach(col => {
     initValue[camelCase(col)] = "";
@@ -63,6 +71,20 @@ function TableForm({ column, options, toggleTableForm, saveForm, form }) {
           </TableCell>
         </Fragment>
       ))}
+
+      {options.passwordField ? (
+        <TableCell className={classes.tableCell}>
+          <Input
+            type="password"
+            value={state.password}
+            placeholder="Password"
+            onChange={e => handleChange("password", e)}
+            inputProps={{
+              "aria-label": "password"
+            }}
+          />
+        </TableCell>
+      ) : null}
 
       <TableCell className={classes.tableCell}>
         <Tooltip title="Save">

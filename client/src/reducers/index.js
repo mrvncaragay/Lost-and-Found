@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
-import errorReducer from "./errorReducer";
+import notificationReducer from "./notificationReducer";
 import organizationReducer from "./organizationReducer";
 import userReducer from "./userReducer";
 import formReducer from "./formReducer";
 
 export default combineReducers({
   auth: authReducer,
-  errors: errorReducer,
+  notify: notificationReducer,
   organization: organizationReducer,
   user: userReducer,
   form: formReducer
