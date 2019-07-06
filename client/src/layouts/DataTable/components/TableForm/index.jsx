@@ -1,36 +1,33 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { postOrganization } from "actions";
+
+// Shared component
+import { ComponentItemInput, ComponentItemSelect } from "../FormComponents";
+
+// Helper function
+import camelCase from "../../../../util/camelCaseStr";
 import { userInputState } from "hooks";
+import { isSelectInput, findOptions } from "../../../../util/validation";
 
 // Material components
-import {
-  TableCell,
-  TableRow,
-  IconButton,
-  Tooltip,
-  Input
-} from "@material-ui/core";
+import { TableCell, TableRow, IconButton, Tooltip } from "@material-ui/core";
 
 // Material icon components
 import { Clear as Cancel, Done as Save } from "@material-ui/icons";
 
 // Component stlyes
-import styles from "./styles";
+import styles from "../styles";
 
-function TableForm({ postOrganization, toggleTableForm }) {
-  const initValue = {
-    name: "",
-    propertyCode: "",
-    address: ""
-  };
+function TableForm({ column, options, toggleTableForm }) {
+  const initValue = column.map(title => camelCase(title));
+
   const [state, handleChange, reset] = userInputState(initValue);
 
   const classes = styles();
 
   const handleSave = () => {
-    postOrganization({ ...state });
     reset();
     toggleTableForm(false);
   };
@@ -41,38 +38,28 @@ function TableForm({ postOrganization, toggleTableForm }) {
 
   return (
     <TableRow hover>
-      <TableCell className={classes.tableCell}>
-        <Input
-          value={state.name}
-          placeholder="Name"
-          onChange={e => handleChange("name", e)}
-          inputProps={{
-            "aria-label": "Name"
-          }}
-        />
-      </TableCell>
+      {column.map((title, index) => (
+        <Fragment key={index}>
+          <TableCell className={classes.tableCell}>
+            {isSelectInput(title, options) ? (
+              <ComponentItemSelect
+                state={state}
+                objKey={camelCase(title)}
+                options={findOptions(title, options)}
+                handleChange={handleChange}
+              />
+            ) : (
+              <ComponentItemInput
+                state={state}
+                objKey={camelCase(title)}
+                handleChange={handleChange}
+              />
+            )}
+          </TableCell>
+        </Fragment>
+      ))}
 
       <TableCell className={classes.tableCell}>
-        <Input
-          value={state.propertyCode}
-          placeholder="Property Code"
-          onChange={e => handleChange("propertyCode", e)}
-          inputProps={{
-            "aria-label": "Name"
-          }}
-        />
-      </TableCell>
-      <TableCell className={classes.tableCell}>
-        <Input
-          value={state.address}
-          placeholder="Address"
-          onChange={e => handleChange("address", e)}
-          inputProps={{
-            "aria-label": "Name"
-          }}
-        />
-      </TableCell>
-      <TableCell>
         <Tooltip title="Save">
           <IconButton onClick={() => handleSave(state._id)}>
             <Save />

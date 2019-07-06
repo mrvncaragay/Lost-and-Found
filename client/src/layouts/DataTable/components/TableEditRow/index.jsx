@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateOrganization } from "actions";
@@ -9,22 +9,16 @@ import camelCase from "../../../../util/camelCaseStr";
 import { isSelectInput, findOptions } from "../../../../util/validation";
 
 // Shared component
-import { ComponentItemInput, ComponentItemSelect } from "./ComponentItem";
+import { ComponentItemInput, ComponentItemSelect } from "../FormComponents";
 
 // Material components
-import {
-  TableCell,
-  TableRow,
-  IconButton,
-  Tooltip,
-  Input
-} from "@material-ui/core";
+import { TableCell, TableRow, IconButton, Tooltip } from "@material-ui/core";
 
 // Material icon components
 import { Clear as Cancel, Done as Save } from "@material-ui/icons";
 
 // Component stlyes
-import styles from "./styles";
+import styles from "../styles";
 
 function TableEditRow({
   data,

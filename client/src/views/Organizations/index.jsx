@@ -38,9 +38,11 @@ function Organizations({ getOrganizations, organization }) {
   const classes = styles();
   const { isLoading, organizations } = organization;
 
+  /* eslint-disable */
   useEffect(() => {
     getOrganizations(10, 0);
-  }, [getOrganizations]);
+  }, []);
+    /* eslint-enable */
 
   const column = ["Name", "Property Code", "Address"];
   const options = { colLink: { name: "Name", link: "/organization/" } };

@@ -7,7 +7,7 @@ import { isColumnLink } from "../../../../util/validation";
 import urlSanitizer from "../../../../util/urlSanitizer";
 
 // Shared Component
-import ComponentItem from "./ComponentItem";
+import { TableItemCell } from "../FormComponents";
 import TableEditRow from "../TableEditRow";
 
 // Material components
@@ -61,7 +61,7 @@ function TableItem({ data, column, options }) {
               </Link>
             </TableCell>
           ) : (
-            <ComponentItem data={data[camelCase(title)]} />
+            <TableItemCell data={data[camelCase(title)]} />
           )}
         </Fragment>
       ))}

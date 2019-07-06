@@ -59,7 +59,13 @@ function DataTable({ title, column, data, options = {} }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tableForm ? <TableForm toggleTableForm={setTableForm} /> : null}
+              {tableForm ? (
+                <TableForm
+                  toggleTableForm={setTableForm}
+                  column={column}
+                  options={options}
+                />
+              ) : null}
               {dataTable
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((item, index) => (

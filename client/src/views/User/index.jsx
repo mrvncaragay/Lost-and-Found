@@ -38,9 +38,11 @@ function User({ getUsers, user, auth }) {
   const classes = styles();
   const { isLoading, users } = user;
 
+  /* eslint-disable */
   useEffect(() => {
     getUsers(5, 0, auth.user.propertyCode);
-  }, [auth.user.propertyCode, getUsers]);
+  }, []);
+  /* eslint-enable */
 
   const column = ["Name", "Email", "Property Code", "Admin Type", "Status"];
   const options = {
