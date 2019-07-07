@@ -9,14 +9,15 @@ import { logError } from "./notificationActions";
 // External
 import axios from "axios";
 
-export const postUser = orgData => {
+export const postUser = uData => {
+  const { name, email, propertyCode, password, adminType, status } = uData;
   return axios.post("/api/users", {
-    name: orgData.name,
-    email: orgData.email,
-    propertyCode: orgData.propertyCode,
-    password: orgData.password,
-    adminType: orgData.adminType,
-    status: orgData.status
+    name,
+    email,
+    propertyCode,
+    password,
+    adminType,
+    status
   });
 };
 

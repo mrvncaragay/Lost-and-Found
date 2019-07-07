@@ -1,8 +1,19 @@
-import { GET_PROPERTIES, SEARCH_PROPERTIES, SET_LOADING_PROP } from "./types";
+import { GET_PROPERTIES, SET_LOADING_PROP } from "./types";
 import { logError } from "./notificationActions";
 
 // External
 import axios from "axios";
+
+export const postProperty = pData => {
+  const { name, propertyCode, address, phone, organization } = pData;
+  return axios.post("/api/properties", {
+    name,
+    propertyCode,
+    address,
+    phone,
+    organization
+  });
+};
 
 export const getProperties = (rowsPerPage, propType = null) => dispatch => {
   dispatch(setLoading());
@@ -20,6 +31,17 @@ export const getProperties = (rowsPerPage, propType = null) => dispatch => {
       });
     })
     .catch(err => dispatch(logError(err.response.data)));
+};
+
+export const updateProperty = newData => {
+  const { name, propertyCode, address, phone, organization } = newData;
+  return axios.put("/api/properties/" + newData._id, {
+    name,
+    propertyCode,
+    address,
+    phone,
+    organization
+  });
 };
 
 // Properties Loading

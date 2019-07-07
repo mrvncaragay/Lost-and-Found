@@ -41,7 +41,9 @@ function Organizations({ getOrganizations, setModel, organization, notify }) {
     /* eslint-enable */
 
   const column = ["Name", "Property Code", "Address"];
-  const options = { colLink: { name: "Name", link: "/organization/" } };
+  const options = {
+    colLink: { name: "Name", link: "/organization/" }
+  };
 
   return (
     <DashboardLayout title="Organization">

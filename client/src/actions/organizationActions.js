@@ -2,6 +2,7 @@ import {
   GET_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
   CLEAR_CURRENT_ORGANIZATIONS,
+  SET_CURRENT_ORGANIZATION,
   SET_LOADING_ORG
 } from "./types";
 
@@ -58,6 +59,13 @@ export const updateOrganization = newData => {
     propertyCode: newData.propertyCode,
     address: newData.address
   });
+};
+
+export const setCurrentOrganization = org => {
+  return {
+    type: SET_CURRENT_ORGANIZATION,
+    payload: org
+  };
 };
 
 // Organization Loading

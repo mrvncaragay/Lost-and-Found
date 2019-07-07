@@ -5,6 +5,7 @@ export { logInUser, setCurrentUser, logOutUser } from "./authActions";
 export {
   postOrganization,
   getOrganizations,
+  setCurrentOrganization,
   searchOrganizations,
   updateOrganization
 } from "./organizationActions";

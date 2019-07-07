@@ -46,14 +46,14 @@ function validateOrganization(req) {
 
 function validateProperty(req) {
   const schema = {
-    propertyCode: Joi.string()
-      .required()
-      .min(3)
-      .max(10),
     name: Joi.string()
       .min(10)
       .max(50)
       .required(),
+    propertyCode: Joi.string()
+      .required()
+      .min(3)
+      .max(10),
     address: Joi.string()
       .min(10)
       .max(100)

@@ -4,7 +4,7 @@ import {
   EDIT_ORGANIZATION,
   SEARCH_ORGANIZATIONS,
   SET_LOADING_ORG,
-  CLEAR_CURRENT_ORGANIZATIONS
+  SET_CURRENT_ORGANIZATION
 } from "../actions/types";
 
 const initialState = {
@@ -22,6 +22,7 @@ export default function(state = initialState, action) {
           data: [action.payload, ...state.organizations.data]
         }
       };
+
     case GET_ORGANIZATIONS:
       return {
         ...state,
@@ -30,6 +31,7 @@ export default function(state = initialState, action) {
         },
         isLoading: false
       };
+
     case EDIT_ORGANIZATION:
       return {
         ...state,
@@ -40,6 +42,7 @@ export default function(state = initialState, action) {
         },
         isLoading: false
       };
+
     case SEARCH_ORGANIZATIONS:
       return {
         ...state,
@@ -48,6 +51,13 @@ export default function(state = initialState, action) {
         },
         isLoading: false
       };
+
+    case SET_CURRENT_ORGANIZATION:
+      return {
+        ...state,
+        organization: action.payload
+      };
+
     case SET_LOADING_ORG:
       return {
         ...state,

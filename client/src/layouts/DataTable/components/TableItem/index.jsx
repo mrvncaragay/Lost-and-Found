@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { setType } from "actions";
+import { setType, setCurrentOrganization } from "actions";
 import { Link } from "react-router-dom";
 
 // External
@@ -29,7 +29,7 @@ import { Edit, DomainDisabledOutlined as DomainIcon } from "@material-ui/icons";
 
 import styles from "./styles";
 
-function TableItem({ data, column, options, setType }) {
+function TableItem({ data, column, options, setType, setCurrentOrganization }) {
   const [isEditing, toggleEdit] = useState(false);
 
   const classes = styles();
@@ -42,6 +42,10 @@ function TableItem({ data, column, options, setType }) {
   const handleDisabled = () => {};
 
   //console.log("TODO RE_RENDER", data.name);
+
+  const handleLinkClick = () => {
+    setCurrentOrganization(data);
+  };
 
   return isEditing ? (
     <TableEditRow
@@ -61,7 +65,11 @@ function TableItem({ data, column, options, setType }) {
                   data[camelCase(title)]
                 )}`}
               >
-                <Typography className={classes.nameText} variant="body1">
+                <Typography
+                  className={classes.nameText}
+                  variant="body1"
+                  onClick={handleLinkClick}
+                >
                   {data[camelCase(title)]}
                 </Typography>
               </Link>
@@ -92,12 +100,13 @@ function TableItem({ data, column, options, setType }) {
 }
 
 TableItem.propTypes = {
-  setType: PropTypes.func.isRequired
+  setType: PropTypes.func.isRequired,
+  setCurrentOrganization: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({});
 
 export default connect(
   mapStateToProps,
-  { setType }
+  { setType, setCurrentOrganization }
 )(TableItem);

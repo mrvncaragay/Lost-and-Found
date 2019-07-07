@@ -15,7 +15,7 @@ import {
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CircularProgress, Typography } from "@material-ui/core";
+import { Grid, CircularProgress } from "@material-ui/core";
 
 const styles = makeStyles(theme => ({
   root: {
@@ -40,19 +40,20 @@ const styles = makeStyles(theme => ({
 function Organization({
   getProperties,
   name,
-  auth,
-  property,
+  propertyState,
   notify,
-  setModel
+  setModel,
+  organization
 }) {
   const classes = styles();
 
-  const { isLoading, properties } = property;
+  const { isLoading, properties } = propertyState;
 
   /* eslint-disable */
   useEffect(() => {
     setModel("Property")
-    getProperties(50, auth.user.propertyCode);
+    
+    getProperties(50, organization.propertyCode);
   }, []);
   /* eslint-enable */
 
@@ -66,13 +67,13 @@ function Organization({
 
       <div className={classes.root}>
         <Grid container spacing={4}>
-          <Grid item lg={6} xl={6} sm={12} xs={12}>
+          {/* <Grid item lg={6} xl={6} sm={12} xs={12}>
             <h1>One</h1>
           </Grid>
 
           <Grid item lg={6} xl={6} sm={12} xs={12}>
             <h1>Two</h1>
-          </Grid>
+          </Grid> */}
 
           <Grid item lg={12} xl={12} sm={12} xs={12}>
             {isLoading ? (
@@ -92,14 +93,15 @@ function Organization({
 Organization.propTypes = {
   getProperties: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
-  property: PropTypes.object.isRequired,
-  notify: PropTypes.object
+  propertyState: PropTypes.object.isRequired,
+  notify: PropTypes.object,
+  organization: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  property: state.property,
+  propertyState: state.property,
   notify: state.notify,
-  auth: state.auth
+  organization: state.organization.organization
 });
 
 export default connect(
