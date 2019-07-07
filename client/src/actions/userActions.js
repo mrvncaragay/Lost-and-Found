@@ -1,9 +1,4 @@
-import {
-  GET_USERS,
-  SEARCH_USERS,
-  CLEAR_CURRENT_USERS,
-  SET_LOADING_USER
-} from "./types";
+import { GET_USERS, SEARCH_USERS, SET_LOADING_USER } from "./types";
 import { logError } from "./notificationActions";
 
 // External

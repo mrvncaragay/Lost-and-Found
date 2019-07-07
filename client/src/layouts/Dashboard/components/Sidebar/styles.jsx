@@ -20,7 +20,7 @@ export default makeStyles(theme => ({
     cursor: "pointer"
   },
   logoDivider: {
-    marginTop: "1px;",
+    marginTop: 0,
     marginBottom: theme.spacing(2)
   },
   image: {

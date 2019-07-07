@@ -1,5 +1,6 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { isOSAdmin, isPropAdmin } from "util/validation";
 
 // Externals
 import { connect } from "react-redux";
@@ -20,7 +21,10 @@ import {
 import {
   DashboardOutlined as DashboardIcon,
   PeopleOutlined as PeopleIcon,
-  AccountBalanceOutlined as BuildingIcon
+  AccountBalanceOutlined as BuildingIcon,
+  LocationCityOutlined as PropertyIcon,
+  BallotOutlined as LostIcon,
+  NoteAddOutlined as InqueriesIcon
 } from "@material-ui/icons";
 
 // Component styles
@@ -67,21 +71,40 @@ function Sidebar({ user }) {
       <Divider className={classes.logoDivider} />
 
       <List component="div" disablePadding className={classes.mainList}>
-        <ListItem
-          activeClassName={classes.activeListItem}
-          className={classes.listItem}
-          component={myNavLink}
-          to="/dashboard"
-        >
-          <ListItemIcon className={classes.listItemIcon}>
-            <DashboardIcon />
-          </ListItemIcon>
+        {isPropAdmin(user.adminType) ? (
+          <Fragment>
+            <ListItem
+              activeClassName={classes.activeListItem}
+              className={classes.listItem}
+              component={myNavLink}
+              to="/dashboard"
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <DashboardIcon />
+              </ListItemIcon>
 
-          <ListItemText
-            classes={{ primary: classes.listItemText }}
-            primary="Dashboard"
-          />
-        </ListItem>
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Dashboard"
+              />
+            </ListItem>
+            <ListItem
+              activeClassName={classes.activeListItem}
+              className={classes.listItem}
+              component={myNavLink}
+              to="/Inqueries"
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <InqueriesIcon />
+              </ListItemIcon>
+
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Inquire"
+              />
+            </ListItem>
+          </Fragment>
+        ) : null}
 
         <ListItem
           activeClassName={classes.activeListItem}
@@ -99,21 +122,40 @@ function Sidebar({ user }) {
           />
         </ListItem>
 
-        <ListItem
-          activeClassName={classes.activeListItem}
-          className={classes.listItem}
-          component={myNavLink}
-          to="/organization"
-        >
-          <ListItemIcon className={classes.listItemIcon}>
-            <BuildingIcon />
-          </ListItemIcon>
+        {isOSAdmin(user.adminType) ? (
+          <Fragment>
+            <ListItem
+              activeClassName={classes.activeListItem}
+              className={classes.listItem}
+              component={myNavLink}
+              to="/organization"
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <BuildingIcon />
+              </ListItemIcon>
 
-          <ListItemText
-            classes={{ primary: classes.listItemText }}
-            primary="Organization"
-          />
-        </ListItem>
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Organization"
+              />
+            </ListItem>
+            <ListItem
+              activeClassName={classes.activeListItem}
+              className={classes.listItem}
+              component={myNavLink}
+              to="/property"
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <PropertyIcon />
+              </ListItemIcon>
+
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Property"
+              />
+            </ListItem>
+          </Fragment>
+        ) : null}
       </List>
     </nav>
   );

@@ -53,14 +53,14 @@ function Organization({
   useEffect(() => {
     setModel("Property")
 
-    getProperties(50, organization.propertyCode);
+    getProperties(50);
   }, []);
   /* eslint-enable */
 
   const column = ["Name", "Property Code", "Address", "Phone"];
 
   return (
-    <DashboardLayout title={name.replace(/-/gi, " ")}>
+    <DashboardLayout title="Property">
       {notify ? (
         <NotificationSnackbar message={notify.message} type={notify.type} />
       ) : null}

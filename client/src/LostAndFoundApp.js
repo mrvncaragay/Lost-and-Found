@@ -8,6 +8,7 @@ import Dashboard from "./views/Dashboard";
 import User from "./views/User";
 import Organizations from "./views/Organizations";
 import Organization from "./views/Organization";
+import Property from "./views/Property";
 import SignIn from "./views/SignIn/User";
 import AdminSignIn from "./views/SignIn/Admin";
 import AdminSignUp from "./views/SignUp/Admin";
@@ -43,6 +44,7 @@ function LostAndFound() {
       <PrivateRoute exact path="/dashboard" component={Dashboard} />
       <PrivateRoute exact path="/users" component={User} />
       <PrivateRoute exact path="/organization" component={Organizations} />
+      <PrivateRoute exact path="/property" component={Property} />
       <PrivateRoute
         exact
         path="/organization/:name"

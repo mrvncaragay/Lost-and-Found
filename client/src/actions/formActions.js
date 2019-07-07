@@ -30,6 +30,7 @@ export const setType = model => dispatch => {
 
 export const saveForm = (data, form) => (dispatch, getState) => {
   const type = `${form.type}${form.model}`;
+  const { organization } = getState().organization;
 
   switch (type) {
     case "postUser":
@@ -71,7 +72,6 @@ export const saveForm = (data, form) => (dispatch, getState) => {
       break;
 
     case "postProperty":
-      const { organization } = getState().organization;
       const addIdToData = { ...data, organization: organization._id };
 
       postProperty(addIdToData)
@@ -85,8 +85,7 @@ export const saveForm = (data, form) => (dispatch, getState) => {
       break;
 
     case "editProperty":
-      const { organization: org } = getState().organization;
-      const updateData = { ...data, organization: org._id };
+      const updateData = { ...data, organization: organization._id };
 
       updateProperty(updateData)
         .then(res => {
