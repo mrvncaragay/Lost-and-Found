@@ -3,7 +3,7 @@ import {
   GET_USERS,
   SEARCH_USERS,
   EDIT_USER,
-  SET_LOADING,
+  SET_LOADING_USER,
   CLEAR_CURRENT_USERS
 } from "../actions/types";
 
@@ -48,7 +48,7 @@ export default function(state = initialState, action) {
         },
         isLoading: false
       };
-    case SET_LOADING:
+    case SET_LOADING_USER:
       return {
         ...state,
         isLoading: true

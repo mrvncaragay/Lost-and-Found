@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { getProperties, setModel } from "actions";
+import { isEmpty } from "../../util/validation";
 
 // External
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // Shared layouts
-import { Dashboard as DashboardLayout, DataTable } from "layouts";
+import {
+  Dashboard as DashboardLayout,
+  DataTable,
+  NotificationSnackbar
+} from "layouts";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid, CircularProgress, Typography } from "@material-ui/core";
 
 const styles = makeStyles(theme => ({
   root: {
@@ -31,13 +37,33 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Organization({ name }) {
+function Organization({
+  getProperties,
+  name,
+  auth,
+  property,
+  notify,
+  setModel
+}) {
   const classes = styles();
 
+  const { isLoading, properties } = property;
+
+  /* eslint-disable */
+  useEffect(() => {
+    setModel("Property")
+    getProperties(50, auth.user.propertyCode);
+  }, []);
+  /* eslint-enable */
+
   const column = ["Name", "Property Code", "Address", "Phone"];
-  const data = [];
+
   return (
     <DashboardLayout title={name.replace(/-/gi, " ")}>
+      {notify ? (
+        <NotificationSnackbar message={notify.message} type={notify.type} />
+      ) : null}
+
       <div className={classes.root}>
         <Grid container spacing={4}>
           <Grid item lg={6} xl={6} sm={12} xs={12}>
@@ -49,7 +75,13 @@ function Organization({ name }) {
           </Grid>
 
           <Grid item lg={12} xl={12} sm={12} xs={12}>
-            <DataTable column={column} data={data} />
+            {isLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : isEmpty(properties) ? null : (
+              <DataTable title="" column={column} data={properties.data} />
+            )}
           </Grid>
         </Grid>
       </div>
@@ -57,11 +89,20 @@ function Organization({ name }) {
   );
 }
 
-Organization.propTypes = {};
+Organization.propTypes = {
+  getProperties: PropTypes.func.isRequired,
+  setModel: PropTypes.func.isRequired,
+  property: PropTypes.object.isRequired,
+  notify: PropTypes.object
+};
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  property: state.property,
+  notify: state.notify,
+  auth: state.auth
+});
 
 export default connect(
   mapStateToProps,
-  {}
+  { getProperties, setModel }
 )(Organization);

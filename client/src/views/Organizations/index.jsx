@@ -12,7 +12,7 @@ import { DataTable, NotificationSnackbar } from "layouts";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CircularProgress, Typography } from "@material-ui/core";
+import { Grid, CircularProgress } from "@material-ui/core";
 
 const styles = makeStyles(theme => ({
   root: {
@@ -26,11 +26,6 @@ const styles = makeStyles(theme => ({
     paddingBottom: "24px",
     display: "flex",
     justifyContent: "center"
-  },
-  noData: {
-    display: "flex",
-    justifyContent: "center",
-    color: theme.palette.common.muted
   }
 }));
 
@@ -61,11 +56,7 @@ function Organizations({ getOrganizations, setModel, organization, notify }) {
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
-            ) : isEmpty(organizations) ? (
-              <Typography className={classes.noData} variant="h5">
-                There are no organizations
-              </Typography>
-            ) : (
+            ) : isEmpty(organizations) ? null : (
               <DataTable
                 title=""
                 column={column}

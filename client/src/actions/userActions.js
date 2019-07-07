@@ -1,12 +1,10 @@
 import {
   GET_USERS,
   SEARCH_USERS,
-  EDIT_USER,
-  SET_LOADING,
-  CLEAR_CURRENT_USERS
+  CLEAR_CURRENT_USERS,
+  SET_LOADING_USER
 } from "./types";
-
-import { logError, logSuccess } from "./notificationActions";
+import { logError } from "./notificationActions";
 
 // External
 import axios from "axios";
@@ -74,16 +72,9 @@ export const updateUser = newData => {
   });
 };
 
-// Organizations Loading
+// Users Loading
 export const setLoading = () => {
   return {
-    type: SET_LOADING
-  };
-};
-
-// Clear organizations
-export const clearOrganizations = () => {
-  return {
-    type: CLEAR_CURRENT_USERS
+    type: SET_LOADING_USER
   };
 };

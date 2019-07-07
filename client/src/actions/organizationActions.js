@@ -1,8 +1,8 @@
 import {
   GET_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
-  SET_LOADING,
-  CLEAR_CURRENT_ORGANIZATIONS
+  CLEAR_CURRENT_ORGANIZATIONS,
+  SET_LOADING_ORG
 } from "./types";
 
 // External
@@ -16,22 +16,20 @@ export const postOrganization = orgData => {
   });
 };
 
-export const getOrganizations = (rowsPerPage, pageNumber) => dispatch => {
+export const getOrganizations = rowsPerPage => dispatch => {
   dispatch(setLoading());
   axios
     .post("/api/organizations/dashboard", null, {
       params: {
-        rowsPerPage: rowsPerPage,
-        pageNumber: pageNumber
+        rowsPerPage: rowsPerPage
       }
     })
-    .then(res =>
+    .then(res => {
       dispatch({
         type: GET_ORGANIZATIONS,
-        payload: res.data,
-        pagination: { rowsPerPage, pageNumber }
-      })
-    )
+        payload: res.data
+      });
+    })
     .catch(err => console.log(err));
 };
 
@@ -62,10 +60,10 @@ export const updateOrganization = newData => {
   });
 };
 
-// Organizations Loading
+// Organization Loading
 export const setLoading = () => {
   return {
-    type: SET_LOADING
+    type: SET_LOADING_ORG
   };
 };
 

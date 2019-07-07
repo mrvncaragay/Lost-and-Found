@@ -3,7 +3,7 @@ import {
   GET_ORGANIZATIONS,
   EDIT_ORGANIZATION,
   SEARCH_ORGANIZATIONS,
-  SET_LOADING,
+  SET_LOADING_ORG,
   CLEAR_CURRENT_ORGANIZATIONS
 } from "../actions/types";
 
@@ -19,20 +19,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         organizations: {
-          data: [action.payload, ...state.organizations.data],
-          count: state.organizations.count + 1,
-          perRow: state.organizations.perRow,
-          pageNum: state.organizations.pageNum
+          data: [action.payload, ...state.organizations.data]
         }
       };
     case GET_ORGANIZATIONS:
       return {
         ...state,
         organizations: {
-          data: action.payload.result,
-          count: action.payload.count,
-          perRow: action.pagination.rowsPerPage,
-          pageNum: action.pagination.pageNumber
+          data: action.payload.result
         },
         isLoading: false
       };
@@ -42,10 +36,7 @@ export default function(state = initialState, action) {
         organizations: {
           data: state.organizations.data.map(org =>
             org._id === action.payload._id ? action.payload : org
-          ),
-          count: state.organizations.count,
-          perRow: state.organizations.perRow,
-          pageNum: state.organizations.pageNum
+          )
         },
         isLoading: false
       };
@@ -53,26 +44,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         organizations: {
-          data: action.payload,
-          count: action.payload.length,
-          perRow: state.organizations.perRow,
-          pageNum: 0
+          data: action.payload
         },
         isLoading: false
       };
-    case SET_LOADING:
+    case SET_LOADING_ORG:
       return {
         ...state,
         isLoading: true
       };
-    case CLEAR_CURRENT_ORGANIZATIONS:
-      return {
-        ...state,
-        organization: null,
-        organizations: null,
-        count: null,
-        isLoading: false
-      };
+
     default:
       return state;
   }

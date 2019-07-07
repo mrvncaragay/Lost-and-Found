@@ -80,11 +80,11 @@ function TableItem({ data, column, options, setType }) {
             </IconButton>
           </Tooltip>
 
-          {/* <Tooltip title="Disabled">
+          <Tooltip title="Disabled">
             <IconButton onClick={handleDisabled}>
               <DomainIcon />
             </IconButton>
-          </Tooltip> */}
+          </Tooltip>
         </div>
       </TableCell>
     </TableRow>

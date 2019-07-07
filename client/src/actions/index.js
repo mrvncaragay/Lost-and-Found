@@ -1,3 +1,6 @@
+// Auth
+export { logInUser, setCurrentUser, logOutUser } from "./authActions";
+
 // Organization
 export {
   postOrganization,
@@ -6,8 +9,8 @@ export {
   updateOrganization
 } from "./organizationActions";
 
-// Auth
-export { logInUser, setCurrentUser, logOutUser } from "./authActions";
+// Properties
+export { getProperties } from "./propertyActions";
 
 // User
 export { getUsers, updateUser, postUser, searchUsers } from "./userActions";

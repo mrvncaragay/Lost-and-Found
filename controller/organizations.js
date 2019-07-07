@@ -1,15 +1,13 @@
 const Organization = require('../model/organization');
 
 exports.index = async (req, res) => {
-  const { rowsPerPage, pageNumber } = req.query;
+  const { rowsPerPage } = req.query;
 
   const result = await Organization.find()
-    .skip(parseInt(pageNumber * rowsPerPage, 10))
     .limit(parseInt(rowsPerPage, 10))
     .sort({ name: 1 });
 
-  const count = await Organization.find().countDocuments();
-  res.send({ result, count });
+  res.send({ result });
 };
 
 exports.searchOrganizations = async (req, res) => {

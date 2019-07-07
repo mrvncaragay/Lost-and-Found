@@ -1,10 +1,16 @@
 const Property = require('../model/property');
 const Organization = require('../model/organization');
 
-exports.index = async (req, res) => {
-  const result = await Property.find().sort('name');
+exports.getProperties = async (req, res) => {
+  const { rowsPerPage, pageNumber, propType } = req.query;
 
-  res.send(result);
+  const result = await Property.find()
+    .skip(parseInt(pageNumber * rowsPerPage, 10))
+    .limit(parseInt(rowsPerPage, 10))
+    .select('-organization')
+    .sort({ name: 1 });
+
+  res.send({ result });
 };
 
 exports.getProperty = async (req, res) => {

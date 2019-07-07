@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { setCurrentUser } from "./actions/authActions";
+import { setCurrentUser, logOutUser } from "actions";
 import setAuthJwtToken from "./util/setAuthJwtToken";
 
 import Homepage from "./views/Homepage";
@@ -31,13 +31,8 @@ if (localStorage["x-auth-token"]) {
     // Set current user
     store.dispatch(setCurrentUser(decoded));
   } catch (error) {
-    console.log(error);
+    store.dispatch(logOutUser());
   }
-
-  // const currentTime = Date.now() / 1000;
-  // if (decoded.exp < currentTime) {
-  //   store.dispatch(logoutUser())
-  // }
 }
 
 function LostAndFound() {
