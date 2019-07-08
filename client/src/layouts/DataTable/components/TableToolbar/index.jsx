@@ -16,7 +16,14 @@ import { Search, AddBox, Clear } from "@material-ui/icons";
 // Component styles
 import styles from "./styles";
 
-function TableToolbar({ data, setDataTable, title, toggleTableForm, setType }) {
+function TableToolbar({
+  data,
+  setDataTable,
+  title,
+  toggleTableForm,
+  setType,
+  addButton = true
+}) {
   const [disableSearch, setDisableSearch] = useState(true);
   const [searchParams, setsearchParams] = useState("");
   const classes = styles();
@@ -76,15 +83,17 @@ function TableToolbar({ data, setDataTable, title, toggleTableForm, setType }) {
           <Clear />
         </IconButton>
       </div>
-      <Tooltip title={`Add ${title}`}>
-        <IconButton
-          onClick={handleAdd}
-          color="primary"
-          aria-label={`Add ${title}`}
-        >
-          <AddBox />
-        </IconButton>
-      </Tooltip>
+      {addButton ? (
+        <Tooltip title={`Add ${title}`}>
+          <IconButton
+            onClick={handleAdd}
+            color="primary"
+            aria-label={`Add ${title}`}
+          >
+            <AddBox />
+          </IconButton>
+        </Tooltip>
+      ) : null}
     </Toolbar>
   );
 }

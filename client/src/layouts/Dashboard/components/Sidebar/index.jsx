@@ -1,6 +1,6 @@
 import React, { forwardRef, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { isOSAdmin, isPropAdmin } from "util/validation";
+import { isSwAdmin, isPropAdmin, isOrgAdmin } from "util/validation";
 
 // Externals
 import { connect } from "react-redux";
@@ -22,8 +22,6 @@ import {
   DashboardOutlined as DashboardIcon,
   PeopleOutlined as PeopleIcon,
   AccountBalanceOutlined as BuildingIcon,
-  LocationCityOutlined as PropertyIcon,
-  BallotOutlined as LostIcon,
   NoteAddOutlined as InqueriesIcon
 } from "@material-ui/icons";
 
@@ -61,7 +59,7 @@ function Sidebar({ user }) {
           {user.name}
         </Typography>
         <Typography className={classes.bioText} variant="caption">
-          {user.propertyCode}
+          {user.organizationCode}
         </Typography>
         <Typography className={classes.bioText} variant="caption">
           {user.adminType}
@@ -71,36 +69,57 @@ function Sidebar({ user }) {
       <Divider className={classes.logoDivider} />
 
       <List component="div" disablePadding className={classes.mainList}>
+        {isPropAdmin(user.adminType) || isOrgAdmin(user.adminType) ? (
+          <ListItem
+            activeClassName={classes.activeListItem}
+            className={classes.listItem}
+            component={myNavLink}
+            to="/dashboard"
+          >
+            <ListItemIcon className={classes.listItemIcon}>
+              <DashboardIcon />
+            </ListItemIcon>
+
+            <ListItemText
+              classes={{ primary: classes.listItemText }}
+              primary="Dashboard"
+            />
+          </ListItem>
+        ) : null}
+
         {isPropAdmin(user.adminType) ? (
+          <ListItem
+            activeClassName={classes.activeListItem}
+            className={classes.listItem}
+            component={myNavLink}
+            to="/Inqueries"
+          >
+            <ListItemIcon className={classes.listItemIcon}>
+              <InqueriesIcon />
+            </ListItemIcon>
+
+            <ListItemText
+              classes={{ primary: classes.listItemText }}
+              primary="Inquire"
+            />
+          </ListItem>
+        ) : null}
+
+        {isSwAdmin(user.adminType) ? (
           <Fragment>
             <ListItem
               activeClassName={classes.activeListItem}
               className={classes.listItem}
               component={myNavLink}
-              to="/dashboard"
+              to="/organization"
             >
               <ListItemIcon className={classes.listItemIcon}>
-                <DashboardIcon />
+                <BuildingIcon />
               </ListItemIcon>
 
               <ListItemText
                 classes={{ primary: classes.listItemText }}
-                primary="Dashboard"
-              />
-            </ListItem>
-            <ListItem
-              activeClassName={classes.activeListItem}
-              className={classes.listItem}
-              component={myNavLink}
-              to="/Inqueries"
-            >
-              <ListItemIcon className={classes.listItemIcon}>
-                <InqueriesIcon />
-              </ListItemIcon>
-
-              <ListItemText
-                classes={{ primary: classes.listItemText }}
-                primary="Inquire"
+                primary="Organization"
               />
             </ListItem>
           </Fragment>
@@ -121,41 +140,6 @@ function Sidebar({ user }) {
             primary="Users"
           />
         </ListItem>
-
-        {isOSAdmin(user.adminType) ? (
-          <Fragment>
-            <ListItem
-              activeClassName={classes.activeListItem}
-              className={classes.listItem}
-              component={myNavLink}
-              to="/organization"
-            >
-              <ListItemIcon className={classes.listItemIcon}>
-                <BuildingIcon />
-              </ListItemIcon>
-
-              <ListItemText
-                classes={{ primary: classes.listItemText }}
-                primary="Organization"
-              />
-            </ListItem>
-            <ListItem
-              activeClassName={classes.activeListItem}
-              className={classes.listItem}
-              component={myNavLink}
-              to="/property"
-            >
-              <ListItemIcon className={classes.listItemIcon}>
-                <PropertyIcon />
-              </ListItemIcon>
-
-              <ListItemText
-                classes={{ primary: classes.listItemText }}
-                primary="Property"
-              />
-            </ListItem>
-          </Fragment>
-        ) : null}
       </List>
     </nav>
   );

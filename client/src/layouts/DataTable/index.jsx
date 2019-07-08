@@ -51,6 +51,7 @@ function DataTable({ title, column, data, options = {} }) {
             toggleTableForm={setTableForm}
             data={data}
             setDataTable={setDataTable}
+            addButton={options.addButton}
           />
 
           <Table size="small">
@@ -61,7 +62,9 @@ function DataTable({ title, column, data, options = {} }) {
                     <TableCell align="left">{title}</TableCell>
                   </Fragment>
                 ))}
-                <TableCell className={classes.actions} align="left"></TableCell>
+                <TableCell className={classes.actions} align="left">
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

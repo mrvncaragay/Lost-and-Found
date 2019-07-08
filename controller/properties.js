@@ -31,7 +31,7 @@ exports.postProperty = async (req, res) => {
 
     organization: {
       _id: org._id,
-      propertyCode: org.propertyCode,
+      organizationCode: org.organizationCode,
       name: org.name,
       address: org.address
     }

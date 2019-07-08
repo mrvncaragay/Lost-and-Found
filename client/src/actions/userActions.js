@@ -5,29 +5,26 @@ import { logError } from "./notificationActions";
 import axios from "axios";
 
 export const postUser = uData => {
-  const { name, email, propertyCode, password, adminType, status } = uData;
+  const { name, organization, email, password, adminType, status } = uData;
   return axios.post("/api/users", {
     name,
     email,
-    propertyCode,
+    organization,
     password,
     adminType,
     status
   });
 };
 
-export const getUsers = (
-  rowsPerPage,
-  pageNumber,
-  propType = null
-) => dispatch => {
+export const getUsers = rowsPerPage => (dispatch, getState) => {
   dispatch(setLoading());
+  const orgCode = getState().auth.user.organization.organizationCode;
+
   axios
     .post("/api/users/dashboard", null, {
       params: {
         rowsPerPage: rowsPerPage,
-        pageNumber: pageNumber,
-        propType: propType
+        orgCode: orgCode
       }
     })
     .then(res => {

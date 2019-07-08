@@ -30,7 +30,7 @@ function validateOrganization(req) {
       .min(10)
       .max(100)
       .required(),
-    propertyCode: Joi.string()
+    organizationCode: Joi.string()
       .required()
       .min(3)
       .max(10),
@@ -118,6 +118,7 @@ function validateUser(put, req) {
           message: 'AdminType is required.'
         };
       }),
+    organization: Joi.string().required(),
     propertyCode: Joi.string()
       .min(3)
       .max(10),

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 // Externals
 import PropTypes from "prop-types";
 
@@ -9,8 +9,7 @@ import { Typography, Paper } from "@material-ui/core";
 // Material icons
 import {
   ArrowUpward as ArrowUpwardIcon,
-  PeopleOutlined as PeopleIcon,
-  VerifiedUserOutlined as AdminIcon
+  PeopleOutlined as PeopleIcon
 } from "@material-ui/icons";
 
 // Component styles
@@ -27,11 +26,11 @@ function Users({ title }) {
             TOTAL {title}
           </Typography>
           <Typography className={classes.value} variant="h3">
-            13
+            <Link to="/users"> 13</Link>
           </Typography>
         </div>
         <div className={classes.iconWrapper}>
-          <AdminIcon className={classes.icon} />
+          <PeopleIcon className={classes.icon} />
         </div>
       </div>
       <div className={classes.footer}>

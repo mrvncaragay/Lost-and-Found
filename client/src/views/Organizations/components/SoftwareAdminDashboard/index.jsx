@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
+
 import { getOrganizations, setModel } from "actions";
+import { isEmpty } from "util/validation";
 
 // External
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // Shared layouts
-import { SoftwareAdminDashboard } from "./components";
+import { Dashboard as DashboardLayout } from "layouts";
+import { DataTable, NotificationSnackbar } from "layouts";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,7 +30,12 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Organizations({ getOrganizations, setModel, organization, user }) {
+function SoftwareAdminDashBoard({
+  getOrganizations,
+  setModel,
+  organization,
+  notify
+}) {
   const classes = styles();
   const { isLoading, organizations } = organization;
 
@@ -38,15 +46,40 @@ function Organizations({ getOrganizations, setModel, organization, user }) {
   }, []);
     /* eslint-enable */
 
-  const column = ["Name", "Property Code", "Address"];
+  const column = ["Name", "Organization Code", "Address"];
   const options = {
     colLink: { name: "Name", link: "/organization/" }
   };
 
-  return <SoftwareAdminDashboard />;
+  return (
+    <DashboardLayout title="Organizations">
+      {notify ? (
+        <NotificationSnackbar message={notify.message} type={notify.type} />
+      ) : null}
+
+      <div className={classes.root}>
+        <Grid container spacing={4}>
+          <Grid item lg={12} sm={12} xl={12} xs={12}>
+            {isLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : isEmpty(organizations) ? null : (
+              <DataTable
+                title=""
+                column={column}
+                data={organizations.data}
+                options={options}
+              />
+            )}
+          </Grid>
+        </Grid>
+      </div>
+    </DashboardLayout>
+  );
 }
 
-Organizations.propTypes = {
+SoftwareAdminDashBoard.propTypes = {
   getOrganizations: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
   organization: PropTypes.object.isRequired,
@@ -55,11 +88,10 @@ Organizations.propTypes = {
 
 const mapStateToProps = state => ({
   organization: state.organization,
-  notify: state.notify,
-  user: state.auth.user
+  notify: state.notify
 });
 
 export default connect(
   mapStateToProps,
   { getOrganizations, setModel }
-)(Organizations);
+)(SoftwareAdminDashBoard);

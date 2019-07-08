@@ -10,7 +10,7 @@ const Organization = mongoose.model(
       required: true
     },
 
-    propertyCode: {
+    organizationCode: {
       type: String,
       required: true,
       minlength: [3, 'must be greater than 3 characters.'],

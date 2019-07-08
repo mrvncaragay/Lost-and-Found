@@ -9,14 +9,13 @@ import { Typography, Paper } from "@material-ui/core";
 // Material icons
 import {
   ArrowUpward as ArrowUpwardIcon,
-  PeopleOutlined as PeopleIcon,
-  VerifiedUserOutlined as AdminIcon
+  LocationCityOutlined as PropertyIcon
 } from "@material-ui/icons";
 
 // Component styles
 import styles from "./styles";
 
-function Users({ title }) {
+function Properties({ title, count }) {
   const classes = styles();
 
   return (
@@ -27,11 +26,11 @@ function Users({ title }) {
             TOTAL {title}
           </Typography>
           <Typography className={classes.value} variant="h3">
-            13
+            {count}
           </Typography>
         </div>
         <div className={classes.iconWrapper}>
-          <AdminIcon className={classes.icon} />
+          <PropertyIcon className={classes.icon} />
         </div>
       </div>
       <div className={classes.footer}>
@@ -47,8 +46,8 @@ function Users({ title }) {
   );
 }
 
-Users.propTypes = {
+Properties.propTypes = {
   className: PropTypes.string
 };
 
-export default Users;
+export default Properties;

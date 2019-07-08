@@ -1,4 +1,5 @@
 const mongoose = require('../startup/dbConnection');
+const Organization = require('./organization');
 const jwt = require('jsonwebtoken');
 
 const User = mongoose.model(
@@ -37,24 +38,21 @@ const User = mongoose.model(
       required: true
     },
 
+    organization: {
+      type: Organization.schema
+    },
+
     propertyCode: {
       type: String,
-      minlength: [3, 'must be greater than 3 characters.'],
-      maxlength: [10, 'must be less than 10 characters.'],
+      minlength: [2, 'must be greater than 2 characters.'],
+      maxlength: [15, 'must be less than 10 characters.'],
       default: 'none'
     },
 
     status: {
       type: String,
       enum: ['active', 'inactive'],
-      default: 'active',
-      required: true
-    },
-
-    role: {
-      type: String,
-      enum: ['admin', 'user'],
-      default: 'user'
+      default: 'active'
     },
 
     jwtToken: {
@@ -66,11 +64,13 @@ const User = mongoose.model(
             name: this.name,
             email: this.email,
             propertyCode: this.propertyCode,
-            adminType: this.adminType
+            organization: this.organization,
+            adminType: this.adminType,
+            status: this.status
           },
           process.env.JWT,
           {
-            expiresIn: '1hr'
+            expiresIn: '2hr'
           }
         );
       }

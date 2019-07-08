@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { getUsers, setModel } from "actions";
 import { isEmpty } from "../../util/validation";
+import { isSwAdmin, isPropAdmin, isOrgAdmin } from "util/validation";
 
 // External
 import { connect } from "react-redux";
@@ -41,12 +42,12 @@ function User({ getUsers, setModel, user, auth, notify }) {
 
   /* eslint-disable */
   useEffect(() => {
-    setModel("User")
-    getUsers(50, 0, auth.user.propertyCode);
+    setModel("User");
+    getUsers(50);
   }, []);
   /* eslint-enable */
 
-  const column = ["Name", "Email", "Property Code", "Admin Type", "Status"];
+  const column = ["Name", "Email", "Admin Type", "Status"];
   const options = {
     selectInput: [
       {

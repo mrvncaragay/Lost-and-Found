@@ -30,7 +30,7 @@ exports.getOrganization = async (req, res) => {
 exports.postOrganization = async (req, res) => {
   const org = new Organization({
     name: req.body.name,
-    propertyCode: req.body.propertyCode,
+    organizationCode: req.body.organizationCode,
     address: req.body.address
   });
   if (!org) return res.status(400).send('Bad request.');
@@ -45,7 +45,7 @@ exports.updateOrganization = async (req, res) => {
     req.params.id,
     {
       name: req.body.name,
-      propertyCode: req.body.propertyCode,
+      organizationCode: req.body.organizationCode,
       address: req.body.address
     },
     { new: true }

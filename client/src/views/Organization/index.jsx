@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getProperties, setModel } from "actions";
+import { getProperties, setModel, getUsers } from "actions";
 import { isEmpty } from "../../util/validation";
 
 // External
@@ -12,6 +12,8 @@ import {
   DataTable,
   NotificationSnackbar
 } from "layouts";
+
+import { Users } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -40,24 +42,50 @@ const styles = makeStyles(theme => ({
 function Organization({
   getProperties,
   name,
-  propertyState,
+  property,
   notify,
   setModel,
-  organization
+  organization,
+  getUsers,
+  user
 }) {
   const classes = styles();
 
-  const { isLoading, properties } = propertyState;
+  const { isLoading, properties } = property;
+  const { isLoading: userLoading, users } = user;
 
   /* eslint-disable */
   useEffect(() => {
     setModel("Property")
 
-    getProperties(50, organization.propertyCode);
+    getProperties(50);
+    getUsers(50);
   }, []);
   /* eslint-enable */
 
   const column = ["Name", "Property Code", "Address", "Phone"];
+
+  const ucolumn = [
+    "Name",
+    "Email",
+    "Organization Code",
+    "Admin Type",
+    "Status"
+  ];
+  const uoptions = {
+    selectInput: [
+      {
+        column: "Admin Type",
+        optionValue: ["security", "propAdmin", "orgAdmin", "swAdmin"]
+      },
+      {
+        column: "Status",
+        optionValue: ["active", "inactive"]
+      }
+    ],
+    colLink: { name: "Name", link: "/user/" },
+    passwordField: true
+  };
 
   return (
     <DashboardLayout title={name.replace(/-/gi, " ")}>
@@ -67,13 +95,17 @@ function Organization({
 
       <div className={classes.root}>
         <Grid container spacing={4}>
-          {/* <Grid item lg={6} xl={6} sm={12} xs={12}>
-            <h1>One</h1>
+          <Grid item lg={4} xl={4} sm={12} xs={12}>
+            <Users title="PROPERTIES" />
           </Grid>
 
-          <Grid item lg={6} xl={6} sm={12} xs={12}>
-            <h1>Two</h1>
-          </Grid> */}
+          <Grid item lg={4} xl={4} sm={12} xs={12}>
+            <Users title="ADMINS" />
+          </Grid>
+
+          <Grid item lg={4} xl={4} sm={12} xs={12}>
+            <Users title="USERS" />
+          </Grid>
 
           <Grid item lg={12} xl={12} sm={12} xs={12}>
             {isLoading ? (
@@ -84,6 +116,21 @@ function Organization({
               <DataTable title="" column={column} data={properties.data} />
             )}
           </Grid>
+
+          <Grid item lg={12} xl={12} sm={12} xs={12}>
+            {userLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : isEmpty(properties) ? null : (
+              <DataTable
+                title=""
+                column={ucolumn}
+                data={users.data}
+                options={uoptions}
+              />
+            )}
+          </Grid>
         </Grid>
       </div>
     </DashboardLayout>
@@ -92,19 +139,22 @@ function Organization({
 
 Organization.propTypes = {
   getProperties: PropTypes.func.isRequired,
+  getUsers: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
-  propertyState: PropTypes.object.isRequired,
+  property: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   notify: PropTypes.object,
   organization: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  propertyState: state.property,
+  property: state.property,
   notify: state.notify,
+  user: state.user,
   organization: state.organization.organization
 });
 
 export default connect(
   mapStateToProps,
-  { getProperties, setModel }
+  { getProperties, setModel, getUsers }
 )(Organization);

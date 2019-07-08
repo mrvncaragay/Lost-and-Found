@@ -28,13 +28,20 @@ export const setType = model => dispatch => {
   });
 };
 
+const getOrgID = state => {
+  const adminType = state().auth.user.adminType;
+
+  return adminType === "swAdmin" ? state().organization : state().auth.user;
+};
+
 export const saveForm = (data, form) => (dispatch, getState) => {
   const type = `${form.type}${form.model}`;
-  const { organization } = getState().organization;
+  const { organization } = getOrgID(getState);
 
   switch (type) {
     case "postUser":
-      postUser(data)
+      const postData = { ...data, organization: organization._id };
+      postUser(postData)
         .then(res => {
           dispatch({ type: POST_USER, payload: res.data });
           dispatch(logSuccess(`Successfully created a user: ${res.data.name}`));

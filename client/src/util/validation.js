@@ -53,9 +53,11 @@ export const findOptions = (column, obj) => {
 
 // Admin validation
 export const isPropAdmin = type => {
-  const adminType = ["propAdmin"];
+    return type !== "propAdmin" ? false : true;
+};
 
-  return !adminType.includes(type) ? false : true;
+export const isOrgAdmin = type => {
+    return type !== "orgAdmin" ? false : true;
 };
 
 export const isOSAdmin = type => {
@@ -65,7 +67,5 @@ export const isOSAdmin = type => {
 };
 
 export const isSwAdmin = type => {
-  const swAdmin = "swAdmin";
-
-  return type !== swAdmin ? false : true;
+  return type !== "swAdmin"? false : true;
 };

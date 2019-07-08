@@ -12,7 +12,7 @@ import axios from "axios";
 export const postOrganization = orgData => {
   return axios.post("/api/organizations", {
     name: orgData.name,
-    propertyCode: orgData.propertyCode,
+    organizationCode: orgData.organizationCode,
     address: orgData.address
   });
 };

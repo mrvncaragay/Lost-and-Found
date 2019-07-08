@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from "react";
 import { setType, setCurrentOrganization } from "actions";
 import { Link } from "react-router-dom";
+import { isSwAdmin } from "util/validation";
 
 // External
 import { connect } from "react-redux";
@@ -29,7 +30,14 @@ import { Edit, DomainDisabledOutlined as DomainIcon } from "@material-ui/icons";
 
 import styles from "./styles";
 
-function TableItem({ data, column, options, setType, setCurrentOrganization }) {
+function TableItem({
+  data,
+  column,
+  options,
+  setType,
+  setCurrentOrganization,
+  user
+}) {
   const [isEditing, toggleEdit] = useState(false);
 
   const classes = styles();
@@ -80,31 +88,36 @@ function TableItem({ data, column, options, setType, setCurrentOrganization }) {
         </Fragment>
       ))}
 
-      <TableCell>
-        <div className={classes.tableCellInner}>
-          <Tooltip title="Edit">
-            <IconButton onClick={handleEdit}>
-              <Edit />
-            </IconButton>
-          </Tooltip>
+      <Fragment>
+        <TableCell>
+          <div className={classes.tableCellInner}>
+            <Tooltip title="Edit">
+              <IconButton onClick={handleEdit}>
+                <Edit />
+              </IconButton>
+            </Tooltip>
 
-          <Tooltip title="Disabled">
-            <IconButton onClick={handleDisabled}>
-              <DomainIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-      </TableCell>
+            <Tooltip title="Disabled">
+              <IconButton onClick={handleDisabled}>
+                <DomainIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+        </TableCell>
+      </Fragment>
     </TableRow>
   );
 }
 
 TableItem.propTypes = {
   setType: PropTypes.func.isRequired,
-  setCurrentOrganization: PropTypes.func.isRequired
+  setCurrentOrganization: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
 
 export default connect(
   mapStateToProps,
