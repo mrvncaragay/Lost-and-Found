@@ -41,6 +41,8 @@ function LostAndFound() {
     <Switch>
       <Route exact path="/" component={Homepage} />
       <Route exact path="/sign-in" component={SignIn} />
+      <Route exact path="/admin/sign-in" component={AdminSignIn} />
+      <Route exact path="/admin/sign-up" component={AdminSignUp} />
       <PrivateRoute exact path="/dashboard" component={Dashboard} />
       <PrivateRoute exact path="/users" component={User} />
       <PrivateRoute exact path="/organization" component={Organizations} />
@@ -52,8 +54,13 @@ function LostAndFound() {
           <Organization name={routeProps.match.params.name} />
         )}
       />
-      <Route exact path="/admin/sign-in" component={AdminSignIn} />
-      <Route exact path="/admin/sign-up" component={AdminSignUp} />
+      <PrivateRoute
+        exact
+        path="/:property/:name"
+        component={routeProps => (
+          <Property name={routeProps.match.params.name} />
+        )}
+      />
       <Route render={() => <h1>PAGE NOT FOUND!</h1>} />
     </Switch>
   );

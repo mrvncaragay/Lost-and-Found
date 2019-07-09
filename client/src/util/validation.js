@@ -52,12 +52,16 @@ export const findOptions = (column, obj) => {
 };
 
 // Admin validation
+export const isSecurityAdmin = type => {
+  return type !== "security" ? false : true;
+};
+
 export const isPropAdmin = type => {
-    return type !== "propAdmin" ? false : true;
+  return type !== "propAdmin" ? false : true;
 };
 
 export const isOrgAdmin = type => {
-    return type !== "orgAdmin" ? false : true;
+  return type !== "orgAdmin" ? false : true;
 };
 
 export const isOSAdmin = type => {
@@ -67,5 +71,5 @@ export const isOSAdmin = type => {
 };
 
 export const isSwAdmin = type => {
-  return type !== "swAdmin"? false : true;
+  return type !== "swAdmin" ? false : true;
 };

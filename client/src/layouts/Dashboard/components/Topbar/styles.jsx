@@ -14,7 +14,8 @@ export default makeStyles(theme => ({
     width: "100%"
   },
   title: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
+    flexGrow: 1
   },
   menuButton: {
     marginLeft: "-4px"
@@ -24,5 +25,13 @@ export default makeStyles(theme => ({
   },
   signOutButton: {
     marginLeft: "auto"
+  },
+  addSVG: {
+    width: "16px",
+    fontSize: "16px",
+    paddingBottom: "2px"
+  },
+  addButtons: {
+    marginRight: theme.spacing(1)
   }
 }));

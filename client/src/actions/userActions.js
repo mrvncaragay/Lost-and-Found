@@ -1,16 +1,30 @@
-import { GET_USERS, SEARCH_USERS, SET_LOADING_USER } from "./types";
+import {
+  GET_USERS,
+  SEARCH_USERS,
+  SET_LOADING_USER,
+  GET_ORG_USERS
+} from "./types";
 import { logError } from "./notificationActions";
 
 // External
 import axios from "axios";
 
 export const postUser = uData => {
-  const { name, organization, email, password, adminType, status } = uData;
+  const {
+    name,
+    organization,
+    propertyCode,
+    email,
+    password,
+    adminType,
+    status
+  } = uData;
   return axios.post("/api/users", {
     name,
     email,
     organization,
     password,
+    propertyCode,
     adminType,
     status
   });
@@ -18,18 +32,41 @@ export const postUser = uData => {
 
 export const getUsers = rowsPerPage => (dispatch, getState) => {
   dispatch(setLoading());
-  const orgCode = getState().auth.user.organization.organizationCode;
+  const user = getState().auth.user;
 
   axios
     .post("/api/users/dashboard", null, {
       params: {
         rowsPerPage: rowsPerPage,
-        orgCode: orgCode
+        orgCode: user.organization.organizationCode,
+        adminType: user.adminType,
+        propertyCode: user.propertyCode
       }
     })
     .then(res => {
       dispatch({
         type: GET_USERS,
+        payload: res.data
+      });
+    })
+    .catch(err => console.log(err));
+};
+
+export const getOrgUsers = rowsPerPage => (dispatch, getState) => {
+  dispatch(setLoading());
+  const authUser = getState().auth.user;
+
+  axios
+    .post("/api/users/dashboard", null, {
+      params: {
+        rowsPerPage: rowsPerPage,
+        orgCode: authUser.organization.organizationCode,
+        adminType: authUser.adminType
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_ORG_USERS,
         payload: res.data
       });
     })

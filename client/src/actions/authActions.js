@@ -34,6 +34,7 @@ export const logInUser = (userData, history) => dispatch => {
       dispatch({
         type: RESET_ERRORS
       });
+
       // Redirect to dashboard
       history.push("/dashboard");
 

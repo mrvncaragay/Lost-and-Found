@@ -1,5 +1,6 @@
 const mongoose = require('../startup/dbConnection');
 const Organization = require('./organization');
+const Property = require('./property');
 const jwt = require('jsonwebtoken');
 
 const User = mongoose.model(
@@ -63,6 +64,11 @@ const User = mongoose.model(
             _id: this._id,
             name: this.name,
             email: this.email,
+            property: {
+              get: async function() {
+                return await Property.find({propertyCode: this.propertyCode}).select('name');
+              }
+            },
             propertyCode: this.propertyCode,
             organization: this.organization,
             adminType: this.adminType,

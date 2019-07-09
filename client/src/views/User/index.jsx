@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { getUsers, setModel } from "actions";
+import React, { useEffect, useState } from "react";
+import { getUsers, setModel, getProperties } from "actions";
 import { isEmpty } from "../../util/validation";
 import { isSwAdmin, isPropAdmin, isOrgAdmin } from "util/validation";
 
@@ -35,19 +35,37 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function User({ getUsers, setModel, user, auth, notify }) {
+function User({
+  setModel,
+  notify,
+  users,
+  auth,
+  getUsers,
+  properties,
+  getProperties
+}) {
   const classes = styles();
+  const [pcode, setPCode] = useState(null);
 
-  const { isLoading, users } = user;
+  const { isLoading, data } = users;
 
   /* eslint-disable */
   useEffect(() => {
     setModel("User");
-    getUsers(50);
+
+    if(properties) {
+      // re-check when in user page and refresh setPCode is empty
+      setPCode(properties.data.map(property => property.propertyCode)) 
+    }
+
+
+    if( !users.data ) {
+      getUsers(50)
+    }
   }, []);
   /* eslint-enable */
 
-  const column = ["Name", "Email", "Admin Type", "Status"];
+  const column = ["Name", "Email", "Property Code", "Admin Type", "Status"];
   const options = {
     selectInput: [
       {
@@ -57,6 +75,10 @@ function User({ getUsers, setModel, user, auth, notify }) {
       {
         column: "Status",
         optionValue: ["active", "inactive"]
+      },
+      {
+        column: "Property Code",
+        optionValue: pcode
       }
     ],
     colLink: { name: "Name", link: "/user/" },
@@ -76,15 +98,22 @@ function User({ getUsers, setModel, user, auth, notify }) {
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
-            ) : isEmpty(users) ? (
+            ) : isEmpty(data) ? (
               <Typography className={classes.noData} variant="h5">
                 There are no users
               </Typography>
+            ) : isOrgAdmin(auth.user.adminType) ? (
+              <DataTable
+                title=""
+                column={column}
+                data={data}
+                options={options}
+              />
             ) : (
               <DataTable
                 title=""
                 column={column}
-                data={users.data}
+                data={data}
                 options={options}
               />
             )}
@@ -97,18 +126,20 @@ function User({ getUsers, setModel, user, auth, notify }) {
 
 User.propTypes = {
   getUsers: PropTypes.func.isRequired,
+  getProperties: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  notify: PropTypes.object
+  notify: PropTypes.object,
+  properties: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  user: state.user,
-  notify: state.notify
+  users: state.users,
+  notify: state.notify,
+  properties: state.property.properties
 });
 
 export default connect(
   mapStateToProps,
-  { getUsers, setModel }
+  { getUsers, setModel, getProperties }
 )(User);

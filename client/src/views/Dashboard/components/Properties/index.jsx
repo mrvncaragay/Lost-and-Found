@@ -15,7 +15,7 @@ import {
 // Component styles
 import styles from "./styles";
 
-function Properties({ title, count }) {
+function Admins({ title, count }) {
   const classes = styles();
 
   return (
@@ -46,8 +46,8 @@ function Properties({ title, count }) {
   );
 }
 
-Properties.propTypes = {
+Admins.propTypes = {
   className: PropTypes.string
 };
 
-export default Properties;
+export default Admins;

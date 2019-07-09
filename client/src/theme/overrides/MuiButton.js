@@ -11,5 +11,9 @@ export default {
     "&:hover": {
       backgroundColor: palette.common.neutral
     }
+  },
+  label: {
+    height: "14px",
+    fontSize: "10px"
   }
 };

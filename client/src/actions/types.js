@@ -25,6 +25,7 @@ export const EDIT_PROPERTY = "EDIT_PROPERTY";
 export const POST_USER = "POST_USER";
 export const GET_USER = "GET_USER";
 export const GET_USERS = "GET_USERS";
+export const GET_ORG_USERS = "GET_ORG_USERS";
 export const EDIT_USER = "EDIT_USER";
 export const SEARCH_USERS = "SEARCH_USERS";
 export const USER_LOADING = "USER_LOADING";

@@ -1,19 +1,27 @@
 import React, { Fragment } from "react";
-import { logOutUser } from "../../../../actions/authActions";
-import { clearOrganizations } from "../../../../actions/organizationActions";
+import { logOutUser } from "actions/authActions";
+import { clearOrganizations } from "actions/organizationActions";
+import { isSecurityAdmin, isPropAdmin } from "util/validation";
 
 // Externals
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // Material components
-import { IconButton, Toolbar, Typography, Tooltip } from "@material-ui/core";
+import {
+  IconButton,
+  Toolbar,
+  Typography,
+  Tooltip,
+  Button
+} from "@material-ui/core";
 
 // Material icons
 import {
   Menu as MenuIcon,
   Close as CloseIcon,
-  Input as InputIcon
+  Input as InputIcon,
+  AddOutlined as AddIcon
 } from "@material-ui/icons";
 
 // Component styles
@@ -25,7 +33,8 @@ function Topbar({
   className,
   title,
   isSideBarOpen,
-  onToggleSidebar
+  onToggleSidebar,
+  user
 }) {
   const classes = styles();
 
@@ -50,7 +59,44 @@ function Topbar({
             {title}
           </Typography>
 
-          <Tooltip title="Logout" placement="left">
+          {isPropAdmin(user.adminType) ? (
+            <Fragment>
+              <Tooltip title="Report Lost Item" placement="bottom">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                  className={classes.addButtons}
+                >
+                  <AddIcon className={classes.addSVG} />
+                  Lost
+                </Button>
+              </Tooltip>
+              <Tooltip title="Report an Inquiry" placement="bottom">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  color="secondary"
+                  className={classes.addButtons}
+                >
+                  <AddIcon className={classes.addSVG} />
+                  Inquiry
+                </Button>
+              </Tooltip>
+              <Tooltip title="Report Found Item" placement="bottom">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className={classes.addButtons}
+                >
+                  <AddIcon className={classes.addSVG} />
+                  Found
+                </Button>
+              </Tooltip>{" "}
+            </Fragment>
+          ) : null}
+
+          <Tooltip title="Logout" placement="bottom">
             <IconButton
               className={classes.signOutButton}
               onClick={handleLogOut}
@@ -66,11 +112,11 @@ function Topbar({
 
 Topbar.propTypes = {
   logOutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  user: state.auth.user
 });
 
 export default connect(

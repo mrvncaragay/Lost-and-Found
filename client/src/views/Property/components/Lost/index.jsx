@@ -8,14 +8,14 @@ import { Typography, Paper } from "@material-ui/core";
 
 // Material icons
 import {
-  ArrowUpward as ArrowUpwardIcon,
-  PeopleOutlined as PeopleIcon
+  ArrowForwardOutlined as ArrowForwardIcon,
+  FeedbackOutlined as LostIcon
 } from "@material-ui/icons";
 
 // Component styles
 import styles from "./styles";
 
-function Users({ title, count }) {
+function Lost({ title, count }) {
   const classes = styles();
 
   return (
@@ -23,31 +23,30 @@ function Users({ title, count }) {
       <div className={classes.content}>
         <div className={classes.details}>
           <Typography className={classes.title} variant="body2">
-            TOTAL {title}
+            {title}
           </Typography>
           <Typography className={classes.value} variant="h3">
             {count}
           </Typography>
         </div>
         <div className={classes.iconWrapper}>
-          <PeopleIcon className={classes.icon} />
+          <LostIcon className={classes.icon} />
         </div>
       </div>
       <div className={classes.footer}>
         <Typography className={classes.difference} variant="body2">
-          <ArrowUpwardIcon />
-          16%
+          <ArrowForwardIcon />
         </Typography>
         <Typography className={classes.caption} variant="caption">
-          Since last month
+          show all lost items
         </Typography>
       </div>
     </Paper>
   );
 }
 
-Users.propTypes = {
+Lost.propTypes = {
   className: PropTypes.string
 };
 
-export default Users;
+export default Lost;

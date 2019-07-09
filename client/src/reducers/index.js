@@ -11,6 +11,6 @@ export default combineReducers({
   notify: notificationReducer,
   organization: organizationReducer,
   property: propertyReducer,
-  user: userReducer,
+  users: userReducer,
   form: formReducer
 });

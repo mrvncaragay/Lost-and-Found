@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getProperties, setModel, getUsers } from "actions";
+import { getProperties, setModel, getUsers, getOrgUsers } from "actions";
 import { isEmpty } from "../../util/validation";
 
 // External
@@ -13,7 +13,7 @@ import {
   NotificationSnackbar
 } from "layouts";
 
-import { Users, Properties, Tabs } from "./components";
+import { Users, Properties, Admins } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,25 +42,34 @@ const styles = makeStyles(theme => ({
 function Organization({
   getProperties,
   getUsers,
+  getOrgUsers,
   property,
   notify,
   setModel,
-  user
+  user,
+  users
 }) {
   const classes = styles();
 
   const { isLoading, properties } = property;
+  const { isLoading: isUsersLoading, data, orgUsers } = users;
 
   /* eslint-disable */
   useEffect(() => {
     setModel("Property")
-
-
+    if( !users.data ) {
+      getUsers(50)
+    }
+    
+    getOrgUsers(50);
     getProperties(50);
   }, []);
   /* eslint-enable */
 
   const column = ["Name", "Property Code", "Address", "Phone"];
+  const options = {
+    colLink: { name: "Name", link: `${user.organization.organizationCode}/` }
+  };
 
   return (
     <DashboardLayout
@@ -83,11 +92,23 @@ function Organization({
           </Grid>
 
           <Grid item lg={4} xl={4} sm={12} xs={12}>
-            <Users title="ADMINS" />
+            {isUsersLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : isEmpty(orgUsers) ? null : (
+              <Admins title="ADMINS" count={orgUsers.length} />
+            )}
           </Grid>
 
           <Grid item lg={4} xl={4} sm={12} xs={12}>
-            <Users title="USERS" />
+            {isUsersLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : isEmpty(data) ? null : (
+              <Users title="USERS" count={data.length} />
+            )}
           </Grid>
 
           <Grid item lg={12} xl={12} sm={12} xs={12}>
@@ -96,7 +117,12 @@ function Organization({
                 <CircularProgress />
               </div>
             ) : isEmpty(properties) ? null : (
-              <DataTable title="" column={column} data={properties.data} />
+              <DataTable
+                title=""
+                column={column}
+                data={properties.data}
+                options={options}
+              />
             )}
           </Grid>
         </Grid>
@@ -108,6 +134,7 @@ function Organization({
 Organization.propTypes = {
   getProperties: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,
+  getOrgUsers: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
   property: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
@@ -120,11 +147,11 @@ const mapStateToProps = state => ({
   property: state.property,
   notify: state.notify,
   user: state.auth.user,
-  users: state.user.users,
+  users: state.users,
   organization: state.organization.organization
 });
 
 export default connect(
   mapStateToProps,
-  { getProperties, setModel, getUsers }
+  { getProperties, setModel, getUsers, getOrgUsers }
 )(Organization);

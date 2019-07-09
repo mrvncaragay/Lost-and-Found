@@ -59,6 +59,9 @@ function Sidebar({ user }) {
           {user.name}
         </Typography>
         <Typography className={classes.bioText} variant="caption">
+          {user.propertyCode}
+        </Typography>
+        <Typography className={classes.bioText} variant="caption">
           {user.organizationCode}
         </Typography>
         <Typography className={classes.bioText} variant="caption">

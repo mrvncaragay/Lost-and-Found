@@ -44,6 +44,7 @@ export const saveForm = (data, form) => (dispatch, getState) => {
       postUser(postData)
         .then(res => {
           dispatch({ type: POST_USER, payload: res.data });
+          console.log(res);
           dispatch(logSuccess(`Successfully created a user: ${res.data.name}`));
         })
         .catch(err => dispatch(logError(err.response.data)));

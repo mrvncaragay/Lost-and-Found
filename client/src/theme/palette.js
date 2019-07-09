@@ -25,6 +25,10 @@ export default {
     light: "#F1FAF5",
     dark: "#00783E"
   },
+  pink: {
+    main: "#fa4d98",
+    dark: "#a82c62"
+  },
   info: {
     contrastText: white,
     main: "#1070CA",

@@ -14,7 +14,13 @@ export {
 export { getProperties } from "./propertyActions";
 
 // User
-export { getUsers, updateUser, postUser, searchUsers } from "./userActions";
+export {
+  getUsers,
+  updateUser,
+  postUser,
+  searchUsers,
+  getOrgUsers
+} from "./userActions";
 
 // Form
 export { setModel, setType, saveForm } from "./formActions";

@@ -2,25 +2,49 @@ const User = require('../model/user');
 const Organization = require('../model/organization');
 const bcrypt = require('bcrypt');
 
-exports.getUsers = async (req, res, next) => {
-  const { rowsPerPage, orgCode } = req.query;
+// Property admins
+exports.getPropAdmins = async (req, res, next) => {
+  const { rowsPerPage, orgCode, adminType, propertyCode } = req.query;
 
-  if (orgCode === 'superadmin') return next();
+  if (adminType !== 'propAdmin' && !propertyCode) return next();
 
-  const result = await User.find({ 'organization.organizationCode': orgCode })
+  const result = await User.find()
     .limit(parseInt(rowsPerPage, 10))
+    .and([{ 'organization.organizationCode': orgCode }, { propertyCode }])
     .select('-password')
     .sort({ name: 1 });
 
   res.send({ result });
 };
 
-exports.getSoftwareAdminUsers = async (req, res) => {
-  const result = await User.find()
-    .select('-password')
-    .sort({ name: 1 });
+// Organization admins
+exports.getOrgAdmins = async (req, res, next) => {
+  const { rowsPerPage, orgCode, adminType } = req.query;
 
-  res.send({ result });
+  if (adminType === 'orgAdmin') {
+    const result = await User.find({ 'organization.organizationCode': orgCode })
+      .limit(parseInt(rowsPerPage, 10))
+      .select('-password')
+      .sort({ name: 1 });
+
+    res.send({ result });
+  }
+
+  return next();
+};
+
+// Software Admin
+
+exports.getSoftwareAdminUsers = async (req, res) => {
+  const { orgCode } = req.query;
+
+  if (orgCode === 'superadmin') {
+    const result = await User.find()
+      .select('-password')
+      .sort({ name: 1 });
+
+    res.send({ result });
+  }
 };
 
 exports.getCurrentUser = async (req, res) => {
@@ -42,7 +66,7 @@ exports.postUser = async (req, res) => {
   const org = await Organization.findById(req.body.organization);
   if (!org) return res.status(400).send('Invalid organization.');
 
-  let { email, password, name, adminType } = req.body;
+  let { email, password, name, adminType, propertyCode } = req.body;
 
   const user = await User.findOne({ email });
 
@@ -54,6 +78,7 @@ exports.postUser = async (req, res) => {
     name,
     email,
     password: hashedPassword,
+    propertyCode,
     adminType,
 
     organization: {
