@@ -15,13 +15,13 @@ export const postProperty = pData => {
   });
 };
 
-export const getProperties = (rowsPerPage, propType = null) => dispatch => {
+export const getProperties = (rowsPerPage, orgCode = null) => dispatch => {
   dispatch(setLoading());
   axios
     .post("/api/properties/dashboard", null, {
       params: {
         rowsPerPage: rowsPerPage,
-        propType: propType
+        orgCode: orgCode
       }
     })
     .then(res => {

@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
 import { DataTable, NotificationSnackbar } from "layouts";
+import { SwAdmin } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -49,22 +50,6 @@ function User({
 
   const { isLoading, data } = users;
 
-  /* eslint-disable */
-  useEffect(() => {
-    setModel("User");
-
-    if(properties) {
-      // re-check when in user page and refresh setPCode is empty
-      setPCode(properties.data.map(property => property.propertyCode)) 
-    }
-
-
-    if( !users.data ) {
-      getUsers(50)
-    }
-  }, []);
-  /* eslint-enable */
-
   const column = ["Name", "Email", "Property Code", "Admin Type", "Status"];
   const options = {
     selectInput: [
@@ -82,9 +67,24 @@ function User({
       }
     ],
     colLink: { name: "Name", link: "/user/" },
-    passwordField: true
+    passwordField: true,
+    addButton: false
   };
 
+  /* eslint-disable */
+  useEffect(() => {
+
+    if(properties) {
+      // re-check when in user page and refresh setPCode is empty
+      setPCode(properties.data.map(property => property.propertyCode)) 
+    }
+
+  }, []);
+  /* eslint-enable */
+
+  /* 
+    Organizations
+  */
   return (
     <DashboardLayout title="Users">
       {notify ? (
@@ -94,7 +94,9 @@ function User({
       <div className={classes.root}>
         <Grid container spacing={4}>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
-            {isLoading ? (
+            {isSwAdmin(auth.user.adminType) ? <SwAdmin /> : null}
+
+            {/* {isLoading ? (
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
@@ -116,7 +118,7 @@ function User({
                 data={data}
                 options={options}
               />
-            )}
+            )} */}
           </Grid>
         </Grid>
       </div>

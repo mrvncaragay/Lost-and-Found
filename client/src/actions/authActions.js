@@ -36,7 +36,14 @@ export const logInUser = (userData, history) => dispatch => {
       });
 
       // Redirect to dashboard
-      history.push("/dashboard");
+      switch (decoded.adminType) {
+        case "swAdmin":
+          history.push("/organization");
+          break;
+        default:
+          history.push("/dashboard");
+          break;
+      }
 
       // log successful logged in
       dispatch(logSuccess("Successfully logged in."));

@@ -52,21 +52,19 @@ export const getUsers = rowsPerPage => (dispatch, getState) => {
     .catch(err => console.log(err));
 };
 
-export const getOrgUsers = rowsPerPage => (dispatch, getState) => {
+export const getOrgUsers = orgCode => dispatch => {
   dispatch(setLoading());
-  const authUser = getState().auth.user;
-
+  //add the state to organization.organization.users
+  //add the state to organization.organization.properties
   axios
-    .post("/api/users/dashboard", null, {
+    .post("/api/swadmin/users/", null, {
       params: {
-        rowsPerPage: rowsPerPage,
-        orgCode: authUser.organization.organizationCode,
-        adminType: authUser.adminType
+        orgCode
       }
     })
     .then(res => {
       dispatch({
-        type: GET_ORG_USERS,
+        type: GET_USERS,
         payload: res.data
       });
     })

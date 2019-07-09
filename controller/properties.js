@@ -2,9 +2,9 @@ const Property = require('../model/property');
 const Organization = require('../model/organization');
 
 exports.getProperties = async (req, res) => {
-  const { rowsPerPage, propType } = req.query;
+  const { rowsPerPage, orgCode } = req.query;
 
-  const result = await Property.find({ 'organization.propertyCode': propType })
+  const result = await Property.find({ 'organization.organizationCode': orgCode })
     .limit(parseInt(rowsPerPage, 10))
     .select('-organization')
     .sort({ name: 1 });

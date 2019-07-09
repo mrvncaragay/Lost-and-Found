@@ -43,11 +43,8 @@ const User = mongoose.model(
       type: Organization.schema
     },
 
-    propertyCode: {
-      type: String,
-      minlength: [2, 'must be greater than 2 characters.'],
-      maxlength: [15, 'must be less than 10 characters.'],
-      default: 'none'
+    property: {
+      type: Property.schema
     },
 
     status: {
@@ -61,18 +58,19 @@ const User = mongoose.model(
       get: function() {
         return jwt.sign(
           {
-            _id: this._id,
             name: this.name,
             email: this.email,
-            property: {
-              get: async function() {
-                return await Property.find({propertyCode: this.propertyCode}).select('name');
-              }
-            },
             propertyCode: this.propertyCode,
-            organization: this.organization,
             adminType: this.adminType,
-            status: this.status
+            property: {
+              name: this.property.name,
+              propertyCode: this.propertyCode
+            },
+            organization: {
+              name: this.organization.name,
+              organizationCode: this.organization.organizationCode
+            }
+
           },
           process.env.JWT,
           {

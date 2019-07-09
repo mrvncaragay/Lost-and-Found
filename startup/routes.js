@@ -4,6 +4,7 @@ const auth = require('../routes/auth');
 const user = require('../routes/users');
 const property = require('../routes/properties');
 const organization = require('../routes/organizations');
+const swadmin = require('../routes/swadmins');
 const pageError = require('../routes/pageError');
 
 module.exports = app => {
@@ -15,5 +16,6 @@ module.exports = app => {
   app.use('/api/users', user);
   app.use('/api/properties', property);
   app.use('/api/organizations', organization);
+  app.use('/api/swadmin', swadmin);
   app.use(pageError);
 };

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getProperties, setModel, getUsers } from "actions";
+import { getProperties, setModel, getOrgUsers } from "actions";
 import { isEmpty } from "../../util/validation";
 
 // External
@@ -45,21 +45,21 @@ function Organization({
   property,
   notify,
   setModel,
-  organization,
-  getUsers,
-  user
+  getOrgUsers,
+  users,
+  organization
 }) {
   const classes = styles();
 
   const { isLoading, properties } = property;
-  const { isLoading: userLoading, users } = user;
+  const { isLoading: userLoading, data } = users;
 
   /* eslint-disable */
   useEffect(() => {
     setModel("Property")
 
-    getProperties(50);
-    getUsers(50);
+    //getProperties(50, organization.organizationCode); //this is null if page is refreshed
+    getOrgUsers(organization.organizationCode);
   }, []);
   /* eslint-enable */
 
@@ -107,26 +107,30 @@ function Organization({
             <Users title="USERS" />
           </Grid>
 
-          <Grid item lg={12} xl={12} sm={12} xs={12}>
+          {/* <Grid item lg={12} xl={12} sm={12} xs={12}>
             {isLoading ? (
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
             ) : isEmpty(properties) ? null : (
-              <DataTable title="" column={column} data={properties.data} />
+              <DataTable
+                title="Properties"
+                column={column}
+                data={properties.data}
+              />
             )}
-          </Grid>
+          </Grid> */}
 
           <Grid item lg={12} xl={12} sm={12} xs={12}>
             {userLoading ? (
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
-            ) : isEmpty(properties) ? null : (
+            ) : isEmpty(data) ? null : (
               <DataTable
-                title=""
+                title="Users"
                 column={ucolumn}
-                data={users.data}
+                data={data}
                 options={uoptions}
               />
             )}
@@ -139,10 +143,10 @@ function Organization({
 
 Organization.propTypes = {
   getProperties: PropTypes.func.isRequired,
-  getUsers: PropTypes.func.isRequired,
+  getOrgUsers: PropTypes.func.isRequired,
   setModel: PropTypes.func.isRequired,
   property: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  users: PropTypes.object,
   notify: PropTypes.object,
   organization: PropTypes.object
 };
@@ -150,11 +154,11 @@ Organization.propTypes = {
 const mapStateToProps = state => ({
   property: state.property,
   notify: state.notify,
-  user: state.user,
+  users: state.users,
   organization: state.organization.organization
 });
 
 export default connect(
   mapStateToProps,
-  { getProperties, setModel, getUsers }
+  { getProperties, setModel, getOrgUsers }
 )(Organization);

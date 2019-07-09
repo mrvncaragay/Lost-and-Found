@@ -6,45 +6,43 @@ const bcrypt = require('bcrypt');
 exports.getPropAdmins = async (req, res, next) => {
   const { rowsPerPage, orgCode, adminType, propertyCode } = req.query;
 
-  if (adminType !== 'propAdmin' && !propertyCode) return next();
+  if (adminType === 'propAdmin' && propertyCode && orgCode) {
+    const result = await User.find()
+      .limit(parseInt(rowsPerPage, 10))
+      .and([{ 'organization.organizationCode': orgCode }, { propertyCode }])
+      .select('-password')
+      .sort({ name: 1 });
 
-  const result = await User.find()
-    .limit(parseInt(rowsPerPage, 10))
-    .and([{ 'organization.organizationCode': orgCode }, { propertyCode }])
-    .select('-password')
-    .sort({ name: 1 });
-
-  res.send({ result });
+    res.send({ result });
+  } else {
+    next();
+  }
 };
 
 // Organization admins
 exports.getOrgAdmins = async (req, res, next) => {
   const { rowsPerPage, orgCode, adminType } = req.query;
 
-  if (adminType === 'orgAdmin') {
+  if (adminType === 'orgAdmin' && orgCode) {
     const result = await User.find({ 'organization.organizationCode': orgCode })
       .limit(parseInt(rowsPerPage, 10))
       .select('-password')
       .sort({ name: 1 });
 
     res.send({ result });
+  } else {
+    next();
   }
-
-  return next();
 };
 
 // Software Admin
 
 exports.getSoftwareAdminUsers = async (req, res) => {
-  const { orgCode } = req.query;
+  const result = await User.find()
+    .select('-password')
+    .sort({ name: 1 });
 
-  if (orgCode === 'superadmin') {
-    const result = await User.find()
-      .select('-password')
-      .sort({ name: 1 });
-
-    res.send({ result });
-  }
+  res.send({ result });
 };
 
 exports.getCurrentUser = async (req, res) => {

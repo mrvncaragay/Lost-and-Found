@@ -118,10 +118,8 @@ function validateUser(put, req) {
           message: 'AdminType is required.'
         };
       }),
-    organization: Joi.string().required(),
-    propertyCode: Joi.string()
-      .min(3)
-      .max(10),
+    organization: Joi.string(),
+    property: Joi.string(),
     status: Joi.string().valid('active', 'inactive')
   };
 
