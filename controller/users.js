@@ -1,5 +1,6 @@
 const User = require('../model/user');
 const Organization = require('../model/organization');
+const Property = require('../model/property');
 const bcrypt = require('bcrypt');
 
 // Property admins
@@ -59,11 +60,13 @@ exports.getUser = async (req, res) => {
   res.send(user);
 };
 
-exports.postUser = async (req, res) => {
-  const org = await Organization.findById(req.body.organization);
-  if (!org) return res.status(400).send('Invalid organization.');
+exports.postUser = async (req, res, next) => {
+  let { email, password, name, adminType, propertyCode, organization, property = null } = req.body;
 
-  let { email, password, name, adminType, propertyCode } = req.body;
+  if (property) return next();
+
+  const org = await Organization.findById(organization);
+  if (!org) return res.status(400).send('Invalid organization.');
 
   const user = await User.findOne({ email });
 
@@ -95,6 +98,57 @@ exports.postUser = async (req, res) => {
     propertyCode: newUser.propertyCode,
     organization: newUser.organization,
     status: newUser.status
+  });
+};
+
+exports.postUserProperty = async (req, res) => {
+  let { email, password, name, adminType, propertyCode, organization, property } = req.body;
+
+  const org = await Organization.findById(organization);
+  if (!org) return res.status(400).send('Invalid organization.');
+
+  const prop = await Property.findById(property);
+  if (!prop) return res.status(400).send('Invalid property.');
+
+  const user = await User.findOne({ email });
+
+  if (user && user.email === email) return res.status(400).send('Email is already registered.');
+
+  const hashedPassword = await bcrypt.hash(password, 12);
+
+  const newUser = new User({
+    name,
+    email,
+    password: hashedPassword,
+    propertyCode,
+    adminType,
+
+    organization: {
+      _id: org._id,
+      organizationCode: org.organizationCode,
+      name: org.name,
+      address: org.address
+    },
+
+    property: {
+      _id: prop._id,
+      propertyCode: prop.propertyCode,
+      name: prop.name,
+      address: prop.address,
+      phone: prop.phone,
+      organization: org
+    }
+  });
+
+  await newUser.save();
+
+  res.send({
+    name: newUser.name,
+    email: newUser.email,
+    adminType: newUser.adminType,
+    status: newUser.status,
+    organization,
+    property
   });
 };
 

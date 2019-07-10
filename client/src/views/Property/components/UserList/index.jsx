@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { isEmpty } from "util/validation";
-import { getUsers, setForm } from "actions";
+import { setForm, postUserProperty } from "actions";
+
+import { NotificationSnackbar } from "layouts";
 
 // External
 import { connect } from "react-redux";
@@ -27,16 +29,16 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function OrgAdmin({ getUsers, setForm, users }) {
+function OrgAdmin({ setForm, property, postUserProperty, notify }) {
   const classes = styles();
-  const { isLoading, data } = users;
+  const { isLoading, users } = property;
 
-  const column = ["Name", "Email", "Property Code", "Admin Type", "Status"];
+  const column = ["Name", "Email", "Admin Type", "Status"];
   const options = {
     selectInput: [
       {
         column: "Admin Type",
-        optionValue: ["security", "propAdmin", "orgAdmin"]
+        optionValue: ["security", "propAdmin"]
       },
       {
         column: "Status",
@@ -45,40 +47,45 @@ function OrgAdmin({ getUsers, setForm, users }) {
     ],
     colLink: { name: "Name", link: "/user/" },
     passwordField: true,
-    addButton: false,
-    addButtonSetForm: type => setForm("User", type)
+    addButtonSetForm: type => setForm("User", type),
+    saveFormFunc: data => postUserProperty(data)
   };
 
   /* eslint-disable */
     useEffect(() => {
-  
-      getUsers();
+
     }, []);
     /* eslint-enable */
 
-  return isLoading ? (
-    <div className={classes.progressWrapper}>
-      <CircularProgress />
-    </div>
-  ) : isEmpty(data) ? (
-    <Typography className={classes.noData} variant="h5">
-      There are no users
-    </Typography>
-  ) : (
-    <DataTable title="" column={column} data={data} options={options} />
+  return (
+    <Fragment>
+      {notify ? (
+        <NotificationSnackbar message={notify.message} type={notify.type} />
+      ) : null}
+
+      {isLoading ? (
+        <div className={classes.progressWrapper}>
+          <CircularProgress />
+        </div>
+      ) : (
+        <DataTable title="" column={column} data={users} options={options} />
+      )}
+    </Fragment>
   );
 }
 
 OrgAdmin.propTypes = {
-  getUsers: PropTypes.func.isRequired,
-  setForm: PropTypes.func.isRequired
+  setForm: PropTypes.func.isRequired,
+  postUserProperty: PropTypes.func.isRequired,
+  notify: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  users: state.users
+  property: state.property,
+  notify: state.notify
 });
 
 export default connect(
   mapStateToProps,
-  { getUsers, setForm }
+  { setForm, postUserProperty }
 )(OrgAdmin);

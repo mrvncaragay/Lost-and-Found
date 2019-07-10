@@ -10,7 +10,6 @@ exports.isBodyValid = (req, res, next) => {
       error = validateLogIn(req.body);
       break;
     case 'users':
-      console.log(req.body);
       error = validateUser(req.route.methods.put, req.body);
       break;
     case 'properties':

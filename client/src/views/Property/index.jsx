@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { setForm } from "actions";
 import { isEmpty } from "../../util/validation";
 
@@ -14,7 +14,8 @@ import {
   Found,
   Returned,
   Inquired,
-  LatestLostItemList
+  LatestLostItemList,
+  UserList
 } from "./components";
 
 // Material helpers
@@ -41,13 +42,10 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Property({ name, propertyState, notify, setForm }) {
+function Property({ name, notify, setForm }) {
   const classes = styles();
 
   /* eslint-disable */
-  useEffect(() => {
-
-  }, []);
   /* eslint-enable */
 
   return (
@@ -80,6 +78,10 @@ function Property({ name, propertyState, notify, setForm }) {
 
           <Grid item lg={4} xl={4} sm={12} xs={12}>
             <LatestLostItemList title="Recently Found Items" count={12} />
+          </Grid>
+
+          <Grid item lg={12} xl={12} sm={12} xs={12}>
+            <UserList />
           </Grid>
         </Grid>
       </div>

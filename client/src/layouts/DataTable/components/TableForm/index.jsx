@@ -40,7 +40,9 @@ function TableForm({ column, options, toggleTableForm, saveForm, form }) {
   const classes = styles();
 
   const handleSave = () => {
-    saveForm(state, form);
+    const { saveFormFunc } = options;
+    saveFormFunc ? saveFormFunc(state) : saveForm(state, form);
+
     reset();
     toggleTableForm(false);
   };

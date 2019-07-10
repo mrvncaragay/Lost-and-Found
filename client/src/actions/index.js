@@ -12,7 +12,7 @@ export {
 } from "./organizationActions";
 
 // Properties
-export { setCurrentProperty } from "./propertyActions";
+export { setCurrentProperty, postUserProperty } from "./propertyActions";
 
 // User
 export { getUsers, updateUser, postUser, searchUsers } from "./userActions";
