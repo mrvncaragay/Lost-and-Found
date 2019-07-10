@@ -36,7 +36,6 @@ exports.getOrgAdmins = async (req, res, next) => {
 };
 
 // Software Admin
-
 exports.getSoftwareAdminUsers = async (req, res) => {
   const result = await User.find()
     .select('-password')

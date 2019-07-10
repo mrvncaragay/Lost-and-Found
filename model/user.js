@@ -56,16 +56,21 @@ const User = mongoose.model(
     jwtToken: {
       type: String,
       get: function() {
+        let name = 'orgAdmin';
+        let propertyCode = 'orgAdmin';
+
+        if(this.property) {
+          name = this.property.name;
+          propertyCode = this.property.propertyCode;
+        }
+
         return jwt.sign(
           {
             name: this.name,
             email: this.email,
             propertyCode: this.propertyCode,
             adminType: this.adminType,
-            property: {
-              name: this.property.name,
-              propertyCode: this.propertyCode
-            },
+            propertyCode: propertyCode,
             organization: {
               name: this.organization.name,
               organizationCode: this.organization.organizationCode

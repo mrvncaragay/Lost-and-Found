@@ -1,6 +1,10 @@
 import setAuthJwtToken from "../util/setAuthJwtToken";
 import { RESET_ERRORS, SET_CURRENT_USER } from "./types";
 import { logError, logSuccess } from "./notificationActions";
+import {
+  setCurrentOrganization,
+  getOrganizationData
+} from "./organizationActions";
 
 // External
 import axios from "axios";
@@ -38,9 +42,15 @@ export const logInUser = (userData, history) => dispatch => {
       // Redirect to dashboard
       switch (decoded.adminType) {
         case "swAdmin":
-          history.push("/organization");
+          history.push("/organizations");
           break;
         default:
+          dispatch(setCurrentOrganization(decoded.organization));
+
+          // Retrieve all data based on organization
+          dispatch(getOrganizationData(decoded.organization.organizationCode));
+
+          // Redirect
           history.push("/dashboard");
           break;
       }
@@ -69,6 +79,9 @@ export const logOutUser = () => dispatch => {
   setAuthJwtToken(false);
   // Set current user object to empty
   dispatch(setCurrentUser({}));
+
+  // clear other data here
+
   // log successful logged out
   dispatch(logSuccess("Successfully logged out."));
 };

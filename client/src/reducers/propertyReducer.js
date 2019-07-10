@@ -21,6 +21,7 @@ export default function(state = initialState, action) {
         },
         isLoading: false
       };
+
     case POST_PROPERTY:
       return {
         ...state,

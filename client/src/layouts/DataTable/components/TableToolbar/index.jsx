@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { setType } from "actions";
 
 import {
   Toolbar,
@@ -21,8 +19,8 @@ function TableToolbar({
   setDataTable,
   title,
   toggleTableForm,
-  setType,
-  addButton = true
+  addButton = true,
+  addButtonSetForm = null
 }) {
   const [disableSearch, setDisableSearch] = useState(true);
   const [searchParams, setsearchParams] = useState("");
@@ -53,7 +51,8 @@ function TableToolbar({
   };
 
   const handleAdd = () => {
-    setType("post");
+    if (addButtonSetForm) addButtonSetForm("post");
+
     toggleTableForm(true);
   };
 
@@ -98,13 +97,4 @@ function TableToolbar({
   );
 }
 
-TableToolbar.propTypes = {
-  setType: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({});
-
-export default connect(
-  mapStateToProps,
-  { setType }
-)(TableToolbar);
+export default TableToolbar;

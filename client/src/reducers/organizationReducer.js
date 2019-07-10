@@ -1,10 +1,12 @@
 import {
   POST_ORGANIZATION,
+  POST_ORG_USER,
   GET_ORGANIZATIONS,
   EDIT_ORGANIZATION,
   SEARCH_ORGANIZATIONS,
   SET_LOADING_ORG,
-  SET_CURRENT_ORGANIZATION
+  SET_CURRENT_ORGANIZATION,
+  GET_ORG_DATA
 } from "../actions/types";
 
 const initialState = {
@@ -23,11 +25,32 @@ export default function(state = initialState, action) {
         }
       };
 
+    case POST_ORG_USER:
+      return {
+        ...state,
+        organization: {
+          main: { ...state.organization.main },
+          users: [action.payload, ...state.organization.users],
+          properties: [...state.organization.properties]
+        }
+      };
+
     case GET_ORGANIZATIONS:
       return {
         ...state,
         organizations: {
           data: action.payload.result
+        },
+        isLoading: false
+      };
+
+    case GET_ORG_DATA:
+      return {
+        ...state,
+        organization: {
+          main: { ...state.organization.main },
+          users: action.payload.users,
+          properties: action.payload.properties
         },
         isLoading: false
       };
@@ -55,7 +78,9 @@ export default function(state = initialState, action) {
     case SET_CURRENT_ORGANIZATION:
       return {
         ...state,
-        organization: action.payload
+        organization: {
+          main: action.payload
+        }
       };
 
     case SET_LOADING_ORG:

@@ -1,4 +1,4 @@
-import { SET_MODEL, SET_TYPE } from "../actions/types";
+import { SET_FORM } from "../actions/types";
 
 const initialState = {
   model: null,
@@ -7,16 +7,10 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case SET_MODEL:
+    case SET_FORM:
       return {
-        ...state,
-        model: action.payload
-      };
-
-    case SET_TYPE:
-      return {
-        ...state,
-        type: action.payload
+        model: action.formModel,
+        type: action.formType
       };
 
     default:

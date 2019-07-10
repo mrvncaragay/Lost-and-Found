@@ -114,7 +114,7 @@ function Sidebar({ user }) {
               activeClassName={classes.activeListItem}
               className={classes.listItem}
               component={myNavLink}
-              to="/organization"
+              to="/organizations"
             >
               <ListItemIcon className={classes.listItemIcon}>
                 <BuildingIcon />
@@ -122,7 +122,7 @@ function Sidebar({ user }) {
 
               <ListItemText
                 classes={{ primary: classes.listItemText }}
-                primary="Organization"
+                primary="Organizations"
               />
             </ListItem>
           </Fragment>

@@ -52,6 +52,7 @@ function DataTable({ title, column, data, options = {} }) {
             data={data}
             setDataTable={setDataTable}
             addButton={options.addButton}
+            addButtonSetForm={options.addButtonSetForm}
           />
 
           <Table size="small">

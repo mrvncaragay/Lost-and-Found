@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getProperties, setModel } from "actions";
+import { getProperties, setForm } from "actions";
 import { isEmpty } from "../../util/validation";
 
 // External
@@ -50,7 +50,7 @@ function Organization({
   name,
   propertyState,
   notify,
-  setModel,
+  setForm,
   organization
 }) {
   const classes = styles();
@@ -59,13 +59,15 @@ function Organization({
 
   /* eslint-disable */
   useEffect(() => {
-    setModel("Property")
 
     getProperties(50);
   }, []);
   /* eslint-enable */
 
   const column = ["Name", "Property Code", "Address", "Phone"];
+  const options = {
+    addButtonSetForm: type => setForm("Property", type)
+  };
 
   return (
     <DashboardLayout title={name.replace(/-/gi, " ")}>
@@ -106,7 +108,7 @@ function Organization({
 
 Organization.propTypes = {
   getProperties: PropTypes.func.isRequired,
-  setModel: PropTypes.func.isRequired,
+  setForm: PropTypes.func.isRequired,
   propertyState: PropTypes.object.isRequired,
   notify: PropTypes.object,
   organization: PropTypes.object
@@ -120,5 +122,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProperties, setModel }
+  { getProperties, setForm }
 )(Organization);

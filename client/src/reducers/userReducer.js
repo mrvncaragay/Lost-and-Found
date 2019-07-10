@@ -26,12 +26,7 @@ export default function(state = initialState, action) {
         data: action.payload.result,
         isLoading: false
       };
-    case GET_ORG_USERS:
-      return {
-        ...state,
-        orgUsers: action.payload.result,
-        isLoading: false
-      };
+
     case EDIT_USER:
       return {
         ...state,

@@ -5,6 +5,7 @@ export { logInUser, setCurrentUser, logOutUser } from "./authActions";
 export {
   postOrganization,
   getOrganizations,
+  getOrganizationData,
   setCurrentOrganization,
   searchOrganizations,
   updateOrganization
@@ -14,16 +15,10 @@ export {
 export { getProperties } from "./propertyActions";
 
 // User
-export {
-  getUsers,
-  updateUser,
-  postUser,
-  searchUsers,
-  getOrgUsers
-} from "./userActions";
+export { getUsers, updateUser, postUser, searchUsers } from "./userActions";
 
 // Form
-export { setModel, setType, saveForm } from "./formActions";
+export { saveForm, setForm } from "./formActions";
 
 // Error
 export { resetError } from "./notificationActions";

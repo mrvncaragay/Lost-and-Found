@@ -4,12 +4,13 @@ import { postProperty, updateProperty } from "./propertyActions";
 import { logError, logSuccess } from "./notificationActions";
 
 import {
-  POST_USER,
+  POST_ORG_USER,
   EDIT_USER,
   POST_ORGANIZATION,
   EDIT_ORGANIZATION,
   SET_MODEL,
   SET_TYPE,
+  SET_FORM,
   POST_PROPERTY,
   EDIT_PROPERTY
 } from "./types";
@@ -28,23 +29,30 @@ export const setType = model => dispatch => {
   });
 };
 
-const getOrgID = state => {
-  const adminType = state().auth.user.adminType;
+export const setForm = (model, type) => dispatch => {
+  dispatch({
+    type: SET_FORM,
+    formModel: model,
+    formType: type
+  });
+};
 
-  return adminType === "swAdmin" ? state().organization : state().auth.user;
+const getOrgID = state => {
+  const org = state().organization.organization;
+
+  return org ? org.main._id : null;
 };
 
 export const saveForm = (data, form) => (dispatch, getState) => {
   const type = `${form.type}${form.model}`;
-  const { organization } = getOrgID(getState);
+  const orgId = getOrgID(getState);
 
   switch (type) {
     case "postUser":
-      const postData = { ...data, organization: organization._id };
+      const postData = { ...data, organization: orgId };
       postUser(postData)
         .then(res => {
-          dispatch({ type: POST_USER, payload: res.data });
-          console.log(res);
+          dispatch({ type: POST_ORG_USER, payload: res.data });
           dispatch(logSuccess(`Successfully created a user: ${res.data.name}`));
         })
         .catch(err => dispatch(logError(err.response.data)));
@@ -80,7 +88,7 @@ export const saveForm = (data, form) => (dispatch, getState) => {
       break;
 
     case "postProperty":
-      const addIdToData = { ...data, organization: organization._id };
+      const addIdToData = { ...data, organization: orgId };
 
       postProperty(addIdToData)
         .then(res => {
@@ -93,7 +101,7 @@ export const saveForm = (data, form) => (dispatch, getState) => {
       break;
 
     case "editProperty":
-      const updateData = { ...data, organization: organization._id };
+      const updateData = { ...data, organization: orgId };
 
       updateProperty(updateData)
         .then(res => {

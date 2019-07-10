@@ -5,8 +5,10 @@ export const LOGIN_USER = "LOGIN_USER";
 
 // Organization
 export const POST_ORGANIZATION = "POST_ORGANIZATION";
+export const POST_ORG_USER = "POST_ORG_USER";
 export const GET_ORGANIZATION = "GET_ORGANIZATION";
 export const GET_ORGANIZATIONS = "GET_ORGANIZATIONS";
+export const GET_ORG_DATA = "GET_ORG_DATA";
 export const EDIT_ORGANIZATION = "EDIT_ORGANIZATION";
 export const SET_CURRENT_ORGANIZATION = "SET_CURRENT_ORGANIZATION";
 export const SEARCH_ORGANIZATIONS = "SEARCH_ORGANIZATIONS";
@@ -25,7 +27,6 @@ export const EDIT_PROPERTY = "EDIT_PROPERTY";
 export const POST_USER = "POST_USER";
 export const GET_USER = "GET_USER";
 export const GET_USERS = "GET_USERS";
-export const GET_ORG_USERS = "GET_ORG_USERS";
 export const EDIT_USER = "EDIT_USER";
 export const SEARCH_USERS = "SEARCH_USERS";
 export const USER_LOADING = "USER_LOADING";
@@ -36,6 +37,7 @@ export const SET_LOADING_USER = "SET_LOADING_USER";
 // FORM
 export const SET_MODEL = "SET_MODEL";
 export const SET_TYPE = "SET_TYPE";
+export const SET_FORM = "SET_FORM";
 export const SAVE_FORM = "SAVE_FORM";
 
 // NOTIFICATION

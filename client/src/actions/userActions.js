@@ -1,30 +1,16 @@
-import {
-  GET_USERS,
-  SEARCH_USERS,
-  SET_LOADING_USER,
-  GET_ORG_USERS
-} from "./types";
+import { GET_USERS, SEARCH_USERS, SET_LOADING_USER } from "./types";
 import { logError } from "./notificationActions";
 
 // External
 import axios from "axios";
 
 export const postUser = uData => {
-  const {
-    name,
-    organization,
-    propertyCode,
-    email,
-    password,
-    adminType,
-    status
-  } = uData;
+  const { name, organization, email, password, adminType, status } = uData;
   return axios.post("/api/users", {
     name,
     email,
     organization,
     password,
-    propertyCode,
     adminType,
     status
   });
@@ -41,25 +27,6 @@ export const getUsers = rowsPerPage => (dispatch, getState) => {
         orgCode: user.organization.organizationCode,
         adminType: user.adminType,
         propertyCode: user.propertyCode
-      }
-    })
-    .then(res => {
-      dispatch({
-        type: GET_USERS,
-        payload: res.data
-      });
-    })
-    .catch(err => console.log(err));
-};
-
-export const getOrgUsers = orgCode => dispatch => {
-  dispatch(setLoading());
-  //add the state to organization.organization.users
-  //add the state to organization.organization.properties
-  axios
-    .post("/api/swadmin/users/", null, {
-      params: {
-        orgCode
       }
     })
     .then(res => {

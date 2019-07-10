@@ -6,6 +6,6 @@ const objIdAuth = require('../middleware/objectIdAuth');
 const auth = require('../middleware/bodyAuth');
 const admin = require('../middleware/admin');
 
-router.post('/users', jwtAuth.isTokenValid, swadmin.getOrgUsers);
+router.post('/data', jwtAuth.isTokenValid, swadmin.getOrgData);
 
 module.exports = router;

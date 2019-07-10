@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { getProperties, setModel, getOrgUsers } from "actions";
-import { isEmpty } from "../../util/validation";
+import { getOrganizationData, setForm } from "actions";
 
 // External
 import { connect } from "react-redux";
@@ -40,38 +39,29 @@ const styles = makeStyles(theme => ({
 }));
 
 function Organization({
-  getProperties,
+  getOrganizationData,
   name,
-  property,
   notify,
-  setModel,
-  getOrgUsers,
-  users,
+  setForm,
   organization
 }) {
   const classes = styles();
 
-  const { isLoading, properties } = property;
-  const { isLoading: userLoading, data } = users;
+  const { isLoading, organization: mainOrg } = organization;
 
   /* eslint-disable */
   useEffect(() => {
-    setModel("Property")
-
-    //getProperties(50, organization.organizationCode); //this is null if page is refreshed
-    getOrgUsers(organization.organizationCode);
+  
+    getOrganizationData();
   }, []);
   /* eslint-enable */
 
-  const column = ["Name", "Property Code", "Address", "Phone"];
+  const propertyColumn = ["Name", "Property Code", "Address", "Phone"];
+  const propertyOptions = {
+    addButtonSetForm: type => setForm("Property", type)
+  };
 
-  const ucolumn = [
-    "Name",
-    "Email",
-    "Organization Code",
-    "Admin Type",
-    "Status"
-  ];
+  const ucolumn = ["Name", "Email", "Admin Type", "Status"];
   const uoptions = {
     selectInput: [
       {
@@ -84,11 +74,14 @@ function Organization({
       }
     ],
     colLink: { name: "Name", link: "/user/" },
-    passwordField: true
+    passwordField: true,
+    addButtonSetForm: type => setForm("User", type)
   };
 
   return (
-    <DashboardLayout title={name.replace(/-/gi, " ")}>
+    <DashboardLayout
+      title={`${name.replace(/-/gi, " ")} (${mainOrg.main.organizationCode})`}
+    >
       {notify ? (
         <NotificationSnackbar message={notify.message} type={notify.type} />
       ) : null}
@@ -107,31 +100,32 @@ function Organization({
             <Users title="USERS" />
           </Grid>
 
-          {/* <Grid item lg={12} xl={12} sm={12} xs={12}>
+          <Grid item lg={12} xl={12} sm={12} xs={12}>
             {isLoading ? (
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
-            ) : isEmpty(properties) ? null : (
-              <DataTable
-                title="Properties"
-                column={column}
-                data={properties.data}
-              />
-            )}
-          </Grid> */}
-
-          <Grid item lg={12} xl={12} sm={12} xs={12}>
-            {userLoading ? (
-              <div className={classes.progressWrapper}>
-                <CircularProgress />
-              </div>
-            ) : isEmpty(data) ? null : (
+            ) : (
               <DataTable
                 title="Users"
                 column={ucolumn}
-                data={data}
+                data={mainOrg.users}
                 options={uoptions}
+              />
+            )}
+          </Grid>
+
+          <Grid item lg={12} xl={12} sm={12} xs={12}>
+            {isLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : (
+              <DataTable
+                title="Properties"
+                column={propertyColumn}
+                options={propertyOptions}
+                data={mainOrg.properties}
               />
             )}
           </Grid>
@@ -142,23 +136,18 @@ function Organization({
 }
 
 Organization.propTypes = {
-  getProperties: PropTypes.func.isRequired,
-  getOrgUsers: PropTypes.func.isRequired,
-  setModel: PropTypes.func.isRequired,
-  property: PropTypes.object.isRequired,
-  users: PropTypes.object,
+  getOrganizationData: PropTypes.func.isRequired,
+  setForm: PropTypes.func.isRequired,
   notify: PropTypes.object,
   organization: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  property: state.property,
   notify: state.notify,
-  users: state.users,
-  organization: state.organization.organization
+  organization: state.organization
 });
 
 export default connect(
   mapStateToProps,
-  { getProperties, setModel, getOrgUsers }
+  { getOrganizationData, setForm }
 )(Organization);

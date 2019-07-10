@@ -3,8 +3,11 @@ import {
   SEARCH_ORGANIZATIONS,
   CLEAR_CURRENT_ORGANIZATIONS,
   SET_CURRENT_ORGANIZATION,
-  SET_LOADING_ORG
+  SET_LOADING_ORG,
+  GET_ORG_DATA
 } from "./types";
+
+import { logError } from "./notificationActions";
 
 // External
 import axios from "axios";
@@ -32,6 +35,24 @@ export const getOrganizations = rowsPerPage => dispatch => {
       });
     })
     .catch(err => console.log(err));
+};
+
+export const getOrganizationData = orgCode => (dispatch, getState) => {
+  dispatch(setLoading());
+  //const orgCode = getState().organization.organization.main.organizationCode;
+  axios
+    .post("/api/swadmin/data/", null, {
+      params: {
+        orgCode
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_ORG_DATA,
+        payload: res.data
+      });
+    })
+    .catch(err => dispatch(logError(err.response.data)));
 };
 
 export const searchOrganizations = params => dispatch => {

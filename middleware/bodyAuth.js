@@ -105,7 +105,8 @@ function validateUser(put, req) {
     email: Joi.string()
       .min(5)
       .max(50)
-      .email(),
+      .email()
+      .required(),
     password: Joi.string()
       .min(10)
       .max(255)
@@ -118,7 +119,7 @@ function validateUser(put, req) {
           message: 'AdminType is required.'
         };
       }),
-    organization: Joi.string(),
+    organization: Joi.string().required(),
     property: Joi.string(),
     status: Joi.string().valid('active', 'inactive')
   };

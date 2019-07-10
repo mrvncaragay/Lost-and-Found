@@ -27,7 +27,7 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function SwAdmin({ setForm, getUsers, users }) {
+function OrgAdmin({ getUsers, setForm, users }) {
   const classes = styles();
   const { isLoading, data } = users;
 
@@ -51,7 +51,7 @@ function SwAdmin({ setForm, getUsers, users }) {
 
   /* eslint-disable */
     useEffect(() => {
-
+  
       getUsers();
     }, []);
     /* eslint-enable */
@@ -69,17 +69,16 @@ function SwAdmin({ setForm, getUsers, users }) {
   );
 }
 
-SwAdmin.propTypes = {
+OrgAdmin.propTypes = {
   getUsers: PropTypes.func.isRequired,
   setForm: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  notify: state.notify,
   users: state.users
 });
 
 export default connect(
   mapStateToProps,
   { getUsers, setForm }
-)(SwAdmin);
+)(OrgAdmin);
