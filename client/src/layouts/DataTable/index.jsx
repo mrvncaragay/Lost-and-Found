@@ -80,7 +80,12 @@ function DataTable({ title, column, data, options = {} }) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((item, index) => (
                   <Fragment key={index}>
-                    <TableItem data={item} column={column} options={options} />
+                    <TableItem
+                      data={item}
+                      column={column}
+                      options={options}
+                      setSelectedData={options.setSelectedData}
+                    />
                   </Fragment>
                 ))}
             </TableBody>

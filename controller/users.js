@@ -108,14 +108,21 @@ exports.updateUser = async (req, res) => {
       name: req.body.name,
       adminType: req.body.adminType,
       propertyCode: req.body.propertyCode,
-      organizationCode: newUser.organizationCode,
       status: req.body.status
     },
     { new: true }
   ).select('-password');
   if (!user) return res.status(404).send('The user with the given ID was not found.');
 
-  res.send(user);
+  res.send({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    adminType: user.adminType,
+    propertyCode: user.propertyCode,
+    organization: user.organization,
+    status: user.status
+  });
 };
 
 exports.removeUser = async (req, res) => {

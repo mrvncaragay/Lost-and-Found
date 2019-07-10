@@ -62,6 +62,7 @@ export const updateUser = newData => {
   return axios.put("/api/users/" + newData._id, {
     name: newData.name,
     propertyCode: newData.propertyCode,
+    organization: newData.organization,
     adminType: newData.adminType,
     status: newData.status
   });

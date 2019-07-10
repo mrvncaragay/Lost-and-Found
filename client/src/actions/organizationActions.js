@@ -37,9 +37,9 @@ export const getOrganizations = rowsPerPage => dispatch => {
     .catch(err => console.log(err));
 };
 
-export const getOrganizationData = orgCode => (dispatch, getState) => {
+export const getOrganizationData = () => (dispatch, getState) => {
   dispatch(setLoading());
-  //const orgCode = getState().organization.organization.main.organizationCode;
+  const orgCode = getState().organization.organization.main.organizationCode;
   axios
     .post("/api/swadmin/data/", null, {
       params: {

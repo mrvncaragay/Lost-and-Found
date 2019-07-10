@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { getOrganizations, setForm } from "actions";
+import { getOrganizations, setForm, setCurrentOrganization } from "actions";
 import { isEmpty } from "util/validation";
 
 // External
@@ -32,6 +32,7 @@ const styles = makeStyles(theme => ({
 
 function SoftwareAdminDashBoard({
   getOrganizations,
+  setCurrentOrganization,
   setForm,
   organization,
   notify
@@ -48,6 +49,7 @@ function SoftwareAdminDashBoard({
   const column = ["Name", "Organization Code", "Address"];
   const options = {
     colLink: { name: "Name", link: "/organization/" },
+    setSelectedData: data => setCurrentOrganization(data),
     addButtonSetForm: type => setForm("Organization", type)
   };
 
@@ -81,6 +83,7 @@ function SoftwareAdminDashBoard({
 
 SoftwareAdminDashBoard.propTypes = {
   getOrganizations: PropTypes.func.isRequired,
+  setCurrentOrganization: PropTypes.func.isRequired,
   setForm: PropTypes.func.isRequired,
   organization: PropTypes.object.isRequired,
   notify: PropTypes.object
@@ -93,5 +96,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getOrganizations, setForm }
+  { getOrganizations, setForm, setCurrentOrganization }
 )(SoftwareAdminDashBoard);

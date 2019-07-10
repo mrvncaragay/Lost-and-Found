@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getProperties, setForm } from "actions";
+import { setForm } from "actions";
 import { isEmpty } from "../../util/validation";
 
 // External
@@ -7,11 +7,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // Shared layouts
-import {
-  Dashboard as DashboardLayout,
-  DataTable,
-  NotificationSnackbar
-} from "layouts";
+import { Dashboard as DashboardLayout, NotificationSnackbar } from "layouts";
 
 import {
   Lost,
@@ -45,32 +41,17 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Organization({
-  getProperties,
-  name,
-  propertyState,
-  notify,
-  setForm,
-  organization
-}) {
+function Property({ name, propertyState, notify, setForm }) {
   const classes = styles();
-
-  const { isLoading, properties } = propertyState;
 
   /* eslint-disable */
   useEffect(() => {
 
-    getProperties(50);
   }, []);
   /* eslint-enable */
 
-  const column = ["Name", "Property Code", "Address", "Phone"];
-  const options = {
-    addButtonSetForm: type => setForm("Property", type)
-  };
-
   return (
-    <DashboardLayout title={name.replace(/-/gi, " ")}>
+    <DashboardLayout title={`${name.replace(/-/gi, " ")} (replace)`}>
       {notify ? (
         <NotificationSnackbar message={notify.message} type={notify.type} />
       ) : null}
@@ -106,21 +87,18 @@ function Organization({
   );
 }
 
-Organization.propTypes = {
-  getProperties: PropTypes.func.isRequired,
+Property.propTypes = {
   setForm: PropTypes.func.isRequired,
   propertyState: PropTypes.object.isRequired,
-  notify: PropTypes.object,
-  organization: PropTypes.object
+  notify: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   propertyState: state.property,
-  notify: state.notify,
-  organization: state.organization.organization
+  notify: state.notify
 });
 
 export default connect(
   mapStateToProps,
-  { getProperties, setForm }
-)(Organization);
+  { setForm }
+)(Property);

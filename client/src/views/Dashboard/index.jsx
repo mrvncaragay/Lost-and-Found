@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { setForm, setCurrentProperty } from "actions";
+
 import { isEmpty } from "../../util/validation";
 
 // External
@@ -38,7 +40,7 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Organization({ notify, user, organization }) {
+function Organization({ notify, organization, setForm, setCurrentProperty }) {
   const classes = styles();
 
   const { isLoading, organization: mainOrg } = organization;
@@ -52,12 +54,14 @@ function Organization({ notify, user, organization }) {
 
   const column = ["Name", "Property Code", "Address", "Phone"];
   const options = {
-    colLink: { name: "Name", link: `${user.organization.organizationCode}/` }
+    colLink: { name: "Name", link: `${mainOrg.main.organizationCode}/` },
+    addButtonSetForm: type => setForm("Property", type),
+    setSelectedData: data => setCurrentProperty(data)
   };
 
   return (
     <DashboardLayout
-      title={`${user.organization.name} (${user.organization.organizationCode})`}
+      title={`${mainOrg.main.name} (${mainOrg.main.organizationCode})`}
     >
       {notify ? (
         <NotificationSnackbar message={notify.message} type={notify.type} />
@@ -121,6 +125,8 @@ function Organization({ notify, user, organization }) {
 }
 
 Organization.propTypes = {
+  setForm: PropTypes.func.isRequired,
+  setCurrentProperty: PropTypes.func.isRequired,
   notify: PropTypes.object,
   organization: PropTypes.object
 };
@@ -128,11 +134,10 @@ Organization.propTypes = {
 const mapStateToProps = state => ({
   property: state.property,
   notify: state.notify,
-  user: state.auth.user,
   organization: state.organization
 });
 
 export default connect(
   mapStateToProps,
-  {}
+  { setForm, setCurrentProperty }
 )(Organization);

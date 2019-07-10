@@ -5,29 +5,13 @@ import { logError, logSuccess } from "./notificationActions";
 
 import {
   POST_ORG_USER,
-  EDIT_USER,
+  EDIT_ORG_USER,
   POST_ORGANIZATION,
   EDIT_ORGANIZATION,
-  SET_MODEL,
-  SET_TYPE,
   SET_FORM,
-  POST_PROPERTY,
-  EDIT_PROPERTY
+  POST_ORG_PROPERTY,
+  EDIT_ORG_PROPERTY
 } from "./types";
-
-export const setModel = model => dispatch => {
-  dispatch({
-    type: SET_MODEL,
-    payload: model
-  });
-};
-
-export const setType = model => dispatch => {
-  dispatch({
-    type: SET_TYPE,
-    payload: model
-  });
-};
 
 export const setForm = (model, type) => dispatch => {
   dispatch({
@@ -46,11 +30,11 @@ const getOrgID = state => {
 export const saveForm = (data, form) => (dispatch, getState) => {
   const type = `${form.type}${form.model}`;
   const orgId = getOrgID(getState);
+  const newData = { ...data, organization: orgId };
 
   switch (type) {
     case "postUser":
-      const postData = { ...data, organization: orgId };
-      postUser(postData)
+      postUser(newData)
         .then(res => {
           dispatch({ type: POST_ORG_USER, payload: res.data });
           dispatch(logSuccess(`Successfully created a user: ${res.data.name}`));
@@ -59,9 +43,9 @@ export const saveForm = (data, form) => (dispatch, getState) => {
       break;
 
     case "editUser":
-      updateUser(data)
+      updateUser(newData)
         .then(res => {
-          dispatch({ type: EDIT_USER, payload: res.data });
+          dispatch({ type: EDIT_ORG_USER, payload: res.data });
           dispatch(logSuccess(`Successfully updated ${res.data.name}`));
         })
         .catch(err => dispatch(logError(err.response.data)));
@@ -88,11 +72,9 @@ export const saveForm = (data, form) => (dispatch, getState) => {
       break;
 
     case "postProperty":
-      const addIdToData = { ...data, organization: orgId };
-
-      postProperty(addIdToData)
+      postProperty(newData)
         .then(res => {
-          dispatch({ type: POST_PROPERTY, payload: res.data });
+          dispatch({ type: POST_ORG_PROPERTY, payload: res.data });
           dispatch(
             logSuccess(`Successfully created a property: ${res.data.name}`)
           );
@@ -101,11 +83,9 @@ export const saveForm = (data, form) => (dispatch, getState) => {
       break;
 
     case "editProperty":
-      const updateData = { ...data, organization: orgId };
-
-      updateProperty(updateData)
+      updateProperty(newData)
         .then(res => {
-          dispatch({ type: EDIT_PROPERTY, payload: res.data });
+          dispatch({ type: EDIT_ORG_PROPERTY, payload: res.data });
           dispatch(logSuccess(`Successfully updated ${res.data.name}`));
         })
         .catch(err => dispatch(logError(err.response.data)));

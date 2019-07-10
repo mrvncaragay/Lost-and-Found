@@ -40,7 +40,13 @@ exports.postProperty = async (req, res) => {
 
   await prop.save();
 
-  res.send(prop);
+  res.send({
+    _id: prop._id,
+    name: prop.name,
+    propertyCode: prop.propertyCode,
+    address: prop.address,
+    phone: prop.phone
+  });
 };
 
 exports.updateProperty = async (req, res) => {
@@ -57,7 +63,7 @@ exports.updateProperty = async (req, res) => {
 
       organization: {
         _id: org._id,
-        propertyCode: org.propertyCode,
+        organizationCode: org.organizationCode,
         name: org.name,
         address: org.address
       }
@@ -66,7 +72,13 @@ exports.updateProperty = async (req, res) => {
   );
   if (!prop) return res.status(404).send('The property with the given ID was not found.');
 
-  res.send(prop);
+  res.send({
+    _id: prop._id,
+    name: prop.name,
+    propertyCode: prop.propertyCode,
+    address: prop.address,
+    phone: prop.phone
+  });
 };
 
 exports.removeProperty = async (req, res) => {

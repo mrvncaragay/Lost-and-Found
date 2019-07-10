@@ -59,7 +59,7 @@ const User = mongoose.model(
         let name = 'orgAdmin';
         let propertyCode = 'orgAdmin';
 
-        if(this.property) {
+        if (this.property) {
           name = this.property.name;
           propertyCode = this.property.propertyCode;
         }
@@ -72,10 +72,10 @@ const User = mongoose.model(
             adminType: this.adminType,
             propertyCode: propertyCode,
             organization: {
+              _id: this.organization._id,
               name: this.organization.name,
               organizationCode: this.organization.organizationCode
             }
-
           },
           process.env.JWT,
           {

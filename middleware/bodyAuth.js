@@ -10,6 +10,7 @@ exports.isBodyValid = (req, res, next) => {
       error = validateLogIn(req.body);
       break;
     case 'users':
+      console.log(req.body);
       error = validateUser(req.route.methods.put, req.body);
       break;
     case 'properties':
@@ -105,12 +106,10 @@ function validateUser(put, req) {
     email: Joi.string()
       .min(5)
       .max(50)
-      .email()
-      .required(),
+      .email(),
     password: Joi.string()
       .min(10)
-      .max(255)
-      .required(),
+      .max(255),
     adminType: Joi.string()
       .valid('swAdmin', 'orgAdmin', 'propAdmin', 'security')
       .required()

@@ -1,5 +1,5 @@
 import React from "react";
-import { isSwAdmin, isPropAdmin, isOrgAdmin } from "util/validation";
+import { isSwAdmin } from "util/validation";
 
 // External
 import { connect } from "react-redux";

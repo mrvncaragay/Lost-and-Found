@@ -1,5 +1,4 @@
 import React, { useState, Fragment } from "react";
-import { setCurrentOrganization } from "actions";
 import { Link } from "react-router-dom";
 import { isSwAdmin } from "util/validation";
 
@@ -30,7 +29,7 @@ import { Edit, DomainDisabledOutlined as DomainIcon } from "@material-ui/icons";
 
 import styles from "./styles";
 
-function TableItem({ data, column, options, setCurrentOrganization }) {
+function TableItem({ data, column, options, setSelectedData = null }) {
   const [isEditing, toggleEdit] = useState(false);
 
   const classes = styles();
@@ -46,7 +45,7 @@ function TableItem({ data, column, options, setCurrentOrganization }) {
   //console.log("TODO RE_RENDER", data.name);
 
   const handleLinkClick = () => {
-    setCurrentOrganization(data);
+    if (setSelectedData) setSelectedData(data);
   };
 
   return isEditing ? (
@@ -104,7 +103,6 @@ function TableItem({ data, column, options, setCurrentOrganization }) {
 }
 
 TableItem.propTypes = {
-  setCurrentOrganization: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 };
 
@@ -114,5 +112,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setCurrentOrganization }
+  {}
 )(TableItem);

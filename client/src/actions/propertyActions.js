@@ -1,5 +1,4 @@
-import { GET_PROPERTIES, SET_LOADING_PROP } from "./types";
-import { logError } from "./notificationActions";
+import { SET_LOADING_PROP, SET_CURRENT_PROPERTY } from "./types";
 
 // External
 import axios from "axios";
@@ -15,24 +14,6 @@ export const postProperty = pData => {
   });
 };
 
-export const getProperties = (rowsPerPage, orgCode = null) => dispatch => {
-  dispatch(setLoading());
-  axios
-    .post("/api/properties/dashboard", null, {
-      params: {
-        rowsPerPage: rowsPerPage,
-        orgCode: orgCode
-      }
-    })
-    .then(res => {
-      dispatch({
-        type: GET_PROPERTIES,
-        payload: res.data
-      });
-    })
-    .catch(err => dispatch(logError(err.response.data)));
-};
-
 export const updateProperty = newData => {
   const { name, propertyCode, address, phone, organization } = newData;
   return axios.put("/api/properties/" + newData._id, {
@@ -42,6 +23,13 @@ export const updateProperty = newData => {
     phone,
     organization
   });
+};
+
+export const setCurrentProperty = prop => {
+  return {
+    type: SET_CURRENT_PROPERTY,
+    payload: prop
+  };
 };
 
 // Properties Loading

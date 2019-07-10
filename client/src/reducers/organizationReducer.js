@@ -1,8 +1,11 @@
 import {
   POST_ORGANIZATION,
   POST_ORG_USER,
+  EDIT_ORG_USER,
+  POST_ORG_PROPERTY,
   GET_ORGANIZATIONS,
   EDIT_ORGANIZATION,
+  EDIT_ORG_PROPERTY,
   SEARCH_ORGANIZATIONS,
   SET_LOADING_ORG,
   SET_CURRENT_ORGANIZATION,
@@ -35,6 +38,16 @@ export default function(state = initialState, action) {
         }
       };
 
+    case POST_ORG_PROPERTY:
+      return {
+        ...state,
+        organization: {
+          main: { ...state.organization.main },
+          users: [...state.organization.users],
+          properties: [action.payload, ...state.organization.properties]
+        }
+      };
+
     case GET_ORGANIZATIONS:
       return {
         ...state,
@@ -61,6 +74,32 @@ export default function(state = initialState, action) {
         organizations: {
           data: state.organizations.data.map(org =>
             org._id === action.payload._id ? action.payload : org
+          )
+        },
+        isLoading: false
+      };
+
+    case EDIT_ORG_PROPERTY:
+      return {
+        ...state,
+        organization: {
+          main: { ...state.organization.main },
+          users: [...state.organization.users],
+          properties: state.organization.properties.map(prop =>
+            prop._id === action.payload._id ? action.payload : prop
+          )
+        },
+        isLoading: false
+      };
+
+    case EDIT_ORG_USER:
+      return {
+        ...state,
+        organization: {
+          main: { ...state.organization.main },
+          properties: [...state.organization.properties],
+          users: state.organization.users.map(prop =>
+            prop._id === action.payload._id ? action.payload : prop
           )
         },
         isLoading: false
