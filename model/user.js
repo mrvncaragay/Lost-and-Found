@@ -39,12 +39,15 @@ const User = mongoose.model(
       required: true
     },
 
-    organization: {
-      type: Organization.schema
-    },
-
     property: {
       type: Property.schema
+    },
+
+    propertyCode: {
+      type: String,
+      default: function() {
+        return this.property.propertyCode;
+      }
     },
 
     status: {
@@ -56,26 +59,14 @@ const User = mongoose.model(
     jwtToken: {
       type: String,
       get: function() {
-        let name = 'orgAdmin';
-        let propertyCode = 'orgAdmin';
-
-        if (this.property) {
-          name = this.property.name;
-          propertyCode = this.property.propertyCode;
-        }
-
         return jwt.sign(
           {
             name: this.name,
             email: this.email,
-            propertyCode: this.propertyCode,
             adminType: this.adminType,
-            propertyCode: propertyCode,
-            organization: {
-              _id: this.organization._id,
-              name: this.organization.name,
-              organizationCode: this.organization.organizationCode
-            }
+            propertyCode: this.property.propertyCode,
+            organizationCode: this.property.organization.organizationCode,
+            property: this.property
           },
           process.env.JWT,
           {

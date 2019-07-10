@@ -24,7 +24,7 @@ export const getUsers = rowsPerPage => (dispatch, getState) => {
     .post("/api/users/dashboard", null, {
       params: {
         rowsPerPage: rowsPerPage,
-        orgCode: user.organization.organizationCode,
+        orgCode: user.organizationCode,
         adminType: user.adminType,
         propertyCode: user.propertyCode
       }

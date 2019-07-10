@@ -5,8 +5,12 @@ const Organization = require('../model/organization');
 exports.getOrgData = async (req, res, next) => {
   const { orgCode } = req.query;
 
-  const users = await User.find({ 'organization.organizationCode': orgCode })
-    .select('-password -organization.address -organization._id')
+  const users = await User.find()
+    .or([
+      { 'property.organization.organizationCode': orgCode },
+      { 'property.propertyCode': orgCode }
+    ])
+    .select('-password -property')
     .sort({ name: 1 });
 
   const properties = await Property.find({ 'organization.organizationCode': orgCode })

@@ -23,9 +23,10 @@ exports.getPropAdmins = async (req, res, next) => {
 // Organization admins
 exports.getOrgAdmins = async (req, res, next) => {
   const { rowsPerPage, orgCode, adminType } = req.query;
-
+  console.log(req.query);
   if (adminType === 'orgAdmin' && orgCode) {
-    const result = await User.find({ 'organization.organizationCode': orgCode })
+    const result = await User.find()
+      .or([{ 'property.organization.organizationCode': orgCode }])
       .limit(parseInt(rowsPerPage, 10))
       .select('-password')
       .sort({ name: 1 });
@@ -62,8 +63,13 @@ exports.getUser = async (req, res) => {
 
 exports.postUser = async (req, res, next) => {
   let { email, password, name, adminType, propertyCode, organization, property = null } = req.body;
+  let prop;
 
-  if (property) return next();
+  // check for property
+  if (property) {
+    prop = await Property.findById(property);
+    if (!prop) return res.status(400).send('Invalid property.');
+  }
 
   const org = await Organization.findById(organization);
   if (!org) return res.status(400).send('Invalid organization.');
@@ -74,47 +80,15 @@ exports.postUser = async (req, res, next) => {
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
-  const newUser = new User({
-    name,
-    email,
-    password: hashedPassword,
-    propertyCode,
-    adminType,
-
-    organization: {
-      _id: org._id,
-      organizationCode: org.organizationCode,
+  // if no property assigned it to organization
+  if (!prop) {
+    prop = {
       name: org.name,
-      address: org.address
-    }
-  });
-
-  await newUser.save();
-
-  res.send({
-    name: newUser.name,
-    email: newUser.email,
-    adminType: newUser.adminType,
-    propertyCode: newUser.propertyCode,
-    organization: newUser.organization,
-    status: newUser.status
-  });
-};
-
-exports.postUserProperty = async (req, res) => {
-  let { email, password, name, adminType, propertyCode, organization, property } = req.body;
-
-  const org = await Organization.findById(organization);
-  if (!org) return res.status(400).send('Invalid organization.');
-
-  const prop = await Property.findById(property);
-  if (!prop) return res.status(400).send('Invalid property.');
-
-  const user = await User.findOne({ email });
-
-  if (user && user.email === email) return res.status(400).send('Email is already registered.');
-
-  const hashedPassword = await bcrypt.hash(password, 12);
+      propertyCode: org.organizationCode,
+      address: org.address,
+      phone: 'xxx-xxx-xxx'
+    };
+  }
 
   const newUser = new User({
     name,
@@ -122,21 +96,10 @@ exports.postUserProperty = async (req, res) => {
     password: hashedPassword,
     propertyCode,
     adminType,
-
-    organization: {
-      _id: org._id,
-      organizationCode: org.organizationCode,
-      name: org.name,
-      address: org.address
-    },
 
     property: {
-      _id: prop._id,
-      propertyCode: prop.propertyCode,
-      name: prop.name,
-      address: prop.address,
-      phone: prop.phone,
-      organization: org
+      ...prop,
+      organization: { ...org }
     }
   });
 
@@ -146,9 +109,8 @@ exports.postUserProperty = async (req, res) => {
     name: newUser.name,
     email: newUser.email,
     adminType: newUser.adminType,
-    status: newUser.status,
-    organization,
-    property
+    propertyCode: prop.propertyCode,
+    status: newUser.status
   });
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { setForm } from "actions";
 import { isEmpty } from "../../util/validation";
 
@@ -46,6 +46,8 @@ function Property({ name, notify, setForm }) {
   const classes = styles();
 
   /* eslint-disable */
+  useEffect(() => {
+  }, [])
   /* eslint-enable */
 
   return (

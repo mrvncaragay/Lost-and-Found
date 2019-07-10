@@ -30,10 +30,7 @@ exports.postProperty = async (req, res) => {
     phone: req.body.phone,
 
     organization: {
-      _id: org._id,
-      organizationCode: org.organizationCode,
-      name: org.name,
-      address: org.address
+      ...org
     }
   });
   if (!prop) return res.status(400).send('Bad request.');

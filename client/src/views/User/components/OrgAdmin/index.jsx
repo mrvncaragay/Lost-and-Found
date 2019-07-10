@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { isEmpty } from "util/validation";
-import { getUsers, setForm } from "actions";
+import { setForm } from "actions";
 
 // External
 import { connect } from "react-redux";
@@ -27,9 +27,9 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function OrgAdmin({ getUsers, setForm, users }) {
+function OrgAdmin({ setForm, organization }) {
   const classes = styles();
-  const { isLoading, data } = users;
+  const { isLoading, organization: org } = organization;
 
   const column = ["Name", "Email", "Property Code", "Admin Type", "Status"];
   const options = {
@@ -45,14 +45,13 @@ function OrgAdmin({ getUsers, setForm, users }) {
     ],
     colLink: { name: "Name", link: "/user/" },
     passwordField: true,
-    addButton: false,
-    addButtonSetForm: type => setForm("User", type)
+    addButtonSetForm: type => setForm("User", type),
+    addButton: false
   };
 
   /* eslint-disable */
     useEffect(() => {
   
-      getUsers();
     }, []);
     /* eslint-enable */
 
@@ -60,25 +59,24 @@ function OrgAdmin({ getUsers, setForm, users }) {
     <div className={classes.progressWrapper}>
       <CircularProgress />
     </div>
-  ) : isEmpty(data) ? (
+  ) : isEmpty(org.users) ? (
     <Typography className={classes.noData} variant="h5">
       There are no users
     </Typography>
   ) : (
-    <DataTable title="" column={column} data={data} options={options} />
+    <DataTable title="" column={column} data={org.users} options={options} />
   );
 }
 
 OrgAdmin.propTypes = {
-  getUsers: PropTypes.func.isRequired,
   setForm: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  users: state.users
+  organization: state.organization
 });
 
 export default connect(
   mapStateToProps,
-  { getUsers, setForm }
+  { setForm }
 )(OrgAdmin);

@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from "react";
 import { isEmpty } from "util/validation";
-import { setForm, postUserProperty } from "actions";
+import { setForm, postUserProperty, getUsersProperty } from "actions";
 
 import { NotificationSnackbar } from "layouts";
 
@@ -29,7 +29,13 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function OrgAdmin({ setForm, property, postUserProperty, notify }) {
+function UserList({
+  setForm,
+  property,
+  postUserProperty,
+  notify,
+  getUsersProperty
+}) {
   const classes = styles();
   const { isLoading, users } = property;
 
@@ -53,7 +59,7 @@ function OrgAdmin({ setForm, property, postUserProperty, notify }) {
 
   /* eslint-disable */
     useEffect(() => {
-
+      // getUsersProperty
     }, []);
     /* eslint-enable */
 
@@ -74,9 +80,10 @@ function OrgAdmin({ setForm, property, postUserProperty, notify }) {
   );
 }
 
-OrgAdmin.propTypes = {
+UserList.propTypes = {
   setForm: PropTypes.func.isRequired,
   postUserProperty: PropTypes.func.isRequired,
+  getUsersProperty: PropTypes.func.isRequired,
   notify: PropTypes.object
 };
 
@@ -87,5 +94,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setForm, postUserProperty }
-)(OrgAdmin);
+  { setForm, postUserProperty, getUsersProperty }
+)(UserList);

@@ -45,10 +45,12 @@ export const logInUser = (userData, history) => dispatch => {
           history.push("/organizations");
           break;
         default:
-          dispatch(setCurrentOrganization(decoded.organization));
+          dispatch(setCurrentOrganization(decoded.property.organization));
 
           // Retrieve all data based on organization
-          dispatch(getOrganizationData(decoded.organization.organizationCode));
+          dispatch(
+            getOrganizationData(decoded.property.organization.organizationCode)
+          );
 
           // Redirect
           history.push("/dashboard");

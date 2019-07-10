@@ -3,7 +3,8 @@ import { logError, logSuccess } from "./notificationActions";
 import {
   SET_LOADING_PROP,
   SET_CURRENT_PROPERTY,
-  POST_PROP_USER
+  POST_PROP_USER,
+  POST_ORG_USER
 } from "./types";
 
 // External
@@ -20,7 +21,7 @@ export const postProperty = pData => {
   });
 };
 
-export const getPropertyUsers = () => {
+export const getUsersProperty = () => {
   axios.post();
 };
 
@@ -36,6 +37,10 @@ export const postUserProperty = data => (dispatch, getState) => {
       organization
     })
     .then(res => {
+      dispatch({
+        type: POST_ORG_USER,
+        payload: res.data
+      });
       dispatch({
         type: POST_PROP_USER,
         payload: res.data

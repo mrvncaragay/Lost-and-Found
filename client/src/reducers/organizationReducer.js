@@ -98,8 +98,8 @@ export default function(state = initialState, action) {
         organization: {
           main: { ...state.organization.main },
           properties: [...state.organization.properties],
-          users: state.organization.users.map(prop =>
-            prop._id === action.payload._id ? action.payload : prop
+          users: state.organization.users.map(user =>
+            user._id === action.payload._id ? action.payload : user
           )
         },
         isLoading: false

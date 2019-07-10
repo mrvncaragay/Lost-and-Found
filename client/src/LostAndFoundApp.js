@@ -46,10 +46,10 @@ function LostAndFound({
       setCurrentUser(decoded);
 
       // Set Organization
-      setCurrentOrganization(decoded.organization);
+      setCurrentOrganization(decoded.property.organization);
 
       // Retrieve all data based on organization
-      getOrganizationData(decoded.organization.organizationCode);
+      getOrganizationData(decoded.property.organization.organizationCode);
     } catch (error) {
       logOutUser();
     }
