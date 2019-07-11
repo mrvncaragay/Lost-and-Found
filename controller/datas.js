@@ -19,3 +19,15 @@ exports.getOrgData = async (req, res, next) => {
 
   res.send({ users, properties });
 };
+
+exports.getPropData = async (req, res, next) => {
+  const { propCode, id } = req.query;
+  const prop = Property.findById(id);
+  if (!prop) return res.status(404).send('The property with the given ID was not found.');
+
+  const users = await User.find({ 'property.propertyCode': propCode })
+    .select('-password -property')
+    .sort({ name: 1 });
+
+  res.send({ users });
+};

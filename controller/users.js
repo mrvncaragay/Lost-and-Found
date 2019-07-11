@@ -23,7 +23,7 @@ exports.getPropAdmins = async (req, res, next) => {
 // Organization admins
 exports.getOrgAdmins = async (req, res, next) => {
   const { rowsPerPage, orgCode, adminType } = req.query;
-  console.log(req.query);
+
   if (adminType === 'orgAdmin' && orgCode) {
     const result = await User.find()
       .or([{ 'property.organization.organizationCode': orgCode }])
@@ -62,7 +62,7 @@ exports.getUser = async (req, res) => {
 };
 
 exports.postUser = async (req, res, next) => {
-  let { email, password, name, adminType, propertyCode, organization, property = null } = req.body;
+  let { email, password, name, adminType, status, organization, property = null } = req.body;
   let prop;
 
   // check for property
@@ -94,7 +94,7 @@ exports.postUser = async (req, res, next) => {
     name,
     email,
     password: hashedPassword,
-    propertyCode,
+    status,
     adminType,
 
     property: {
@@ -106,10 +106,11 @@ exports.postUser = async (req, res, next) => {
   await newUser.save();
 
   res.send({
+    _id: newUser._id,
     name: newUser.name,
+    propertyCode: newUser.propertyCode,
     email: newUser.email,
     adminType: newUser.adminType,
-    propertyCode: prop.propertyCode,
     status: newUser.status
   });
 };
@@ -123,7 +124,7 @@ exports.updateUser = async (req, res) => {
     {
       name: req.body.name,
       adminType: req.body.adminType,
-      propertyCode: req.body.propertyCode,
+      email: req.body.email,
       status: req.body.status
     },
     { new: true }
@@ -134,9 +135,8 @@ exports.updateUser = async (req, res) => {
     _id: user._id,
     name: user.name,
     email: user.email,
-    adminType: user.adminType,
     propertyCode: user.propertyCode,
-    organization: user.organization,
+    adminType: user.adminType,
     status: user.status
   });
 };

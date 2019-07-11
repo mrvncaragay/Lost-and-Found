@@ -107,7 +107,7 @@ function Organization({
               </div>
             ) : (
               <DataTable
-                title="Users"
+                title="Organization Users"
                 column={ucolumn}
                 data={mainOrg.users}
                 options={uoptions}

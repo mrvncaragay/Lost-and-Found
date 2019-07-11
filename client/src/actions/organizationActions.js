@@ -42,7 +42,7 @@ export const getOrganizationData = () => (dispatch, getState) => {
   const orgCode = getState().organization.organization.main.organizationCode;
 
   axios
-    .post("/api/swadmin/data/", null, {
+    .post("/api/data/organization", null, {
       params: {
         orgCode
       }

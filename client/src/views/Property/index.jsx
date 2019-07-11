@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { setForm } from "actions";
-import { isEmpty } from "../../util/validation";
+import { setForm, getPropertyData } from "actions";
 
 // External
 import { connect } from "react-redux";
@@ -42,16 +41,23 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Property({ name, notify, setForm }) {
+function Property({ property, name, notify, getPropertyData }) {
   const classes = styles();
+
+  const { main } = property;
 
   /* eslint-disable */
   useEffect(() => {
+
+  
+    getPropertyData(main._id, main.propertyCode);
   }, [])
   /* eslint-enable */
 
   return (
-    <DashboardLayout title={`${name.replace(/-/gi, " ")} (replace)`}>
+    <DashboardLayout
+      title={`${name.replace(/-/gi, " ")} (${main.propertyCode})`}
+    >
       {notify ? (
         <NotificationSnackbar message={notify.message} type={notify.type} />
       ) : null}
@@ -93,16 +99,17 @@ function Property({ name, notify, setForm }) {
 
 Property.propTypes = {
   setForm: PropTypes.func.isRequired,
-  propertyState: PropTypes.object.isRequired,
+  getPropertyData: PropTypes.func.isRequired,
+  property: PropTypes.object.isRequired,
   notify: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  propertyState: state.property,
+  property: state.property,
   notify: state.notify
 });
 
 export default connect(
   mapStateToProps,
-  { setForm }
+  { setForm, getPropertyData }
 )(Property);

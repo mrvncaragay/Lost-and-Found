@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment } from "react";
 import { isEmpty } from "util/validation";
-import { setForm, postUserProperty, getUsersProperty } from "actions";
+import { setForm, postUserProperty, editUserProperty } from "actions";
 
 import { NotificationSnackbar } from "layouts";
 
@@ -34,7 +34,7 @@ function UserList({
   property,
   postUserProperty,
   notify,
-  getUsersProperty
+  editUserProperty
 }) {
   const classes = styles();
   const { isLoading, users } = property;
@@ -54,12 +54,12 @@ function UserList({
     colLink: { name: "Name", link: "/user/" },
     passwordField: true,
     addButtonSetForm: type => setForm("User", type),
-    saveFormFunc: data => postUserProperty(data)
+    saveFormFunc: data => postUserProperty(data),
+    saveFormEdit: data => editUserProperty(data)
   };
 
   /* eslint-disable */
     useEffect(() => {
-      // getUsersProperty
     }, []);
     /* eslint-enable */
 
@@ -74,7 +74,12 @@ function UserList({
           <CircularProgress />
         </div>
       ) : (
-        <DataTable title="" column={column} data={users} options={options} />
+        <DataTable
+          title="Users"
+          column={column}
+          data={users}
+          options={options}
+        />
       )}
     </Fragment>
   );
@@ -83,7 +88,7 @@ function UserList({
 UserList.propTypes = {
   setForm: PropTypes.func.isRequired,
   postUserProperty: PropTypes.func.isRequired,
-  getUsersProperty: PropTypes.func.isRequired,
+  editUserProperty: PropTypes.func.isRequired,
   notify: PropTypes.object
 };
 
@@ -94,5 +99,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setForm, postUserProperty, getUsersProperty }
+  { setForm, postUserProperty, editUserProperty }
 )(UserList);

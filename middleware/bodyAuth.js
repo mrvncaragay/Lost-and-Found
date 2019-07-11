@@ -109,6 +109,7 @@ function validateUser(put, req) {
     password: Joi.string()
       .min(10)
       .max(255),
+    propertyCode: Joi.string(),
     adminType: Joi.string()
       .valid('swAdmin', 'orgAdmin', 'propAdmin', 'security')
       .required()
@@ -117,7 +118,7 @@ function validateUser(put, req) {
           message: 'AdminType is required.'
         };
       }),
-    organization: Joi.string().required(),
+    organization: Joi.string(),
     property: Joi.string(),
     status: Joi.string().valid('active', 'inactive')
   };

@@ -15,7 +15,8 @@ export {
 export {
   setCurrentProperty,
   postUserProperty,
-  getUsersProperty
+  editUserProperty,
+  getPropertyData
 } from "./propertyActions";
 
 // User

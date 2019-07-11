@@ -4,7 +4,7 @@ import {
   setCurrentUser,
   logOutUser,
   setCurrentOrganization,
-  getOrganizationData
+  setCurrentProperty
 } from "actions";
 import setAuthJwtToken from "./util/setAuthJwtToken";
 
@@ -27,8 +27,8 @@ import jwt from "jsonwebtoken";
 
 function LostAndFound({
   setCurrentUser,
-  getOrganizationData,
   setCurrentOrganization,
+  setCurrentProperty,
   logOutUser
 }) {
   if (localStorage["x-auth-token"]) {
@@ -48,8 +48,13 @@ function LostAndFound({
       // Set Organization
       setCurrentOrganization(decoded.property.organization);
 
-      // Retrieve all data based on organization
-      getOrganizationData(decoded.property.organization.organizationCode);
+      // Check if localstorage has property
+      if (localStorage["property"]) {
+        const prop = JSON.parse(localStorage.getItem("property"));
+
+        // Set current property
+        setCurrentProperty(prop);
+      }
     } catch (error) {
       logOutUser();
     }
@@ -84,13 +89,16 @@ function LostAndFound({
   );
 }
 
-LostAndFound.propTypes = {
-  getOrganizationData: PropTypes.func.isRequired
-};
+LostAndFound.propTypes = {};
 
 const myStateToProps = state => ({});
 
 export default connect(
   myStateToProps,
-  { getOrganizationData, setCurrentUser, setCurrentOrganization, logOutUser }
+  {
+    setCurrentUser,
+    setCurrentOrganization,
+    setCurrentProperty,
+    logOutUser
+  }
 )(LostAndFound);

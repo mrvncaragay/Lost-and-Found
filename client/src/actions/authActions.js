@@ -76,7 +76,8 @@ export const setCurrentUser = decoded => {
 // Log out user
 export const logOutUser = () => dispatch => {
   // Remove token from localStorate
-  localStorage.removeItem("x-auth-token");
+  localStorage.clear();
+
   // Remove auth header from axios
   setAuthJwtToken(false);
   // Set current user object to empty

@@ -29,7 +29,9 @@ function TableEditRow({ data, column, options, toggleEdit, saveForm, form }) {
   const classes = styles();
 
   const handleSave = () => {
-    saveForm({ ...state }, form);
+    const { saveFormEdit } = options;
+    saveFormEdit ? saveFormEdit(state) : saveForm(state, form);
+
     reset();
     toggleEdit(false);
   };

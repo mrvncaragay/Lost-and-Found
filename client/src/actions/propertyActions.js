@@ -4,7 +4,10 @@ import {
   SET_LOADING_PROP,
   SET_CURRENT_PROPERTY,
   POST_PROP_USER,
-  POST_ORG_USER
+  GET_PROP_DATA,
+  POST_ORG_USER,
+  EDIT_PROP_USER,
+  EDIT_ORG_USER
 } from "./types";
 
 // External
@@ -21,8 +24,22 @@ export const postProperty = pData => {
   });
 };
 
-export const getUsersProperty = () => {
-  axios.post();
+export const getPropertyData = (id, propCode) => dispatch => {
+  dispatch(setLoading());
+  axios
+    .post("/api/data/property", null, {
+      params: {
+        propCode,
+        id
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_PROP_DATA,
+        payload: res.data
+      });
+    })
+    .catch(err => dispatch(logError(err.response.data)));
 };
 
 export const postUserProperty = data => (dispatch, getState) => {
@@ -50,6 +67,29 @@ export const postUserProperty = data => (dispatch, getState) => {
     .catch(err => dispatch(logError(err.response.data)));
 };
 
+export const editUserProperty = data => dispatch => {
+  dispatch(setLoading());
+  axios
+    .put("/api/users/" + data._id, {
+      name: data.name,
+      email: data.email,
+      adminType: data.adminType,
+      status: data.status
+    })
+    .then(res => {
+      dispatch({
+        type: EDIT_ORG_USER,
+        payload: res.data
+      });
+      dispatch({
+        type: EDIT_PROP_USER,
+        payload: res.data
+      });
+      dispatch(logSuccess(`Successfully created a user: ${res.data.name}`));
+    })
+    .catch(err => dispatch(logError(err.response.data)));
+};
+
 export const updateProperty = newData => {
   const { name, propertyCode, address, phone, organization } = newData;
   return axios.put("/api/properties/" + newData._id, {
@@ -62,6 +102,9 @@ export const updateProperty = newData => {
 };
 
 export const setCurrentProperty = prop => {
+  // save current property to local storage
+  localStorage.setItem("property", JSON.stringify(prop));
+
   return {
     type: SET_CURRENT_PROPERTY,
     payload: prop

@@ -51,7 +51,6 @@ function OrgAdmin({ setForm, organization }) {
 
   /* eslint-disable */
     useEffect(() => {
-  
     }, []);
     /* eslint-enable */
 

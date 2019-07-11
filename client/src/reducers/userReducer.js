@@ -1,7 +1,6 @@
 import {
   POST_USER,
   GET_USERS,
-  GET_ORG_USERS,
   SEARCH_USERS,
   EDIT_USER,
   SET_LOADING_USER,
@@ -30,8 +29,8 @@ export default function(state = initialState, action) {
     case EDIT_USER:
       return {
         ...state,
-        data: state.data.data.map(org =>
-          org._id === action.payload._id ? action.payload : org
+        data: state.data.map(user =>
+          user._id === action.payload._id ? action.payload : user
         ),
         isLoading: false
       };

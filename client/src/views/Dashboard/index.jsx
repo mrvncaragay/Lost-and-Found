@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { setForm, setCurrentProperty } from "actions";
+import { setForm, setCurrentProperty, getOrganizationData } from "actions";
 
 import { isEmpty } from "../../util/validation";
 
@@ -40,7 +40,13 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Organization({ notify, organization, setForm, setCurrentProperty }) {
+function Organization({
+  notify,
+  organization,
+  setForm,
+  setCurrentProperty,
+  getOrganizationData
+}) {
   const classes = styles();
 
   const { isLoading, organization: mainOrg } = organization;
@@ -48,7 +54,7 @@ function Organization({ notify, organization, setForm, setCurrentProperty }) {
   /* eslint-disable */
   useEffect(() => {
 
-    //getOrganizationData();
+    getOrganizationData();
   }, []);
   /* eslint-enable */
 
@@ -127,6 +133,7 @@ function Organization({ notify, organization, setForm, setCurrentProperty }) {
 Organization.propTypes = {
   setForm: PropTypes.func.isRequired,
   setCurrentProperty: PropTypes.func.isRequired,
+  getOrganizationData: PropTypes.func.isRequired,
   notify: PropTypes.object,
   organization: PropTypes.object
 };
@@ -139,5 +146,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setForm, setCurrentProperty }
+  { setForm, setCurrentProperty, getOrganizationData }
 )(Organization);

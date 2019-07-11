@@ -4,6 +4,7 @@ import { postProperty, updateProperty } from "./propertyActions";
 import { logError, logSuccess } from "./notificationActions";
 
 import {
+  EDIT_USER,
   POST_ORG_USER,
   EDIT_ORG_USER,
   POST_ORGANIZATION,
@@ -46,6 +47,7 @@ export const saveForm = (data, form) => (dispatch, getState) => {
       updateUser(newData)
         .then(res => {
           dispatch({ type: EDIT_ORG_USER, payload: res.data });
+          dispatch({ type: EDIT_USER, payload: res.data });
           dispatch(logSuccess(`Successfully updated ${res.data.name}`));
         })
         .catch(err => dispatch(logError(err.response.data)));
