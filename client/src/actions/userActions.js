@@ -61,8 +61,8 @@ export const updateUser = newData => {
   //Email is excluded
   return axios.put("/api/users/" + newData._id, {
     name: newData.name,
+    email: newData.email,
     propertyCode: newData.propertyCode,
-    organization: newData.organization,
     adminType: newData.adminType,
     status: newData.status
   });

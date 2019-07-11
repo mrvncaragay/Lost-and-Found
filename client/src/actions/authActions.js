@@ -3,8 +3,9 @@ import { RESET_ERRORS, SET_CURRENT_USER } from "./types";
 import { logError, logSuccess } from "./notificationActions";
 import {
   setCurrentOrganization,
-  getOrganizationData
-} from "./organizationActions";
+  getOrganizationData,
+  setCurrentProperty
+} from "../actions";
 
 // External
 import axios from "axios";
@@ -44,16 +45,24 @@ export const logInUser = (userData, history) => dispatch => {
         case "swAdmin":
           history.push("/organizations");
           break;
+
+        case "propAdmin":
+          history.push("/dashboard");
+
+          // Set property for propAdmin
+          dispatch(setCurrentProperty(decoded.property));
+          break;
+
         default:
+          // Redirect
+          history.push("/dashboard");
+
           dispatch(setCurrentOrganization(decoded.property.organization));
 
           // Retrieve all data based on organization
           dispatch(
             getOrganizationData(decoded.property.organization.organizationCode)
           );
-
-          // Redirect
-          history.push("/dashboard");
           break;
       }
 

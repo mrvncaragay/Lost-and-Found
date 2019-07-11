@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { isEmpty } from "util/validation";
-import { setForm } from "actions";
+import { setForm, editUserProperty } from "actions";
 
 // External
 import { connect } from "react-redux";
@@ -27,7 +27,7 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function OrgAdmin({ setForm, organization }) {
+function OrgAdmin({ setForm, organization, editUserProperty }) {
   const classes = styles();
   const { isLoading, organization: org } = organization;
 
@@ -46,6 +46,7 @@ function OrgAdmin({ setForm, organization }) {
     colLink: { name: "Name", link: "/user/" },
     passwordField: true,
     addButtonSetForm: type => setForm("User", type),
+    saveFormEdit: data => editUserProperty(data),
     addButton: false
   };
 
@@ -68,7 +69,8 @@ function OrgAdmin({ setForm, organization }) {
 }
 
 OrgAdmin.propTypes = {
-  setForm: PropTypes.func.isRequired
+  setForm: PropTypes.func.isRequired,
+  editUserProperty: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -77,5 +79,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { setForm }
+  { setForm, editUserProperty }
 )(OrgAdmin);

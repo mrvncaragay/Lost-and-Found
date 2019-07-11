@@ -78,7 +78,7 @@ export const searchOrganizations = params => dispatch => {
 export const updateOrganization = newData => {
   return axios.put("/api/organizations/" + newData._id, {
     name: newData.name,
-    propertyCode: newData.propertyCode,
+    organizationCode: newData.organizationCode,
     address: newData.address
   });
 };

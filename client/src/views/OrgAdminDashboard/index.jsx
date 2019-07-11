@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
-import { getOrganizationData, setForm, editUserProperty } from "actions";
+import { setForm, setCurrentProperty, getOrganizationData } from "actions";
+
+import { isEmpty } from "../../util/validation";
 
 // External
 import { connect } from "react-redux";
@@ -12,11 +14,11 @@ import {
   NotificationSnackbar
 } from "layouts";
 
-import { Users } from "./components";
+import { Users, Properties, Admins } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CircularProgress } from "@material-ui/core";
+import { Grid, CircularProgress, Typography } from "@material-ui/core";
 
 const styles = makeStyles(theme => ({
   root: {
@@ -38,13 +40,12 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function Organization({
-  getOrganizationData,
-  name,
+function OrgAdminDashboard({
   notify,
-  setForm,
   organization,
-  editUserProperty
+  setForm,
+  setCurrentProperty,
+  getOrganizationData
 }) {
   const classes = styles();
 
@@ -52,37 +53,21 @@ function Organization({
 
   /* eslint-disable */
   useEffect(() => {
-  
+
     getOrganizationData();
   }, []);
   /* eslint-enable */
 
-  const propertyColumn = ["Name", "Property Code", "Address", "Phone"];
-  const propertyOptions = {
-    addButtonSetForm: type => setForm("Property", type)
-  };
-
-  const ucolumn = ["Name", "Email", "Admin Type", "Status"];
-  const uoptions = {
-    selectInput: [
-      {
-        column: "Admin Type",
-        optionValue: ["security", "propAdmin", "orgAdmin", "swAdmin"]
-      },
-      {
-        column: "Status",
-        optionValue: ["active", "inactive"]
-      }
-    ],
-    colLink: { name: "Name", link: "/user/" },
-    passwordField: true,
-    addButtonSetForm: type => setForm("User", type),
-    saveFormEdit: data => editUserProperty(data)
+  const column = ["Name", "Property Code", "Address", "Phone"];
+  const options = {
+    colLink: { name: "Name", link: `${mainOrg.main.organizationCode}/` },
+    addButtonSetForm: type => setForm("Property", type),
+    setSelectedData: data => setCurrentProperty(data)
   };
 
   return (
     <DashboardLayout
-      title={`${name.replace(/-/gi, " ")} (${mainOrg.main.organizationCode})`}
+      title={`${mainOrg.main.name} (${mainOrg.main.organizationCode})`}
     >
       {notify ? (
         <NotificationSnackbar message={notify.message} type={notify.type} />
@@ -91,29 +76,37 @@ function Organization({
       <div className={classes.root}>
         <Grid container spacing={4}>
           <Grid item lg={4} xl={4} sm={12} xs={12}>
-            <Users title="PROPERTIES" />
-          </Grid>
-
-          <Grid item lg={4} xl={4} sm={12} xs={12}>
-            <Users title="ADMINS" />
-          </Grid>
-
-          <Grid item lg={4} xl={4} sm={12} xs={12}>
-            <Users title="USERS" />
-          </Grid>
-
-          <Grid item lg={12} xl={12} sm={12} xs={12}>
             {isLoading ? (
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
+            ) : isEmpty(mainOrg.properties) ? (
+              <Typography className={classes.noData} variant="h5">
+                There are no properties
+              </Typography>
             ) : (
-              <DataTable
-                title="Organization Users"
-                column={ucolumn}
-                data={mainOrg.users}
-                options={uoptions}
+              <Properties
+                title="PROPERTIES"
+                count={mainOrg.properties.length}
               />
+            )}
+          </Grid>
+
+          <Grid item lg={4} xl={4} sm={12} xs={12}>
+            <Admins title="ADMINS" count={3} />
+          </Grid>
+
+          <Grid item lg={4} xl={4} sm={12} xs={12}>
+            {isLoading ? (
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
+            ) : isEmpty(mainOrg.users) ? (
+              <Typography className={classes.noData} variant="h5">
+                There are no users
+              </Typography>
+            ) : (
+              <Users title="USERS" count={mainOrg.users.length} />
             )}
           </Grid>
 
@@ -122,12 +115,12 @@ function Organization({
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
-            ) : (
+            ) : isEmpty(mainOrg.properties) ? null : (
               <DataTable
-                title="Properties"
-                column={propertyColumn}
-                options={propertyOptions}
+                title=""
+                column={column}
                 data={mainOrg.properties}
+                options={options}
               />
             )}
           </Grid>
@@ -137,20 +130,21 @@ function Organization({
   );
 }
 
-Organization.propTypes = {
-  getOrganizationData: PropTypes.func.isRequired,
-  editUserProperty: PropTypes.func.isRequired,
+OrgAdminDashboard.propTypes = {
   setForm: PropTypes.func.isRequired,
+  setCurrentProperty: PropTypes.func.isRequired,
+  getOrganizationData: PropTypes.func.isRequired,
   notify: PropTypes.object,
   organization: PropTypes.object
 };
 
 const mapStateToProps = state => ({
+  property: state.property,
   notify: state.notify,
   organization: state.organization
 });
 
 export default connect(
   mapStateToProps,
-  { getOrganizationData, setForm, editUserProperty }
-)(Organization);
+  { setForm, setCurrentProperty, getOrganizationData }
+)(OrgAdminDashboard);

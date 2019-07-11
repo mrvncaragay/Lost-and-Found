@@ -34,6 +34,7 @@ export const saveForm = (data, form) => (dispatch, getState) => {
   const newData = { ...data, organization: orgId };
 
   switch (type) {
+    //used by swadmin in views/organization
     case "postUser":
       postUser(newData)
         .then(res => {
@@ -43,16 +44,17 @@ export const saveForm = (data, form) => (dispatch, getState) => {
         .catch(err => dispatch(logError(err.response.data)));
       break;
 
+    //used by swadmin in views/user
     case "editUser":
       updateUser(newData)
         .then(res => {
-          dispatch({ type: EDIT_ORG_USER, payload: res.data });
           dispatch({ type: EDIT_USER, payload: res.data });
           dispatch(logSuccess(`Successfully updated ${res.data.name}`));
         })
         .catch(err => dispatch(logError(err.response.data)));
       break;
 
+    //used by swadmin in views/swDashboard
     case "postOrganization":
       postOrganization(data)
         .then(res => {
@@ -64,6 +66,7 @@ export const saveForm = (data, form) => (dispatch, getState) => {
         .catch(err => dispatch(logError(err.response.data)));
       break;
 
+    //used by swadmin in views/swDashboard
     case "editOrganization":
       updateOrganization(data)
         .then(res => {
@@ -73,6 +76,7 @@ export const saveForm = (data, form) => (dispatch, getState) => {
         .catch(err => dispatch(logError(err.response.data)));
       break;
 
+    //used by swadmin in views/organization
     case "postProperty":
       postProperty(newData)
         .then(res => {
@@ -84,6 +88,7 @@ export const saveForm = (data, form) => (dispatch, getState) => {
         .catch(err => dispatch(logError(err.response.data)));
       break;
 
+    //used by swadmin in views/organization
     case "editProperty":
       updateProperty(newData)
         .then(res => {

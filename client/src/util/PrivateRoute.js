@@ -3,13 +3,20 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const PrivateRoute = ({ component: Component, auth, ...rest }) => {
+const PrivateRoute = ({ component: Component, admin, auth, ...rest }) => {
+  let arrAdmin;
+  if (admin) arrAdmin = admin.split(" ");
+
   return (
     <Route
       {...rest}
       render={props =>
         auth.isAuthenticated === true ? (
-          <Component {...props} />
+          arrAdmin.includes(auth.user.adminType) ? (
+            <Component {...props} />
+          ) : (
+            <Route render={() => <h1>PAGE NOT FOUND!</h1>} />
+          )
         ) : (
           <Redirect to="/admin/sign-in" />
         )

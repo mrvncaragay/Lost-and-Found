@@ -1,6 +1,6 @@
-const a = 0;
-const b = null;
+const a = 'Mar ADsa';
+const b = 'Test';
 
-const c = a && b;
+const c = a.split(' ');
 
-console.log(c);
+console.log(c.includes('Mar'));

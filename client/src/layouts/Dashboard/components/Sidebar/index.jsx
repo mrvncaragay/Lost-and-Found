@@ -22,7 +22,9 @@ import {
   DashboardOutlined as DashboardIcon,
   PeopleOutlined as PeopleIcon,
   AccountBalanceOutlined as BuildingIcon,
-  NoteAddOutlined as InqueriesIcon
+  FeedbackOutlined as InqueriesIcon,
+  AssignmentTurnedInOutlined as FoundIcon,
+  WarningOutlined as LostIcon
 } from "@material-ui/icons";
 
 // Component styles
@@ -62,9 +64,6 @@ function Sidebar({ user }) {
           {user.propertyCode}
         </Typography>
         <Typography className={classes.bioText} variant="caption">
-          {user.organizationCode}
-        </Typography>
-        <Typography className={classes.bioText} variant="caption">
           {user.adminType}
         </Typography>
       </div>
@@ -91,21 +90,55 @@ function Sidebar({ user }) {
         ) : null}
 
         {isPropAdmin(user.adminType) ? (
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={myNavLink}
-            to="/Inqueries"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <InqueriesIcon />
-            </ListItemIcon>
+          <Fragment>
+            <ListItem
+              activeClassName={classes.activeListItem}
+              className={classes.listItem}
+              component={myNavLink}
+              to="/lost"
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <LostIcon />
+              </ListItemIcon>
 
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Inquire"
-            />
-          </ListItem>
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="lost"
+              />
+            </ListItem>
+
+            <ListItem
+              activeClassName={classes.activeListItem}
+              className={classes.listItem}
+              component={myNavLink}
+              to="/found"
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <FoundIcon />
+              </ListItemIcon>
+
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="found"
+              />
+            </ListItem>
+
+            <ListItem
+              activeClassName={classes.activeListItem}
+              className={classes.listItem}
+              component={myNavLink}
+              to="/inquiry"
+            >
+              <ListItemIcon className={classes.listItemIcon}>
+                <InqueriesIcon />
+              </ListItemIcon>
+
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Inquiry"
+              />
+            </ListItem>
+          </Fragment>
         ) : null}
 
         {isSwAdmin(user.adminType) ? (

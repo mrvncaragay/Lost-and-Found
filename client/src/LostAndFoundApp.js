@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import Homepage from "./views/Homepage";
 import Dashboard from "./views/Dashboard";
 import User from "./views/User";
-import Organizations from "./views/Organizations";
+import SwAdminDashboard from "./views/SwAdminDashboard";
 import Organization from "./views/Organization";
 import Property from "./views/Property";
 import SignIn from "./views/SignIn/User";
@@ -66,12 +66,28 @@ function LostAndFound({
       <Route exact path="/sign-in" component={SignIn} />
       <Route exact path="/admin/sign-in" component={AdminSignIn} />
       <Route exact path="/admin/sign-up" component={AdminSignUp} />
-      <PrivateRoute exact path="/dashboard" component={Dashboard} />
-      <PrivateRoute exact path="/users" component={User} />
-      <PrivateRoute exact path="/organizations" component={Organizations} />
+      <PrivateRoute
+        exact
+        admin="propAdmin orgAdmin"
+        path="/dashboard"
+        component={Dashboard}
+      />
+      <PrivateRoute
+        exact
+        admin="propAdmin orgAdmin swAdmin"
+        path="/users"
+        component={User}
+      />
+      <PrivateRoute
+        exact
+        admin="swAdmin"
+        path="/organizations"
+        component={SwAdminDashboard}
+      />
       <PrivateRoute exact path="/property" component={Property} />
       <PrivateRoute
         exact
+        admin="swAdmin"
         path="/organization/:name"
         component={routeProps => (
           <Organization name={routeProps.match.params.name} />
@@ -79,6 +95,7 @@ function LostAndFound({
       />
       <PrivateRoute
         exact
+        admin="orgAdmin"
         path="/:property/:name"
         component={routeProps => (
           <Property name={routeProps.match.params.name} />
