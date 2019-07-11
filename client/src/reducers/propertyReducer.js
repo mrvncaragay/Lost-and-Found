@@ -3,12 +3,13 @@ import {
   SET_LOADING_PROP,
   SET_CURRENT_PROPERTY,
   POST_PROP_USER,
-  EDIT_PROP_USER
+  EDIT_PROP_USER,
+  SET_DEFAULT_PROP
 } from "../actions/types";
 
 const initialState = {
   main: null,
-  users: [],
+  users: null,
   isLoading: false
 };
 
@@ -48,6 +49,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isLoading: true
+      };
+
+    case SET_DEFAULT_PROP:
+      return {
+        ...initialState
       };
 
     default:

@@ -9,7 +9,8 @@ import {
   SEARCH_ORGANIZATIONS,
   SET_LOADING_ORG,
   SET_CURRENT_ORGANIZATION,
-  GET_ORG_DATA
+  GET_ORG_DATA,
+  SET_DEFAULT_ORG
 } from "../actions/types";
 
 const initialState = {
@@ -126,6 +127,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isLoading: true
+      };
+
+    case SET_DEFAULT_ORG:
+      return {
+        ...initialState
       };
 
     default:

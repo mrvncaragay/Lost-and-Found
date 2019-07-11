@@ -1,10 +1,15 @@
 import setAuthJwtToken from "../util/setAuthJwtToken";
-import { RESET_ERRORS, SET_CURRENT_USER } from "./types";
+import {
+  RESET_ERRORS,
+  SET_CURRENT_USER,
+  SET_DEFAULT_ORG,
+  SET_DEFAULT_PROP
+} from "./types";
 import { logError, logSuccess } from "./notificationActions";
 import {
+  setCurrentProperty,
   setCurrentOrganization,
-  getOrganizationData,
-  setCurrentProperty
+  getOrganizationData
 } from "../actions";
 
 // External
@@ -40,31 +45,22 @@ export const logInUser = (userData, history) => dispatch => {
         type: RESET_ERRORS
       });
 
-      // Redirect to dashboard
-      switch (decoded.adminType) {
-        case "swAdmin":
-          history.push("/organizations");
-          break;
-
-        case "propAdmin":
-          history.push("/dashboard");
-
-          // Set property for propAdmin
-          dispatch(setCurrentProperty(decoded.property));
-          break;
-
-        default:
-          // Redirect
-          history.push("/dashboard");
-
-          dispatch(setCurrentOrganization(decoded.property.organization));
-
-          // Retrieve all data based on organization
-          dispatch(
-            getOrganizationData(decoded.property.organization.organizationCode)
-          );
-          break;
+      if (decoded.adminType === "propAdmin") {
+        // Set property for propAdmin
+        dispatch(setCurrentProperty(decoded.property));
       }
+
+      if (decoded.adminType === "swAdmin" || decoded.adminType === "orgAdmin") {
+        // Set Current Organization
+        dispatch(setCurrentOrganization(decoded.property.organization));
+        dispatch(
+          getOrganizationData(decoded.property.organization.organizationCode)
+        );
+      }
+
+      history.push("/dashboard");
+
+      if (decoded.adminType === "swAdmin") history.push("/organizations");
 
       // log successful logged in
       dispatch(logSuccess("Successfully logged in."));
@@ -82,6 +78,20 @@ export const setCurrentUser = decoded => {
   };
 };
 
+// Set default organization state
+export const setOrgDefault = () => {
+  return {
+    type: SET_DEFAULT_ORG
+  };
+};
+
+// Set default organization state
+export const setPropDefault = () => {
+  return {
+    type: SET_DEFAULT_PROP
+  };
+};
+
 // Log out user
 export const logOutUser = () => dispatch => {
   // Remove token from localStorate
@@ -93,6 +103,8 @@ export const logOutUser = () => dispatch => {
   dispatch(setCurrentUser({}));
 
   // clear other data here
+  dispatch(setOrgDefault());
+  dispatch(setPropDefault());
 
   // log successful logged out
   dispatch(logSuccess("Successfully logged out."));
