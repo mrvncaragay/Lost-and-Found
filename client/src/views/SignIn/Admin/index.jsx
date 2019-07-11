@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { logInUser } from "../../../actions/authActions";
 
@@ -22,7 +22,7 @@ import {
 /// Component styles
 import styles from "../styles";
 
-function AdminSignIn({ logInUser, auth, notify, history }) {
+function AdminSignIn({ logInUser, notify, history }) {
   const classes = styles();
 
   const [values, handleChange] = useInputState({
@@ -30,16 +30,24 @@ function AdminSignIn({ logInUser, auth, notify, history }) {
     password: ""
   });
 
-  const handleSubmit = () => {
-    const userData = {
-      email: values.email,
-      password: values.password
-    };
-    logInUser(userData, history);
+  const handleOnKeyDown = e => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    logInUser({ ...values }, history);
+  };
+
+  const handleOnSubtmit = () => {
+    logInUser({ ...values }, history);
   };
 
   return (
     <div className={classes.root}>
+      {notify ? (
+        <NotificationSnackbar message={notify.message} type={notify.type} />
+      ) : null}
+
       <Grid container className={classes.grid}>
         <Grid item className={classes.contentBody} lg={4} xs={11}>
           <div className={classes.mainForm}>
@@ -52,13 +60,12 @@ function AdminSignIn({ logInUser, auth, notify, history }) {
                 />
               </Link>
             </div>
-
             <form className={classes.form}>
               <TextField
-                error={values.error}
                 value={values.email}
                 className={classes.textField}
                 onChange={e => handleChange("email", e)}
+                onKeyDown={handleOnKeyDown}
                 label="Email address"
                 name="email"
                 type="text"
@@ -66,46 +73,40 @@ function AdminSignIn({ logInUser, auth, notify, history }) {
               />
 
               <TextField
-                error={values.error}
                 value={values.password}
                 className={classes.textField}
                 onChange={e => handleChange("password", e)}
+                onKeyDown={handleOnKeyDown}
                 label="Password"
                 name="password"
                 type="password"
                 variant="outlined"
               />
-
-              {notify ? (
-                <NotificationSnackbar
-                  message={notify.message}
-                  type={notify.type}
-                />
-              ) : null}
-
-              {false ? (
-                // loading icon need to fix
-                <CircularProgress className={classes.progress} />
-              ) : (
-                <Button
-                  onClick={handleSubmit}
-                  fullWidth
-                  className={classes.signInButton}
-                  color="primary"
-                  size="large"
-                  variant="contained"
-                >
-                  Sign in
-                </Button>
-              )}
-
-              <Typography className={classes.signUp} variant="body1">
-                don't have an admin account?{" "}
-                <Link className={classes.signUpUrl} to="/admin/sign-up">
-                  Sign up
-                </Link>
-              </Typography>
             </form>
+            {false ? (
+              // loading icon need to fix
+              <CircularProgress className={classes.progress} />
+            ) : (
+              <Button
+                fullWidth
+                onClick={handleOnSubtmit}
+                className={classes.signInButton}
+                color="primary"
+                size="large"
+                variant="contained"
+                type="submit"
+              >
+                Sign in
+              </Button>
+            )}
+
+            <Typography className={classes.signUp} variant="body1">
+              don't have an admin account?{" "}
+              <Link className={classes.signUpUrl} to="/admin/sign-up">
+                Sign up
+              </Link>
+            </Typography>
+            {/* </form> */}
           </div>
         </Grid>
       </Grid>
