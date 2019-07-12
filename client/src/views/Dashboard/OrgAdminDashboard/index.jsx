@@ -102,7 +102,9 @@ function OrgAdminDashboard({
 
           <Grid item lg={12} xl={12} sm={12} xs={12}>
             {isLoading ? (
-              console.log(isLoading)
+              <div className={classes.progressWrapper}>
+                <CircularProgress />
+              </div>
             ) : (
               <DataTable
                 title=""

@@ -2,6 +2,9 @@ import React, { useState, Fragment } from "react";
 import { logOutUser } from "actions/authActions";
 import { isSecurityAdmin, isPropAdmin } from "util/validation";
 
+// Shared components
+import { Lost, Found, Inquiry } from "layouts";
+
 // Externals
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -12,11 +15,7 @@ import {
   Toolbar,
   Typography,
   Tooltip,
-  Button,
-  Modal,
-  Fade,
-  Paper,
-  TextField
+  Button
 } from "@material-ui/core";
 
 // Material icons
@@ -40,6 +39,7 @@ function Topbar({
 }) {
   const classes = styles();
   const [toggle, setToggle] = useState(false);
+  const [form, setForm] = useState();
 
   const handleLogOut = e => {
     e.preventDefault();
@@ -47,15 +47,23 @@ function Topbar({
   };
 
   const handleForm = type => {
-    setToggle(!toggle);
-  };
+    if (form === type) return setToggle(!toggle);
 
-  const handleClose = type => {
+    setForm(type);
     setToggle(!toggle);
+    setToggle(true);
   };
 
   return (
     <Fragment>
+      {form === "Lost" ? <Lost toggle={toggle} setToggle={setToggle} /> : null}
+      {form === "Found" ? (
+        <Found toggle={toggle} setToggle={setToggle} />
+      ) : null}
+      {form === "Inquiry" ? (
+        <Inquiry toggle={toggle} setToggle={setToggle} />
+      ) : null}
+
       <div className={`${classes.root} ${className}`}>
         <Toolbar className={classes.toolbar}>
           <IconButton

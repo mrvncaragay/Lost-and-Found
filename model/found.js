@@ -11,6 +11,11 @@ const Found = mongoose.model(
 
     timestamps: true,
 
+    dateFound: {
+      date: String,
+      time: String
+    },
+
     description: {
       type: String,
       required: true,
@@ -30,9 +35,10 @@ const Found = mongoose.model(
     },
 
     owner: {
-      type: Object,
       name: String,
       phone: String,
+      address: String,
+      email: String
       default: 'unknown'
     },
 

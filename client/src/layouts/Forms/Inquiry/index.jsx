@@ -19,11 +19,11 @@ import { Close as CloseIcon } from "@material-ui/icons";
 // Component styles
 import styles from "./styles";
 
-function Lost({ toggle, setToggle }) {
+function Inquiry({ toggle, setToggle }) {
   const classes = styles();
 
   const initialState = {
-    dateLost: {
+    dateInquire: {
       date: "",
       time: ""
     },
@@ -36,17 +36,17 @@ function Lost({ toggle, setToggle }) {
       email: ""
     }
   };
-  const [lost, setLost] = useState(initialState);
+  const [inquire, setInquire] = useState(initialState);
 
   const handleChange = e => {
-    const tempCopy = { ...lost };
+    const tempCopy = { ...inquire };
     const keyObject = e.target.getAttribute("data");
 
     keyObject
       ? (tempCopy[e.target.name][keyObject] = e.target.value)
       : (tempCopy[e.target.name] = e.target.value);
 
-    setLost(tempCopy);
+    setInquire(tempCopy);
   };
 
   const handleCancel = () => {
@@ -82,7 +82,7 @@ function Lost({ toggle, setToggle }) {
             <TextField
               onChange={e => handleChange(e)}
               label="Date found"
-              name="dateLost"
+              name="dateInquire"
               inputProps={{
                 data: "date"
               }}
@@ -100,7 +100,7 @@ function Lost({ toggle, setToggle }) {
                 step: 300 // 5 min
               }}
               label="Time found"
-              name="dateLost"
+              name="dateInquire"
               type="time"
               InputLabelProps={{
                 shrink: true
@@ -206,4 +206,4 @@ function Lost({ toggle, setToggle }) {
   );
 }
 
-export default Lost;
+export default Inquiry;

@@ -11,6 +11,11 @@ const Lost = mongoose.model(
 
     timestamps: true,
 
+    lostDateTime: {
+      date: String,
+      time: String
+    },
+
     description: {
       type: String,
       required: true,
@@ -30,9 +35,10 @@ const Lost = mongoose.model(
     },
 
     owner: {
-      type: Object,
       name: String,
-      phone: String
+      phone: String,
+      address: String,
+      email: String
     },
 
     recorder: String
