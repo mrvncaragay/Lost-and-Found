@@ -33,5 +33,16 @@ export default makeStyles(theme => ({
   },
   addButtons: {
     marginRight: theme.spacing(1)
-  }
+  },
+  paper: {
+    zIndex: 1,
+    position: "absolute",
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(2, 3),
+    outline: "none",
+    top: `50%`,
+    left: `50%`,
+    transform: `translate(-50%, -50%)`
+  },
+  containerRoot: {}
 }));

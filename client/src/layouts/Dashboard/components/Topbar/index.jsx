@@ -1,6 +1,5 @@
-import React, { Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { logOutUser } from "actions/authActions";
-import { clearOrganizations } from "actions/organizationActions";
 import { isSecurityAdmin, isPropAdmin } from "util/validation";
 
 // Externals
@@ -13,7 +12,11 @@ import {
   Toolbar,
   Typography,
   Tooltip,
-  Button
+  Button,
+  Modal,
+  Fade,
+  Paper,
+  TextField
 } from "@material-ui/core";
 
 // Material icons
@@ -29,7 +32,6 @@ import styles from "./styles";
 
 function Topbar({
   logOutUser,
-  clearOrganizations,
   className,
   title,
   isSideBarOpen,
@@ -37,11 +39,19 @@ function Topbar({
   user
 }) {
   const classes = styles();
+  const [toggle, setToggle] = useState(false);
 
   const handleLogOut = e => {
     e.preventDefault();
-    clearOrganizations();
     logOutUser();
+  };
+
+  const handleForm = type => {
+    setToggle(!toggle);
+  };
+
+  const handleClose = type => {
+    setToggle(!toggle);
   };
 
   return (
@@ -59,10 +69,11 @@ function Topbar({
             {title}
           </Typography>
 
-          {isPropAdmin(user.adminType) ? (
+          {isPropAdmin(user.adminType) || isSecurityAdmin(user.adminType) ? (
             <Fragment>
               <Tooltip title="Report Lost Item" placement="bottom">
                 <Button
+                  onClick={() => handleForm("Lost")}
                   variant="outlined"
                   size="small"
                   color="primary"
@@ -72,8 +83,22 @@ function Topbar({
                   Lost
                 </Button>
               </Tooltip>
+
+              <Tooltip title="Report Found Item" placement="bottom">
+                <Button
+                  onClick={() => handleForm("Found")}
+                  variant="outlined"
+                  size="small"
+                  className={classes.addButtons}
+                >
+                  <AddIcon className={classes.addSVG} />
+                  Found
+                </Button>
+              </Tooltip>
+
               <Tooltip title="Report an Inquiry" placement="bottom">
                 <Button
+                  onClick={() => handleForm("Inquiry")}
                   variant="outlined"
                   size="small"
                   color="secondary"
@@ -83,16 +108,6 @@ function Topbar({
                   Inquiry
                 </Button>
               </Tooltip>
-              <Tooltip title="Report Found Item" placement="bottom">
-                <Button
-                  variant="outlined"
-                  size="small"
-                  className={classes.addButtons}
-                >
-                  <AddIcon className={classes.addSVG} />
-                  Found
-                </Button>
-              </Tooltip>{" "}
             </Fragment>
           ) : null}
 
@@ -121,5 +136,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logOutUser, clearOrganizations }
+  { logOutUser }
 )(Topbar);

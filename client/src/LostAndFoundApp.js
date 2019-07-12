@@ -72,7 +72,7 @@ function LostAndFound({
       <Route exact path="/admin/sign-up" component={AdminSignUp} />
       <PrivateRoute
         exact
-        admin="propAdmin orgAdmin swAdmin"
+        admin="security propAdmin orgAdmin swAdmin"
         path="/dashboard"
         component={Dashboard}
       />
@@ -82,7 +82,10 @@ function LostAndFound({
         path="/users"
         component={User}
       />
+
+      {/* not included? */}
       <PrivateRoute exact path="/property" component={Property} />
+
       <PrivateRoute
         exact
         admin="swAdmin"

@@ -1,6 +1,11 @@
 import React, { forwardRef, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { isSwAdmin, isPropAdmin, isOrgAdmin } from "util/validation";
+import {
+  isSwAdmin,
+  isPropAdmin,
+  isOrgAdmin,
+  isSecurityAdmin
+} from "util/validation";
 
 // Externals
 import { connect } from "react-redux";
@@ -21,7 +26,6 @@ import {
 import {
   DashboardOutlined as DashboardIcon,
   PeopleOutlined as PeopleIcon,
-  AccountBalanceOutlined as BuildingIcon,
   FeedbackOutlined as InqueriesIcon,
   AssignmentTurnedInOutlined as FoundIcon,
   WarningOutlined as LostIcon
@@ -87,7 +91,7 @@ function Sidebar({ user }) {
           />
         </ListItem>
 
-        {isPropAdmin(user.adminType) ? (
+        {isPropAdmin(user.adminType) || isSecurityAdmin(user.adminType) ? (
           <Fragment>
             <ListItem
               activeClassName={classes.activeListItem}

@@ -1,7 +1,6 @@
 import {
   GET_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
-  CLEAR_CURRENT_ORGANIZATIONS,
   SET_CURRENT_ORGANIZATION,
   SET_LOADING_ORG,
   GET_ORG_DATA
@@ -94,12 +93,5 @@ export const setCurrentOrganization = org => {
 export const setLoading = () => {
   return {
     type: SET_LOADING_ORG
-  };
-};
-
-// Clear organizations
-export const clearOrganizations = () => {
-  return {
-    type: CLEAR_CURRENT_ORGANIZATIONS
   };
 };

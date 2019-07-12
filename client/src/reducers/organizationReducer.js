@@ -94,7 +94,6 @@ export default function(state = initialState, action) {
       };
 
     case EDIT_ORG_USER:
-      console.log(action.payload);
       return {
         ...state,
         organization: {
