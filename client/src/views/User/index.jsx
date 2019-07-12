@@ -1,5 +1,5 @@
 import React from "react";
-import { isSwAdmin } from "util/validation";
+import { isSwAdmin, isOrgAdmin, isPropAdmin } from "util/validation";
 
 // External
 import { connect } from "react-redux";
@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
 import { NotificationSnackbar } from "layouts";
-import { SwAdmin, OrgAdmin } from "./components";
+import { SwAdmin, OrgAdmin, PropAdmin } from "./components";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -35,7 +35,9 @@ function User({ notify, auth }) {
       <div className={classes.root}>
         <Grid container spacing={4}>
           <Grid item lg={12} sm={12} xl={12} xs={12} className={classes.item}>
-            {isSwAdmin(auth.user.adminType) ? <SwAdmin /> : <OrgAdmin />}
+            {isSwAdmin(auth.user.adminType) ? <SwAdmin /> : null}
+            {isOrgAdmin(auth.user.adminType) ? <OrgAdmin /> : null}
+            {isPropAdmin(auth.user.adminType) ? <PropAdmin /> : null}
           </Grid>
         </Grid>
       </div>

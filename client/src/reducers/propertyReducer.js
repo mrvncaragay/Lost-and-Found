@@ -48,7 +48,7 @@ export default function(state = initialState, action) {
     case SET_LOADING_PROP:
       return {
         ...state,
-        isLoading: true
+        isLoading: !state.isLoading
       };
 
     case SET_DEFAULT_PROP:

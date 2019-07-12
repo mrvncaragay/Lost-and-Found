@@ -4,7 +4,8 @@ import {
   setCurrentUser,
   logOutUser,
   setCurrentOrganization,
-  setCurrentProperty
+  setCurrentProperty,
+  getOrganizationData
 } from "actions";
 import setAuthJwtToken from "./util/setAuthJwtToken";
 
@@ -14,7 +15,6 @@ import PropTypes from "prop-types";
 import Homepage from "./views/Homepage";
 import Dashboard from "./views/Dashboard";
 import User from "./views/User";
-import SwAdminDashboard from "./views/SwAdminDashboard";
 import Organization from "./views/Organization";
 import Property from "./views/Property";
 import SignIn from "./views/SignIn/User";
@@ -29,8 +29,10 @@ function LostAndFound({
   setCurrentUser,
   setCurrentOrganization,
   setCurrentProperty,
+  getOrganizationData,
   logOutUser
 }) {
+  // If page refresh
   if (localStorage["x-auth-token"]) {
     // Set auth token to header
     setAuthJwtToken(localStorage["x-auth-token"]);
@@ -48,6 +50,8 @@ function LostAndFound({
       // Set Organization
       setCurrentOrganization(decoded.property.organization);
 
+      // retrieve organization data
+      getOrganizationData();
       // Check if localstorage has property
       if (localStorage["property"]) {
         const prop = JSON.parse(localStorage.getItem("property"));
@@ -68,7 +72,7 @@ function LostAndFound({
       <Route exact path="/admin/sign-up" component={AdminSignUp} />
       <PrivateRoute
         exact
-        admin="propAdmin orgAdmin"
+        admin="propAdmin orgAdmin swAdmin"
         path="/dashboard"
         component={Dashboard}
       />
@@ -77,12 +81,6 @@ function LostAndFound({
         admin="propAdmin orgAdmin swAdmin"
         path="/users"
         component={User}
-      />
-      <PrivateRoute
-        exact
-        admin="swAdmin"
-        path="/organizations"
-        component={SwAdminDashboard}
       />
       <PrivateRoute exact path="/property" component={Property} />
       <PrivateRoute
@@ -116,6 +114,7 @@ export default connect(
     setCurrentUser,
     setCurrentOrganization,
     setCurrentProperty,
-    logOutUser
+    logOutUser,
+    getOrganizationData
   }
 )(LostAndFound);

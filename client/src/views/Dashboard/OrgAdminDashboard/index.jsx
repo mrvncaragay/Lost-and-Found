@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { setForm, setCurrentProperty, getOrganizationData } from "actions";
 
-import { isEmpty } from "../../util/validation";
-
 // External
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -54,7 +52,7 @@ function OrgAdminDashboard({
   /* eslint-disable */
   useEffect(() => {
 
-    getOrganizationData();
+    //getOrganizationData();
   }, []);
   /* eslint-enable */
 
@@ -80,10 +78,6 @@ function OrgAdminDashboard({
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
-            ) : isEmpty(mainOrg.properties) ? (
-              <Typography className={classes.noData} variant="h5">
-                There are no properties
-              </Typography>
             ) : (
               <Properties
                 title="PROPERTIES"
@@ -101,21 +95,15 @@ function OrgAdminDashboard({
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
-            ) : isEmpty(mainOrg.users) ? (
-              <Typography className={classes.noData} variant="h5">
-                There are no users
-              </Typography>
-            ) : (
+            ) : mainOrg.properties === undefined ? null : (
               <Users title="USERS" count={mainOrg.users.length} />
             )}
           </Grid>
 
           <Grid item lg={12} xl={12} sm={12} xs={12}>
             {isLoading ? (
-              <div className={classes.progressWrapper}>
-                <CircularProgress />
-              </div>
-            ) : isEmpty(mainOrg.properties) ? null : (
+              console.log(isLoading)
+            ) : (
               <DataTable
                 title=""
                 column={column}

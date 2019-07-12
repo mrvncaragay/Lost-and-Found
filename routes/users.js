@@ -13,7 +13,7 @@ router.post('/dashboard', jwtAuth.isTokenValid, [
 ]);
 router.get('/me', jwtAuth.isTokenValid, user.getCurrentUser);
 router.get('/:id', objIdAuth.validateObjectId, jwtAuth.isTokenValid, admin.isAdmin, user.getUser);
-router.post('/', jwtAuth.isTokenValid, admin.isOSAdmin, auth.isBodyValid, user.postUser);
+router.post('/', jwtAuth.isTokenValid, admin.isAdmin, auth.isBodyValid, user.postUser);
 router.put(
   '/:id',
   objIdAuth.validateObjectId,

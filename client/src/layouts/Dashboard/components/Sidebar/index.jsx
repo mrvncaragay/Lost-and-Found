@@ -71,23 +71,21 @@ function Sidebar({ user }) {
       <Divider className={classes.logoDivider} />
 
       <List component="div" disablePadding className={classes.mainList}>
-        {isPropAdmin(user.adminType) || isOrgAdmin(user.adminType) ? (
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={myNavLink}
-            to="/dashboard"
-          >
-            <ListItemIcon className={classes.listItemIcon}>
-              <DashboardIcon />
-            </ListItemIcon>
+        <ListItem
+          activeClassName={classes.activeListItem}
+          className={classes.listItem}
+          component={myNavLink}
+          to="/dashboard"
+        >
+          <ListItemIcon className={classes.listItemIcon}>
+            <DashboardIcon />
+          </ListItemIcon>
 
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Dashboard"
-            />
-          </ListItem>
-        ) : null}
+          <ListItemText
+            classes={{ primary: classes.listItemText }}
+            primary="Dashboard"
+          />
+        </ListItem>
 
         {isPropAdmin(user.adminType) ? (
           <Fragment>
@@ -136,26 +134,6 @@ function Sidebar({ user }) {
               <ListItemText
                 classes={{ primary: classes.listItemText }}
                 primary="Inquiry"
-              />
-            </ListItem>
-          </Fragment>
-        ) : null}
-
-        {isSwAdmin(user.adminType) ? (
-          <Fragment>
-            <ListItem
-              activeClassName={classes.activeListItem}
-              className={classes.listItem}
-              component={myNavLink}
-              to="/organizations"
-            >
-              <ListItemIcon className={classes.listItemIcon}>
-                <BuildingIcon />
-              </ListItemIcon>
-
-              <ListItemText
-                classes={{ primary: classes.listItemText }}
-                primary="Organizations"
               />
             </ListItem>
           </Fragment>

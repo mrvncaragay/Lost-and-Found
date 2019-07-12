@@ -44,6 +44,7 @@ export const getPropertyData = (id, propCode) => dispatch => {
 
 export const postUserProperty = data => (dispatch, getState) => {
   dispatch(setLoading());
+  const user = getState().auth.user;
   const property = getState().property.main._id;
   const organization = getState().organization.organization.main._id;
 
@@ -53,21 +54,29 @@ export const postUserProperty = data => (dispatch, getState) => {
       property,
       organization
     })
+
     .then(res => {
-      dispatch({
-        type: POST_ORG_USER,
-        payload: res.data
-      });
-      dispatch({
-        type: POST_PROP_USER,
-        payload: res.data
-      });
+      if (user.adminType === "swAdmin" || user.adminType === "orgAdmin")
+        dispatch({
+          type: POST_ORG_USER,
+          payload: res.data
+        });
+
+      if (user.adminType === "propAdmin" || user.adminType === "orgAdmin")
+        dispatch({
+          type: POST_PROP_USER,
+          payload: res.data
+        });
       dispatch(logSuccess(`Successfully created a user: ${res.data.name}`));
     })
-    .catch(err => dispatch(logError(err.response.data)));
+    .catch(err => {
+      dispatch(setLoading());
+      dispatch(logError(err.response.data));
+    });
 };
 
-export const editUserProperty = data => dispatch => {
+export const editUserProperty = data => (dispatch, getState) => {
+  const user = getState().auth.user;
   dispatch(setLoading());
   axios
     .put("/api/users/" + data._id, {
@@ -77,14 +86,18 @@ export const editUserProperty = data => dispatch => {
       status: data.status
     })
     .then(res => {
-      dispatch({
-        type: EDIT_ORG_USER,
-        payload: res.data
-      });
-      dispatch({
-        type: EDIT_PROP_USER,
-        payload: res.data
-      });
+      if (user.adminType === "swAdmin" || user.adminType === "orgAdmin")
+        dispatch({
+          type: EDIT_ORG_USER,
+          payload: res.data
+        });
+
+      if (user.adminType === "propAdmin" || user.adminType === "orgAdmin")
+        dispatch({
+          type: EDIT_PROP_USER,
+          payload: res.data
+        });
+
       dispatch(logSuccess(`Successfully created a user: ${res.data.name}`));
     })
     .catch(err => dispatch(logError(err.response.data)));

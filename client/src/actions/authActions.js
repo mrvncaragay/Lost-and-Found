@@ -45,10 +45,8 @@ export const logInUser = (userData, history) => dispatch => {
         type: RESET_ERRORS
       });
 
-      if (decoded.adminType === "propAdmin") {
-        // Set property for propAdmin
-        dispatch(setCurrentProperty(decoded.property));
-      }
+      // Set property for propAdmin
+      dispatch(setCurrentProperty(decoded.property));
 
       if (decoded.adminType === "swAdmin" || decoded.adminType === "orgAdmin") {
         // Set Current Organization
@@ -59,8 +57,6 @@ export const logInUser = (userData, history) => dispatch => {
       }
 
       history.push("/dashboard");
-
-      if (decoded.adminType === "swAdmin") history.push("/organizations");
 
       // log successful logged in
       dispatch(logSuccess("Successfully logged in."));
