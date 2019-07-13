@@ -7,10 +7,10 @@ const Found = mongoose.model(
     {
       ref: {
         type: String,
-        default: uniqid.time('ref-')
+        default: uniqid.time()
       },
 
-      dateFound: {
+      dateRegistered: {
         date: String,
         time: String
       },
@@ -21,7 +21,7 @@ const Found = mongoose.model(
         minlength: [5, 'must be greater than 5 characters.']
       },
 
-      foundAt: {
+      locatedAt: {
         type: String,
         required: true,
         minlength: [5, 'must be greater than 5 characters.']

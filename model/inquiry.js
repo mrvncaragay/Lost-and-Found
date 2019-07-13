@@ -6,10 +6,10 @@ const Inquiry = mongoose.model(
   new mongoose.Schema({
     ref: {
       type: String,
-      default: uniqid.time('ref-')
+      default: uniqid.time()
     },
 
-    dateInquire: {
+    dateRegistered: {
       date: String,
       time: String
     },
@@ -20,7 +20,7 @@ const Inquiry = mongoose.model(
       minlength: [5, 'must be greater than 5 characters.']
     },
 
-    lostAt: {
+    locatedAt: {
       type: String,
       required: true,
       minlength: [5, 'must be greater than 5 characters.']

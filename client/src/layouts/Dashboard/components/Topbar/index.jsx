@@ -1,9 +1,9 @@
 import React, { useState, Fragment } from "react";
-import { logOutUser } from "actions";
+import { logOutUser, postFound, postLost, postInquiry } from "actions";
 import { isSecurityAdmin, isPropAdmin } from "util/validation";
 
 // Shared components
-import { Lost, Found, Inquiry } from "layouts";
+import { Post } from "layouts";
 
 // Externals
 import { connect } from "react-redux";
@@ -35,7 +35,10 @@ function Topbar({
   title,
   isSideBarOpen,
   onToggleSidebar,
-  user
+  user,
+  postFound,
+  postLost,
+  postInquiry
 }) {
   const classes = styles();
   const [toggle, setToggle] = useState(false);
@@ -56,12 +59,29 @@ function Topbar({
 
   return (
     <Fragment>
-      {form === "Lost" ? <Lost toggle={toggle} setToggle={setToggle} /> : null}
+      {form === "Lost" ? (
+        <Post
+          title="Lost"
+          postFnc={postLost}
+          toggle={toggle}
+          setToggle={setToggle}
+        />
+      ) : null}
       {form === "Found" ? (
-        <Found toggle={toggle} setToggle={setToggle} />
+        <Post
+          title="Found"
+          postFnc={postFound}
+          toggle={toggle}
+          setToggle={setToggle}
+        />
       ) : null}
       {form === "Inquiry" ? (
-        <Inquiry toggle={toggle} setToggle={setToggle} />
+        <Post
+          title="Inquiry"
+          postFnc={postInquiry}
+          toggle={toggle}
+          setToggle={setToggle}
+        />
       ) : null}
 
       <div className={`${classes.root} ${className}`}>
@@ -135,6 +155,9 @@ function Topbar({
 
 Topbar.propTypes = {
   logOutUser: PropTypes.func.isRequired,
+  postFound: PropTypes.func.isRequired,
+  postLost: PropTypes.func.isRequired,
+  postInquiry: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 };
 
@@ -144,5 +167,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { logOutUser }
+  { logOutUser, postFound, postLost, postInquiry }
 )(Topbar);

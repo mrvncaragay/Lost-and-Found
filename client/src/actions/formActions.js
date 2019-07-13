@@ -6,7 +6,6 @@ import { logError, logSuccess } from "./notificationActions";
 import {
   EDIT_USER,
   POST_ORG_USER,
-  EDIT_ORG_USER,
   POST_ORGANIZATION,
   EDIT_ORGANIZATION,
   SET_FORM,

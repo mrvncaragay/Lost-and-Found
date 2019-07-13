@@ -1,16 +1,11 @@
-const a = {
-  dateFound: {
-    date: '',
-    time: ''
-  },
-  description: '',
-  foundAt: '',
-  owner: {
-    name: '',
-    phone: '',
-    address: '',
-    email: ''
-  }
+const payload = {
+  age: 21
 };
 
-console.log(a[`dateFound`]);
+const found = null;
+
+const found2 = [{ age: 99 }];
+
+const a = [payload, ...(true ? found2 : [])];
+
+console.log(a);

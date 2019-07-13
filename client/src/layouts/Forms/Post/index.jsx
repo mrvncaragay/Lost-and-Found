@@ -1,12 +1,8 @@
 import React, { useState, Fragment } from "react";
-import { postLost } from "actions";
 
 // Externals
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
-// Shared layouts
-import { NotificationSnackbar } from "layouts";
 
 // Material helper
 import {
@@ -27,16 +23,16 @@ import { Close as CloseIcon } from "@material-ui/icons";
 // Component styles
 import styles from "./styles";
 
-function Lost({ toggle, setToggle, postLost, notify }) {
+function Post({ title, toggle, setToggle, postFnc }) {
   const classes = styles();
 
   const initialState = {
-    dateLost: {
+    dateRegistered: {
       date: "",
       time: ""
     },
     description: "",
-    lostAt: "",
+    locatedAt: "",
     owner: {
       name: "",
       phone: "",
@@ -62,20 +58,16 @@ function Lost({ toggle, setToggle, postLost, notify }) {
   };
 
   const handleSave = () => {
-    postLost(lost);
+    postFnc(lost);
   };
 
   return (
     <Fragment>
-      {notify ? (
-        <NotificationSnackbar message={notify.message} type={notify.type} />
-      ) : null}
-
       <Fade in={toggle}>
         <Paper elevation={4} className={classes.root}>
           <Grid container className={classes.grid}>
             <Grid item xs={12} sm={12} className={classes.formHeader}>
-              <Typography variant="h4">Lost Item Form</Typography>
+              <Typography variant="h4">{`${title}`} Item Form</Typography>
 
               <span className={classes.spacer} />
 
@@ -94,8 +86,8 @@ function Lost({ toggle, setToggle, postLost, notify }) {
               <span className={classes.spacer} />
               <TextField
                 onChange={e => handleChange(e)}
-                label="Date lost"
-                name="dateLost"
+                label={`Date ${title.toLowerCase()}`}
+                name="dateRegistered"
                 inputProps={{
                   data: "date"
                 }}
@@ -112,8 +104,8 @@ function Lost({ toggle, setToggle, postLost, notify }) {
                   data: "time",
                   step: 300 // 5 min
                 }}
-                label="Time lost"
-                name="dateLost"
+                label={`Time ${title.toLowerCase()}`}
+                name="dateRegistered"
                 type="time"
                 InputLabelProps={{
                   shrink: true
@@ -132,9 +124,9 @@ function Lost({ toggle, setToggle, postLost, notify }) {
               />
 
               <TextField
-                label="Lost location"
+                label="location"
                 onChange={e => handleChange(e)}
-                name="lostAt"
+                name="locatedAt"
                 type="text"
                 margin="dense"
               />
@@ -220,16 +212,14 @@ function Lost({ toggle, setToggle, postLost, notify }) {
   );
 }
 
-Lost.propTypes = {
-  postLost: PropTypes.func.isRequired,
+Post.propTypes = {
+  postFnc: PropTypes.func.isRequired,
   notify: PropTypes.object
 };
 
-const mapStateToProps = state => ({
-  notify: state.notify
-});
+const mapStateToProps = state => ({});
 
 export default connect(
   mapStateToProps,
-  { postLost }
-)(Lost);
+  {}
+)(Post);

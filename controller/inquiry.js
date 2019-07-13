@@ -1,12 +1,12 @@
 const Inquiry = require('../model/inquiry');
 
-exports.postInquiry = (req, res) => {};
+exports.postInquiry = async (req, res) => {
+	
+	const newInquiry = new Inquiry({
+		...req.body
+	})
 
-// const newFound = new Inquiry({
-//   dateFound: Date.now,
-//   description: 'tester that tester is test',
-//   lostAt: 'locker heart then go',
-//   recorder: 'Secy 1'
-// });
+	await newInquiry.save();
 
-// newFound.save();
+	res.send(newInquiry)
+};

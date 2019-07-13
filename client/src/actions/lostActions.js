@@ -17,9 +17,14 @@ export const postLost = lostData => (dispatch, getState) => {
         type: POST_PROP_LOST,
         payload: res.data
       });
-      dispatch(logSuccess(`Succesfully created asdsa`));
+      dispatch(
+        logSuccess(`Succesfully posted found lost - ref#-${res.data.ref}`)
+      );
     })
-    .catch(err => dispatch(logError(err.response.data)));
+    .catch(err => {
+      dispatch(setLoading());
+      dispatch(logError(err.response.data));
+    });
 };
 
 export const setLoading = () => {

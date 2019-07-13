@@ -13,9 +13,9 @@ import {
 const initialState = {
   main: null,
   users: null,
-  lost: [],
-  found: [],
-  inquiry: [],
+  lost: null,
+  found: null,
+  inquiry: null,
   isLoading: false
 };
 
@@ -31,21 +31,21 @@ export default function(state = initialState, action) {
     case POST_PROP_LOST:
       return {
         ...state,
-        lost: [action.payload, ...state.lost],
+        lost: [action.payload, ...(state.lost ? state.lost : [])],
         isLoading: false
       };
 
     case POST_PROP_FOUND:
       return {
         ...state,
-        found: [action.payload, ...state.found],
+        found: [action.payload, ...(state.found ? state.found : [])],
         isLoading: false
       };
 
     case POST_PROP_INQUIRY:
       return {
         ...state,
-        inquiry: [action.payload, ...state.inquiry],
+        inquiry: [action.payload, ...(state.inquiry ? state.inquiry : [])],
         isLoading: false
       };
 
@@ -69,6 +69,8 @@ export default function(state = initialState, action) {
         ...state,
         users: action.payload.users,
         lost: action.payload.lost,
+        found: action.payload.found,
+        inquiry: action.payload.inquiry,
         isLoading: false
       };
     }

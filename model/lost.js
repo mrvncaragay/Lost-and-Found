@@ -10,7 +10,7 @@ const Lost = mongoose.model(
         default: uniqid.time()
       },
 
-      dateLost: {
+      dateRegistered: {
         date: String,
         time: String
       },
@@ -21,7 +21,7 @@ const Lost = mongoose.model(
         minlength: [5, 'must be greater than 5 characters.']
       },
 
-      lostAt: {
+      locatedAt: {
         type: String,
         required: true,
         minlength: [5, 'must be greater than 5 characters.']

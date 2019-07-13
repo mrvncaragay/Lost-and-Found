@@ -35,7 +35,7 @@ exports.isBodyValid = (req, res, next) => {
 
 function validateLost(req) {
   const schema = {
-    dateLost: {
+    dateRegistered: {
       date: Joi.date(),
       time: Joi.string()
     },
@@ -43,7 +43,7 @@ function validateLost(req) {
       .required()
       .min(10)
       .max(100),
-    lostAt: Joi.string(),
+    locatedAt: Joi.string(),
     owner: Joi.object({
       name: Joi.string().required(),
       email: Joi.allow(null),
@@ -59,7 +59,7 @@ function validateLost(req) {
 
 function validateFound(req) {
   const schema = {
-    dateLost: {
+    dateRegistered: {
       date: Joi.date(),
       time: Joi.string()
     },
@@ -67,11 +67,11 @@ function validateFound(req) {
       .required()
       .min(10)
       .max(100),
-    lostAt: Joi.string(),
+    locatedAt: Joi.string(),
     owner: Joi.object({
-      name: Joi.string().required(),
+      name: Joi.allow(null),
       email: Joi.allow(null),
-      phone: Joi.string().required(),
+      phone: Joi.allow(null),
       address: Joi.allow(null)
     }),
     propertyId: Joi.string().required()
@@ -83,7 +83,7 @@ function validateFound(req) {
 
 function validateInquiry(req) {
   const schema = {
-    dateLost: {
+    dateRegistered: {
       date: Joi.date(),
       time: Joi.string()
     },
@@ -91,7 +91,7 @@ function validateInquiry(req) {
       .required()
       .min(10)
       .max(100),
-    lostAt: Joi.string(),
+    locatedAt: Joi.string(),
     owner: Joi.object({
       name: Joi.string().required(),
       email: Joi.allow(null),

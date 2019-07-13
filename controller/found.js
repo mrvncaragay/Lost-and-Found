@@ -1,12 +1,12 @@
 const Found = require('../model/found');
 
-exports.postFound = (req, res) => {};
+exports.postFound = async (req, res) => {
+	
+	const newFound = new Found({
+		...req.body
+	})
 
-// const newFound = new Found({
-//   dateFound: Date.now,
-//   description: 'tester that tester is test',
-//   foundAt: 'locker heart then go',
-//   recorder: 'Secy 1'
-// });
+	await newFound.save();
 
-// newFound.save();
+	res.send(newFound)
+};
