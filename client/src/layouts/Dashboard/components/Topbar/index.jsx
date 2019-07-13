@@ -47,6 +47,7 @@ function Topbar({
   };
 
   const handleForm = type => {
+    console.log(type);
     if (form === type) return setToggle(!toggle);
 
     setForm(type);

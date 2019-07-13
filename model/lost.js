@@ -9,9 +9,7 @@ const Lost = mongoose.model(
       default: uniqid.time('ref-')
     },
 
-    timestamps: true,
-
-    lostDateTime: {
+    dateLost: {
       date: String,
       time: String
     },
@@ -35,13 +33,17 @@ const Lost = mongoose.model(
     },
 
     owner: {
+      type: Object,
       name: String,
       phone: String,
       address: String,
-      email: String
+      email: String,
+      default: 'unknown'
     },
 
     recorder: String
+  }, {
+      timestamps: true
   })
 );
 

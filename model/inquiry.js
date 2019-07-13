@@ -9,8 +9,6 @@ const Inquiry = mongoose.model(
       default: uniqid.time('ref-')
     },
 
-    timestamps: true,
-
     dateInquire: {
       date: String,
       time: String
@@ -22,7 +20,7 @@ const Inquiry = mongoose.model(
       minlength: [5, 'must be greater than 5 characters.']
     },
 
-        lostAt: {
+    lostAt: {
       type: String,
       required: true,
       minlength: [5, 'must be greater than 5 characters.']
@@ -36,14 +34,18 @@ const Inquiry = mongoose.model(
     },
 
     owner: {
+      type: Object,
       name: String,
       phone: String,
       address: String,
-      email: String
+      email: String,
       default: 'unknown'
     },
 
     recorder: String
+  }, 
+  {
+    timestamps: true
   })
 );
 

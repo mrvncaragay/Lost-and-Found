@@ -28,6 +28,9 @@ export const GET_PROP_DATA = "GET_PROP_DATA";
 export const SET_LOADING_PROP = "SET_LOADING_PROP";
 export const SET_CURRENT_PROPERTY = "SET_CURRENT_PROPERTY";
 export const SET_DEFAULT_PROP = "SET_DEFAULT_PROP";
+export const POST_PROP_LOST = "POST_PROP_LOST";
+export const POST_PROP_FOUND = "POST_PROP_FOUND";
+export const POST_PROP_INQUIRY = "POST_PROP_INQUIRY";
 
 // USER
 export const POST_USER = "POST_USER";
@@ -47,3 +50,12 @@ export const SAVE_FORM = "SAVE_FORM";
 // NOTIFICATION
 export const LOG_ERRORS = "LOG_ERRORS";
 export const LOG_SUCCESS = "LOG_SUCCESS";
+
+// LOST
+export const POST_LOST = "POST_LOST";
+
+// FOUND
+export const POST_FOUND = "POST_FOUND";
+
+// INQUIRY
+export const POST_INQUIRY = "POST_INQUIRY";

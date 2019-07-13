@@ -4,12 +4,18 @@ import {
   SET_CURRENT_PROPERTY,
   POST_PROP_USER,
   EDIT_PROP_USER,
-  SET_DEFAULT_PROP
+  SET_DEFAULT_PROP,
+  POST_PROP_LOST,
+  POST_PROP_FOUND,
+  POST_PROP_INQUIRY
 } from "../actions/types";
 
 const initialState = {
   main: null,
   users: null,
+  lost: null,
+  found: null,
+  inquiry: null,
   isLoading: false
 };
 
@@ -19,6 +25,27 @@ export default function(state = initialState, action) {
       return {
         ...state,
         users: [action.payload, ...state.users],
+        isLoading: false
+      };
+
+    case POST_PROP_LOST:
+      return {
+        ...state,
+        lost: [action.payload, ...state.lost],
+        isLoading: false
+      };
+
+    case POST_PROP_FOUND:
+      return {
+        ...state,
+        found: [action.payload, ...state.found],
+        isLoading: false
+      };
+
+    case POST_PROP_INQUIRY:
+      return {
+        ...state,
+        inquiry: [action.payload, ...state.inquiry],
         isLoading: false
       };
 

@@ -62,7 +62,7 @@ function Inquiry({ toggle, setToggle }) {
       <Paper elevation={4} className={classes.root}>
         <Grid container className={classes.grid}>
           <Grid item xs={12} sm={12} className={classes.formHeader}>
-            <Typography variant="h4">Found Item Form</Typography>
+            <Typography variant="h4">Inquiry Item Form</Typography>
 
             <span className={classes.spacer} />
 
@@ -81,7 +81,7 @@ function Inquiry({ toggle, setToggle }) {
             <span className={classes.spacer} />
             <TextField
               onChange={e => handleChange(e)}
-              label="Date found"
+              label="Date inquire"
               name="dateInquire"
               inputProps={{
                 data: "date"
@@ -99,7 +99,7 @@ function Inquiry({ toggle, setToggle }) {
                 data: "time",
                 step: 300 // 5 min
               }}
-              label="Time found"
+              label="Time inquire"
               name="dateInquire"
               type="time"
               InputLabelProps={{
@@ -119,7 +119,7 @@ function Inquiry({ toggle, setToggle }) {
             />
 
             <TextField
-              label="Found location"
+              label="Lost location"
               onChange={e => handleChange(e)}
               name="lostAt"
               type="text"
