@@ -1,7 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // Externals
-import classNames from "classnames";
 import PropTypes from "prop-types";
 
 // Material helpers
@@ -12,7 +12,8 @@ import {
   Button,
   IconButton,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Divider
 } from "@material-ui/core";
 
 // Material icons
@@ -33,60 +34,42 @@ import {
 // Component styles
 import styles from "./styles";
 
-function LatestLostItemList({ classes, title }) {
-  // renderProducts() {
-  //   const { classes } = this.props;
-  //   const { isLoading, products } = this.state;
-
-  //   if (isLoading) {
-  //     return (
-  //       <div className={classes.progressWrapper}>
-  //         <CircularProgress />
-  //       </div>
-  //     );
-  //   }
-
-  //   if (0) {
-  //     return (
-  //       <Typography variant="h6">There are no products available</Typography>
-  //     );
-  //   }
-
-  //   return (
-  //     <Fragment>
-  //       <div className={classes.product}>
-  //         <div className={classes.productImageWrapper}>
-  //           <img alt="Product Name" className={classes.productImage} />
-  //         </div>
-  //         <div className={classes.productDetails}>
-  //           <Link to="#">
-  //             <Typography
-  //               className={classes.productTitle}
-  //               variant="h5"
-  //             ></Typography>
-  //           </Link>
-  //           <Typography className={classes.productTimestamp} variant="body2">
-  //             Updated 5hr ago
-  //           </Typography>
-  //         </div>
-  //         <div>
-  //           <IconButton>
-  //             <MoreVertIcon />
-  //           </IconButton>
-  //         </div>
-  //       </div>
-  //     </Fragment>
-  //   );
-  // }
-
-  const rootClassName = classNames(classes.root);
+function LatestLostItemList({ title }) {
+  const classes = styles();
 
   return (
-    <Portlet className={rootClassName}>
+    <Portlet className={classes.root}>
       <PortletHeader noDivider>
         <PortletLabel title={title} />
       </PortletHeader>
-      <PortletContent className={classes.portletContent}></PortletContent>
+      <PortletContent className={classes.portletContent}>
+        <div className={classes.headerItem}>
+          <Typography className={classes.productTimestamp} variant="body2">
+            Ref# das2313
+          </Typography>
+          <span className={classes.spacer} />
+          <Button className={classes.buttonLost} size="small" variant="text">
+            New
+          </Button>
+        </div>
+
+        <Link to="#">
+          <Typography variant="h6">Iphone x</Typography>
+        </Link>
+        <Typography className={classes.productTimestamp} variant="body2">
+          Lost on 2/31/2019 at 3:25am
+        </Typography>
+        <Typography className={classes.productTimestamp} variant="body2">
+          Lost in Restaurant
+        </Typography>
+        <div className={classes.footerItem}>
+          <span className={classes.spacer} />
+          <Typography className={classes.productTimestamp} variant="body2">
+            Posted 2hr ago
+          </Typography>
+        </div>
+        <Divider variant="fullWidth" className={classes.divider} />
+      </PortletContent>
       <PortletFooter className={classes.portletFooter}>
         <Button color="primary" size="small" variant="text">
           View all <ArrowRightIcon />
@@ -97,8 +80,7 @@ function LatestLostItemList({ classes, title }) {
 }
 
 LatestLostItemList.propTypes = {
-  className: PropTypes.string,
-  classes: PropTypes.object.isRequired
+  className: PropTypes.string
 };
 
 export default withStyles(styles)(LatestLostItemList);

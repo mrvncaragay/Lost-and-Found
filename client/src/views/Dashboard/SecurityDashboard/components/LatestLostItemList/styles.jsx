@@ -1,4 +1,7 @@
-export default theme => ({
+// Material helpers
+import { makeStyles } from "@material-ui/core/styles";
+
+export default makeStyles(theme => ({
   root: {},
   portletContent: {
     paddingTop: "0"
@@ -7,32 +10,29 @@ export default theme => ({
     display: "flex",
     justifyContent: "flex-end"
   },
-  product: {
-    paddingBottom: theme.spacing(3),
-    paddingTop: theme.spacing(3),
-    display: "flex",
-    alignItems: "center",
-    "&:not(:first-of-type)": {
-      borderTop: `1px solid ${theme.palette.divider}`
-    }
-  },
-  productImageWrapper: {
-    borderRadius: "5px",
-    overflow: "hidden",
-    height: "64px",
-    width: "64px"
-  },
   productImage: {
     width: "100%",
     height: "auto"
   },
-  productDetails: {
-    marginLeft: theme.spacing(2),
-    flexGrow: 1
-  },
-  productTitle: {},
   productTimestamp: {
-    marginTop: theme.spacing(1),
     color: theme.palette.text.secondary
+  },
+  buttonLost: {
+    color: theme.palette.success.main
+  },
+  headerItem: {
+    display: "flex",
+    width: "100%",
+    alignItems: "center"
+  },
+  footerItem: {
+    display: "flex",
+    width: "100%",
+    alignItems: "center",
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1)
+  },
+  spacer: {
+    flexGrow: 1
   }
-});
+}));

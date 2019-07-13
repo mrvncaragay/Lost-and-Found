@@ -73,7 +73,6 @@ export default makeStyles(theme => ({
   divider: {
     width: "inherit"
   },
-
   spacer: {
     flexGrow: 1
   }

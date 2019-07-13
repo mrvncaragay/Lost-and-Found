@@ -97,6 +97,10 @@ function SecurityDashboard({ property, notify, getPropertyData }) {
               <Grid item lg={4} xl={4} sm={12} xs={12}>
                 <LatestLostItemList title="Recently Found Items" />
               </Grid>
+
+              <Grid item lg={4} xl={4} sm={12} xs={12}>
+                <LatestLostItemList title="Recently Inquired Items" />
+              </Grid>
             </Fragment>
           )}
         </Grid>

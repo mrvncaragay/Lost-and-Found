@@ -41,7 +41,7 @@ function validateLost(req) {
     },
     description: Joi.string()
       .required()
-      .min(10)
+      .min(5)
       .max(100),
     locatedAt: Joi.string(),
     owner: Joi.object({
