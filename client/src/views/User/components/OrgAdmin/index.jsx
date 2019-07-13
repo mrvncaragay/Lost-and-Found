@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { isEmpty } from "util/validation";
 import { setForm, editUserProperty } from "actions";
 

@@ -24,7 +24,7 @@ const Found = mongoose.model(
       locatedAt: {
         type: String,
         required: true,
-        minlength: [5, 'must be greater than 5 characters.']
+        minlength: [3, 'must be greater than 3 characters.']
       },
 
       status: {

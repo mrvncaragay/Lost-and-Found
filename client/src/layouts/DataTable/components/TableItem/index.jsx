@@ -1,6 +1,5 @@
 import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { isSwAdmin } from "util/validation";
 
 // External
 import { connect } from "react-redux";

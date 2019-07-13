@@ -10,7 +10,6 @@ import {
 import setAuthJwtToken from "./util/setAuthJwtToken";
 
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
 import Homepage from "./views/Homepage";
 import Dashboard from "./views/Dashboard";

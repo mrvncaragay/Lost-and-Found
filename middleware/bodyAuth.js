@@ -41,9 +41,12 @@ function validateLost(req) {
     },
     description: Joi.string()
       .required()
-      .min(5)
+      .min(3)
       .max(100),
-    locatedAt: Joi.string(),
+    locatedAt: Joi.string()
+      .required()
+      .min(3)
+      .max(50),
     owner: Joi.object({
       name: Joi.string().required(),
       email: Joi.allow(null),
@@ -65,9 +68,12 @@ function validateFound(req) {
     },
     description: Joi.string()
       .required()
-      .min(10)
+      .min(3)
       .max(100),
-    locatedAt: Joi.string(),
+    locatedAt: Joi.string()
+      .required()
+      .min(3)
+      .max(50),
     owner: Joi.object({
       name: Joi.allow(null),
       email: Joi.allow(null),
@@ -89,9 +95,12 @@ function validateInquiry(req) {
     },
     description: Joi.string()
       .required()
-      .min(10)
+      .min(3)
       .max(100),
-    locatedAt: Joi.string(),
+    locatedAt: Joi.string()
+      .required()
+      .min(3)
+      .max(50),
     owner: Joi.object({
       name: Joi.string().required(),
       email: Joi.allow(null),

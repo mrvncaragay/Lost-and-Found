@@ -44,7 +44,16 @@ const styles = makeStyles(theme => ({
 function SecurityDashboard({ property, notify, getPropertyData }) {
   const classes = styles();
 
-  const { isLoading, main, lost, found, inquiry } = property;
+  const {
+    isLoading,
+    main,
+    lost,
+    found,
+    inquiry,
+    recentLost,
+    recentFound,
+    recentInquiry
+  } = property;
 
   /* eslint-disable */
   useEffect(() => {
@@ -91,15 +100,24 @@ function SecurityDashboard({ property, notify, getPropertyData }) {
               </Grid>
 
               <Grid item lg={4} xl={4} sm={12} xs={12}>
-                <LatestLostItemList title="Recently Lost Items" />
+                <LatestLostItemList
+                  data={recentLost}
+                  title="Recently Lost Items"
+                />
               </Grid>
 
               <Grid item lg={4} xl={4} sm={12} xs={12}>
-                <LatestLostItemList title="Recently Found Items" />
+                <LatestLostItemList
+                  data={recentFound}
+                  title="Recently Found Items"
+                />
               </Grid>
 
               <Grid item lg={4} xl={4} sm={12} xs={12}>
-                <LatestLostItemList title="Recently Inquired Items" />
+                <LatestLostItemList
+                  data={recentInquiry}
+                  title="Recently Inquired Items"
+                />
               </Grid>
             </Fragment>
           )}

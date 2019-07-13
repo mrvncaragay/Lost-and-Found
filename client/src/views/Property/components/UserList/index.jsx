@@ -1,5 +1,4 @@
 import React, { useEffect, Fragment } from "react";
-import { isEmpty } from "util/validation";
 import { setForm, postUserProperty, editUserProperty } from "actions";
 
 import { NotificationSnackbar } from "layouts";

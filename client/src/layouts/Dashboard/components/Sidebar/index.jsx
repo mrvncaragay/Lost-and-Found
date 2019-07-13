@@ -1,11 +1,6 @@
 import React, { forwardRef, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
-import {
-  isSwAdmin,
-  isPropAdmin,
-  isOrgAdmin,
-  isSecurityAdmin
-} from "util/validation";
+import { isPropAdmin, isSecurityAdmin } from "util/validation";
 
 // Externals
 import { connect } from "react-redux";

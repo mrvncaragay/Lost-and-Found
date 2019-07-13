@@ -1,28 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment } from "react";
 
 // Externals
 import PropTypes from "prop-types";
 
-// Material helpers
-import { withStyles } from "@material-ui/core";
-
 // Material components
-import {
-  Button,
-  IconButton,
-  Typography,
-  CircularProgress,
-  Divider
-} from "@material-ui/core";
+import { Button, Divider } from "@material-ui/core";
 
 // Material icons
-import {
-  ArrowRight as ArrowRightIcon,
-  MoreVert as MoreVertIcon
-} from "@material-ui/icons";
+import { ArrowRight as ArrowRightIcon } from "@material-ui/icons";
 
 // Shared components
+import { Data } from "./components";
+
 import {
   Portlet,
   PortletHeader,
@@ -34,7 +23,7 @@ import {
 // Component styles
 import styles from "./styles";
 
-function LatestLostItemList({ title }) {
+function LatestLostItemList({ title, data }) {
   const classes = styles();
 
   return (
@@ -43,32 +32,15 @@ function LatestLostItemList({ title }) {
         <PortletLabel title={title} />
       </PortletHeader>
       <PortletContent className={classes.portletContent}>
-        <div className={classes.headerItem}>
-          <Typography className={classes.productTimestamp} variant="body2">
-            Ref# das2313
-          </Typography>
-          <span className={classes.spacer} />
-          <Button className={classes.buttonLost} size="small" variant="text">
-            New
-          </Button>
-        </div>
+        {data.map((item, index) => (
+          <Fragment key={index}>
+            <Data item={item} />
 
-        <Link to="#">
-          <Typography variant="h6">Iphone x</Typography>
-        </Link>
-        <Typography className={classes.productTimestamp} variant="body2">
-          Lost on 2/31/2019 at 3:25am
-        </Typography>
-        <Typography className={classes.productTimestamp} variant="body2">
-          Lost in Restaurant
-        </Typography>
-        <div className={classes.footerItem}>
-          <span className={classes.spacer} />
-          <Typography className={classes.productTimestamp} variant="body2">
-            Posted 2hr ago
-          </Typography>
-        </div>
-        <Divider variant="fullWidth" className={classes.divider} />
+            {index === data.length - 1 ? null : (
+              <Divider variant="fullWidth" className={classes.divider} />
+            )}
+          </Fragment>
+        ))}
       </PortletContent>
       <PortletFooter className={classes.portletFooter}>
         <Button color="primary" size="small" variant="text">
@@ -83,4 +55,4 @@ LatestLostItemList.propTypes = {
   className: PropTypes.string
 };
 
-export default withStyles(styles)(LatestLostItemList);
+export default LatestLostItemList;

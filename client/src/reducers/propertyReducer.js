@@ -16,6 +16,9 @@ const initialState = {
   lost: null,
   found: null,
   inquiry: null,
+  recentLost: null,
+  recentFound: null,
+  recentInquiry: null,
   isLoading: false
 };
 
@@ -71,6 +74,9 @@ export default function(state = initialState, action) {
         lost: action.payload.lost,
         found: action.payload.found,
         inquiry: action.payload.inquiry,
+        recentLost: action.payload.lost.slice(0, 4),
+        recentFound: action.payload.found.slice(0, 4),
+        recentInquiry: action.payload.inquiry.slice(0, 4),
         isLoading: false
       };
     }

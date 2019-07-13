@@ -1,5 +1,4 @@
 import React, { useEffect, Fragment } from "react";
-import { isEmpty } from "util/validation";
 import { setForm, postUserProperty, editUserProperty } from "actions";
 
 import { NotificationSnackbar } from "layouts";
@@ -10,7 +9,7 @@ import PropTypes from "prop-types";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
-import { CircularProgress, Typography } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 
 // Shared layouts
 import { DataTable } from "layouts";
