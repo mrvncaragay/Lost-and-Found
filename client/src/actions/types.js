@@ -52,10 +52,7 @@ export const LOG_ERRORS = "LOG_ERRORS";
 export const LOG_SUCCESS = "LOG_SUCCESS";
 
 // LOST
-export const POST_LOST = "POST_LOST";
 
 // FOUND
-export const POST_FOUND = "POST_FOUND";
 
 // INQUIRY
-export const POST_INQUIRY = "POST_INQUIRY";

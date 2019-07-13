@@ -1,4 +1,29 @@
-import { POST_LOST } from "./types";
+import { POST_PROP_LOST, SET_LOADING_PROP } from "./types";
 import { logError, logSuccess } from "./notificationActions";
 
-const postLost = data => {};
+import axios from "axios";
+
+export const postLost = lostData => (dispatch, getState) => {
+  const propertyId = getState().auth.user.property._id;
+  dispatch(setLoading());
+
+  axios
+    .post("/api/lost", {
+      ...lostData,
+      propertyId
+    })
+    .then(res => {
+      dispatch({
+        type: POST_PROP_LOST,
+        payload: res.data
+      });
+      dispatch(logSuccess(`Succesfully created asdsa`));
+    })
+    .catch(err => dispatch(logError(err.response.data)));
+};
+
+export const setLoading = () => {
+  return {
+    type: SET_LOADING_PROP
+  };
+};

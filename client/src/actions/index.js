@@ -29,6 +29,6 @@ export { saveForm, setForm } from "./formActions";
 export { resetError } from "./notificationActions";
 
 // Lost
-export {} from "./lostActions";
-export {} from "./foundActions";
-export {} from "./inquiryActions";
+export { postLost } from "./lostActions";
+export { postFound } from "./foundActions";
+export { postInquiry } from "./inquiryActions";

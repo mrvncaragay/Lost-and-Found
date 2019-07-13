@@ -47,11 +47,14 @@ function LostAndFound({
       // Set current user
       setCurrentUser(decoded);
 
-      // Set Organization
-      setCurrentOrganization(decoded.property.organization);
+      if (decoded.adminType === "swAdmin" || decoded.adminType === "orgAdmin") {
+        // Set Organization
+        setCurrentOrganization(decoded.property.organization);
 
-      // retrieve organization data
-      getOrganizationData();
+        // retrieve organization data
+        getOrganizationData();
+      }
+
       // Check if localstorage has property
       if (localStorage["property"]) {
         const prop = JSON.parse(localStorage.getItem("property"));

@@ -18,11 +18,92 @@ exports.isBodyValid = (req, res, next) => {
     case 'organizations':
       error = validateOrganization(req.body);
       break;
+    case 'lost':
+      error = validateLost(req.body);
+      break;
+    case 'found':
+      error = validateFound(req.body);
+      break;
+    case 'inquiry':
+      error = validateInquiry(req.body);
+      break;
   }
   if (error) return res.status(400).send(error.details[0].message);
 
   next();
 };
+
+function validateLost(req) {
+  const schema = {
+    dateLost: {
+      date: Joi.date(),
+      time: Joi.string()
+    },
+    description: Joi.string()
+      .required()
+      .min(10)
+      .max(100),
+    lostAt: Joi.string(),
+    owner: Joi.object({
+      name: Joi.string().required(),
+      email: Joi.allow(null),
+      phone: Joi.string().required(),
+      address: Joi.allow(null)
+    }),
+    propertyId: Joi.string().required()
+  };
+
+  const { error } = Joi.validate(req, schema);
+  return error;
+}
+
+function validateFound(req) {
+  const schema = {
+    dateLost: {
+      date: Joi.date(),
+      time: Joi.string()
+    },
+    description: Joi.string()
+      .required()
+      .min(10)
+      .max(100),
+    lostAt: Joi.string(),
+    owner: Joi.object({
+      name: Joi.string().required(),
+      email: Joi.allow(null),
+      phone: Joi.string().required(),
+      address: Joi.allow(null)
+    }),
+    propertyId: Joi.string().required()
+  };
+
+  const { error } = Joi.validate(req, schema);
+  return error;
+}
+
+function validateInquiry(req) {
+  const schema = {
+    dateLost: {
+      date: Joi.date(),
+      time: Joi.string()
+    },
+    description: Joi.string()
+      .required()
+      .min(10)
+      .max(100),
+    lostAt: Joi.string(),
+    owner: Joi.object({
+      name: Joi.string().required(),
+      email: Joi.allow(null),
+      phone: Joi.string().required(),
+      address: Joi.allow(null)
+    }),
+    propertyId: Joi.string().required()
+  };
+
+  const { error } = Joi.validate(req, schema);
+  return error;
+}
 
 function validateOrganization(req) {
   const schema = {

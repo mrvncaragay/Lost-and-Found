@@ -42,7 +42,12 @@ const Found = mongoose.model(
         default: 'unknown'
       },
 
-      recorder: String
+      recorder: String,
+
+      propertyId: {
+        type: String,
+        required: true
+      }
     },
     {
       timestamps: true

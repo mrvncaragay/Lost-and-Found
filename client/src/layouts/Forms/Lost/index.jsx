@@ -1,4 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
+import { postLost } from "actions";
+
+// Externals
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+// Shared layouts
+import { NotificationSnackbar } from "layouts";
 
 // Material helper
 import {
@@ -19,7 +27,7 @@ import { Close as CloseIcon } from "@material-ui/icons";
 // Component styles
 import styles from "./styles";
 
-function Lost({ toggle, setToggle }) {
+function Lost({ toggle, setToggle, postLost, notify }) {
   const classes = styles();
 
   const initialState = {
@@ -54,156 +62,174 @@ function Lost({ toggle, setToggle }) {
   };
 
   const handleSave = () => {
-    setToggle(false);
+    postLost(lost);
   };
 
   return (
-    <Fade in={toggle}>
-      <Paper elevation={4} className={classes.root}>
-        <Grid container className={classes.grid}>
-          <Grid item xs={12} sm={12} className={classes.formHeader}>
-            <Typography variant="h4">Lost Item Form</Typography>
+    <Fragment>
+      {notify ? (
+        <NotificationSnackbar message={notify.message} type={notify.type} />
+      ) : null}
 
-            <span className={classes.spacer} />
+      <Fade in={toggle}>
+        <Paper elevation={4} className={classes.root}>
+          <Grid container className={classes.grid}>
+            <Grid item xs={12} sm={12} className={classes.formHeader}>
+              <Typography variant="h4">Lost Item Form</Typography>
 
-            <Tooltip title="Close" placement="right">
-              <IconButton
-                variant="text"
-                className={classes.closeButton}
-                onClick={handleCancel}
-              >
-                <CloseIcon />
-              </IconButton>
-            </Tooltip>
+              <span className={classes.spacer} />
+
+              <Tooltip title="Close" placement="right">
+                <IconButton
+                  variant="text"
+                  className={classes.closeButton}
+                  onClick={handleCancel}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+
+            <Grid item xs={12} sm={12} className={classes.dateLostRow}>
+              <span className={classes.spacer} />
+              <TextField
+                onChange={e => handleChange(e)}
+                label="Date lost"
+                name="dateLost"
+                inputProps={{
+                  data: "date"
+                }}
+                type="date"
+                InputLabelProps={{
+                  shrink: true
+                }}
+              />
+
+              <TextField
+                className={classes.timeLost}
+                onChange={e => handleChange(e)}
+                inputProps={{
+                  data: "time",
+                  step: 300 // 5 min
+                }}
+                label="Time lost"
+                name="dateLost"
+                type="time"
+                InputLabelProps={{
+                  shrink: true
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={12} className={classes.itemInfo}>
+              <TextField
+                className={classes.itemDesc}
+                onChange={e => handleChange(e)}
+                label="Description"
+                name="description"
+                type="text"
+                margin="dense"
+              />
+
+              <TextField
+                label="Lost location"
+                onChange={e => handleChange(e)}
+                name="lostAt"
+                type="text"
+                margin="dense"
+              />
+            </Grid>
+
+            <Typography variant="h6">Owner info</Typography>
+            <Divider variant="fullWidth" className={classes.divider} />
+
+            <Grid item xs={12} sm={12} className={classes.ownerInfoRow1}>
+              <TextField
+                onChange={e => handleChange(e)}
+                inputProps={{
+                  data: "name"
+                }}
+                label="Name"
+                name="owner"
+                type="text"
+                margin="dense"
+              />
+
+              <TextField
+                onChange={e => handleChange(e)}
+                inputProps={{
+                  data: "email"
+                }}
+                label="Email"
+                name="owner"
+                type="text"
+                margin="dense"
+              />
+
+              <TextField
+                onChange={e => handleChange(e)}
+                inputProps={{
+                  data: "phone"
+                }}
+                label="Phone #"
+                name="owner"
+                type="text"
+                margin="dense"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={12} className={classes.ownerInfoRow2}>
+              <TextField
+                className={classes.address}
+                onChange={e => handleChange(e)}
+                inputProps={{
+                  data: "address"
+                }}
+                label="Address"
+                name="owner"
+                type="text"
+                margin="dense"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={12} className={classes.formFooter}>
+              <span className={classes.spacer} />
+
+              <Tooltip title="Cancel" placement="bottom">
+                <Button variant="outlined" size="small" onClick={handleCancel}>
+                  Cancel
+                </Button>
+              </Tooltip>
+
+              <Tooltip title="Save" placement="bottom">
+                <Button
+                  onClick={handleSave}
+                  className={classes.saveButton}
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                >
+                  Save
+                </Button>
+              </Tooltip>
+            </Grid>
           </Grid>
-
-          <Grid item xs={12} sm={12} className={classes.dateLostRow}>
-            <span className={classes.spacer} />
-            <TextField
-              onChange={e => handleChange(e)}
-              label="Date lost"
-              name="dateLost"
-              inputProps={{
-                data: "date"
-              }}
-              type="date"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-
-            <TextField
-              className={classes.timeLost}
-              onChange={e => handleChange(e)}
-              inputProps={{
-                data: "time",
-                step: 300 // 5 min
-              }}
-              label="Time lost"
-              name="dateLost"
-              type="time"
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12} className={classes.itemInfo}>
-            <TextField
-              className={classes.itemDesc}
-              onChange={e => handleChange(e)}
-              label="Description"
-              name="description"
-              type="text"
-              margin="dense"
-            />
-
-            <TextField
-              label="Lost location"
-              onChange={e => handleChange(e)}
-              name="lostAt"
-              type="text"
-              margin="dense"
-            />
-          </Grid>
-
-          <Typography variant="h6">Owner info</Typography>
-          <Divider variant="fullWidth" className={classes.divider} />
-
-          <Grid item xs={12} sm={12} className={classes.ownerInfoRow1}>
-            <TextField
-              onChange={e => handleChange(e)}
-              inputProps={{
-                data: "name"
-              }}
-              label="Name"
-              name="owner"
-              type="text"
-              margin="dense"
-            />
-
-            <TextField
-              onChange={e => handleChange(e)}
-              inputProps={{
-                data: "email"
-              }}
-              label="Email"
-              name="owner"
-              type="text"
-              margin="dense"
-            />
-
-            <TextField
-              onChange={e => handleChange(e)}
-              inputProps={{
-                data: "phone"
-              }}
-              label="Phone #"
-              name="owner"
-              type="text"
-              margin="dense"
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12} className={classes.ownerInfoRow2}>
-            <TextField
-              className={classes.address}
-              onChange={e => handleChange(e)}
-              inputProps={{
-                data: "address"
-              }}
-              label="Address"
-              name="owner"
-              type="text"
-              margin="dense"
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={12} className={classes.formFooter}>
-            <span className={classes.spacer} />
-
-            <Tooltip title="Cancel" placement="bottom">
-              <Button variant="outlined" size="small" onClick={handleCancel}>
-                Cancel
-              </Button>
-            </Tooltip>
-
-            <Tooltip title="Save" placement="bottom">
-              <Button
-                onClick={handleSave}
-                className={classes.saveButton}
-                variant="outlined"
-                size="small"
-                color="primary"
-              >
-                Save
-              </Button>
-            </Tooltip>
-          </Grid>
-        </Grid>
-      </Paper>
-    </Fade>
+        </Paper>
+      </Fade>
+    </Fragment>
   );
 }
 
-export default Lost;
+Lost.propTypes = {
+  postLost: PropTypes.func.isRequired,
+  notify: PropTypes.object
+};
+
+const mapStateToProps = state => ({
+  notify: state.notify
+});
+
+export default connect(
+  mapStateToProps,
+  { postLost }
+)(Lost);

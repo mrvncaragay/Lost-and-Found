@@ -1,6 +1,15 @@
 const Lost = require('../model/lost');
 
-exports.postLost = (req, res) => {};
+exports.postLost = async (req, res) => {
+
+	const newLost = new Lost({
+		...req.body
+	})
+
+	await newLost.save();
+
+	res.send(newLost)
+};
 
 // const newFound = new Lost({
 //   dateFound: Date.now,

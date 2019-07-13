@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { getPropertyData } from "actions";
 
 // External
@@ -22,7 +22,7 @@ import {
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid, CircularProgress } from "@material-ui/core";
 
 const styles = makeStyles(theme => ({
   root: {
@@ -32,6 +32,7 @@ const styles = makeStyles(theme => ({
     height: "100%"
   },
   progressWrapper: {
+    margin: "auto",
     paddingTop: "48px",
     paddingBottom: "24px",
     display: "flex",
@@ -47,7 +48,7 @@ const styles = makeStyles(theme => ({
 function SecurityDashboard({ property, notify, getPropertyData }) {
   const classes = styles();
 
-  const { main } = property;
+  const { isLoading, main, lost } = property;
 
   /* eslint-disable */
   useEffect(() => {
@@ -67,29 +68,40 @@ function SecurityDashboard({ property, notify, getPropertyData }) {
 
       <div className={classes.root}>
         <Grid container spacing={4}>
-          <Grid item lg={3} xl={3} sm={12} xs={12}>
-            <Lost title="REPORTED LOST" count={12} />
-          </Grid>
+          {isLoading ? (
+            <div className={classes.progressWrapper}>
+              <CircularProgress />
+            </div>
+          ) : (
+            <Fragment>
+              <Grid item lg={3} xl={3} sm={12} xs={12}>
+                <Lost
+                  title="REPORTED LOST"
+                  count={lost.length === 0 ? 0 : lost.length}
+                />
+              </Grid>
 
-          <Grid item lg={3} xl={3} sm={12} xs={12}>
-            <Found title="ITEMS FOUND" count={12} />
-          </Grid>
+              <Grid item lg={3} xl={3} sm={12} xs={12}>
+                <Found title="ITEMS FOUND" count={12} />
+              </Grid>
 
-          <Grid item lg={3} xl={3} sm={12} xs={12}>
-            <Inquired title="INQUIRIES" count={12} />
-          </Grid>
+              <Grid item lg={3} xl={3} sm={12} xs={12}>
+                <Inquired title="INQUIRIES" count={12} />
+              </Grid>
 
-          <Grid item lg={3} xl={3} sm={12} xs={12}>
-            <Returned title="ITEMS RETURNED" count={12} />
-          </Grid>
+              <Grid item lg={3} xl={3} sm={12} xs={12}>
+                <Returned title="ITEMS RETURNED" count={12} />
+              </Grid>
 
-          <Grid item lg={4} xl={4} sm={12} xs={12}>
-            <LatestLostItemList title="Recently Lost Items" count={12} />
-          </Grid>
+              <Grid item lg={4} xl={4} sm={12} xs={12}>
+                <LatestLostItemList title="Recently Lost Items" count={12} />
+              </Grid>
 
-          <Grid item lg={4} xl={4} sm={12} xs={12}>
-            <LatestLostItemList title="Recently Found Items" count={12} />
-          </Grid>
+              <Grid item lg={4} xl={4} sm={12} xs={12}>
+                <LatestLostItemList title="Recently Found Items" count={12} />
+              </Grid>
+            </Fragment>
+          )}
         </Grid>
       </div>
     </DashboardLayout>

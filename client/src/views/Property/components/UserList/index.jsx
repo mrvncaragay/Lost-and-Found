@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
-import { CircularProgress, Typography } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 
 // Shared layouts
 import { DataTable } from "layouts";

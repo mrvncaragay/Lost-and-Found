@@ -1,6 +1,7 @@
 const User = require('../model/user');
 const Property = require('../model/property');
 const Organization = require('../model/organization');
+const Lost = require('../model/lost')
 
 exports.getOrgData = async (req, res, next) => {
   const { orgCode } = req.query;
@@ -29,5 +30,7 @@ exports.getPropData = async (req, res, next) => {
     .select('-password -property')
     .sort({ name: 1 });
 
-  res.send({ users });
+  const lost = await Lost.find({ 'propertyId': id }).sort({ createdAt: 1 })  
+
+  res.send({ users, lost });
 };

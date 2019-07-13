@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { logOutUser } from "actions/authActions";
+import { logOutUser } from "actions";
 import { isSecurityAdmin, isPropAdmin } from "util/validation";
 
 // Shared components
@@ -47,7 +47,6 @@ function Topbar({
   };
 
   const handleForm = type => {
-    console.log(type);
     if (form === type) return setToggle(!toggle);
 
     setForm(type);

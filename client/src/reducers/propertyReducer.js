@@ -13,9 +13,9 @@ import {
 const initialState = {
   main: null,
   users: null,
-  lost: null,
-  found: null,
-  inquiry: null,
+  lost: [],
+  found: [],
+  inquiry: [],
   isLoading: false
 };
 
@@ -68,6 +68,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         users: action.payload.users,
+        lost: action.payload.lost,
         isLoading: false
       };
     }
