@@ -13,7 +13,7 @@ function Data({ item }) {
   return (
     <Fragment>
       <div className={classes.headerItem}>
-        <Typography className={classes.productTimestamp} variant="body2">
+        <Typography className={classes.productTimestamp}>
           Ref# {item.ref}
         </Typography>
         <span className={classes.spacer} />
@@ -25,15 +25,15 @@ function Data({ item }) {
       <Link to="#">
         <Typography variant="h6">{item.description}</Typography>
       </Link>
-      <Typography className={classes.productTimestamp} variant="body2">
+      <Typography className={classes.productTimestamp}>
         Lost on {item.dateRegistered.date} at {item.dateRegistered.time}
       </Typography>
-      <Typography className={classes.productTimestamp} variant="body2">
+      <Typography className={classes.productTimestamp}>
         Lost in {item.locatedAt}
       </Typography>
       <div className={classes.footerItem}>
         <span className={classes.spacer} />
-        <Typography className={classes.productTimestamp} variant="body2">
+        <Typography className={classes.productTimestamp}>
           Posted 1hr ago
         </Typography>
       </div>

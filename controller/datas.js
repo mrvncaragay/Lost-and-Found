@@ -34,9 +34,9 @@ exports.getPropData = async (req, res, next) => {
     .select('-password -property')
     .sort({ name: 1 });
 
-  const lost = await Lost.find({ propertyId: propId }).sort({ createdAt: 1 });
-  const found = await Found.find({ propertyId: propId }).sort({ createdAt: 1 });
-  const inquiry = await Inquiry.find({ propertyId: propId }).sort({ createdAt: 1 });
+  const lost = await Lost.find({ propertyId: propId }).sort({ createdAt: -1 });
+  const found = await Found.find({ propertyId: propId }).sort({ createdAt: -1 });
+  const inquiry = await Inquiry.find({ propertyId: propId }).sort({ createdAt: -1 });
 
   res.send({ users, lost, found, inquiry });
 };

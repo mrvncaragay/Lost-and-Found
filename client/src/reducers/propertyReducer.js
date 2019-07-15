@@ -38,6 +38,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         lost: [action.payload, ...(state.lost ? state.lost : [])],
+        recentLost: [action.payload, ...state.recentLost],
         isLoading: false
       };
 
@@ -77,9 +78,9 @@ export default function(state = initialState, action) {
         lost: action.payload.lost,
         found: action.payload.found,
         inquiry: action.payload.inquiry,
-        recentLost: action.payload.lost.slice(0, 4),
-        recentFound: action.payload.found.slice(0, 4),
-        recentInquiry: action.payload.inquiry.slice(0, 4),
+        recentLost: action.payload.lost.slice(0, 5),
+        recentFound: action.payload.found.slice(0, 5),
+        recentInquiry: action.payload.inquiry.slice(0, 5),
         isLoading: false
       };
     }

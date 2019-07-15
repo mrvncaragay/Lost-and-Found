@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles(theme => ({
   productTimestamp: {
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    fontSize: "10px"
   },
   buttonLost: {
     color: theme.palette.success.main
