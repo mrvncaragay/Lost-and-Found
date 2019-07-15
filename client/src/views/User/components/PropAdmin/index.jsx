@@ -64,7 +64,7 @@ function PropAdmin({
   /* eslint-disable */
     useEffect(() => {
 
-      getPropertyData(main._id, main.propertyCode);
+      getPropertyData();
     }, []);
     /* eslint-enable */
 

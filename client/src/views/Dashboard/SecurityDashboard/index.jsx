@@ -57,7 +57,7 @@ function SecurityDashboard({ property, notify, getPropertyData }) {
 
   /* eslint-disable */
   useEffect(() => {
-    getPropertyData(main._id, main.propertyCode);
+    getPropertyData();
   }, [])
   /* eslint-enable */
 
@@ -82,7 +82,7 @@ function SecurityDashboard({ property, notify, getPropertyData }) {
               </Grid>
 
               <Grid item lg={3} xl={3} sm={12} xs={12}>
-                <Found title="ITEMS FOUND" count={lost ? found.length : 0} />
+                <Found title="ITEMS FOUND" count={found ? found.length : 0} />
               </Grid>
 
               <Grid item lg={3} xl={3} sm={12} xs={12}>

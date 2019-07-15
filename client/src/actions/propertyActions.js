@@ -1,4 +1,5 @@
 import { logError, logSuccess } from "./notificationActions";
+import { setLoading } from "./sharedActions";
 
 import {
   SET_LOADING_PROP,
@@ -24,15 +25,10 @@ export const postProperty = pData => {
   });
 };
 
-export const getPropertyData = (id, propCode) => dispatch => {
-  dispatch(setLoading());
+export const getPropertyData = () => dispatch => {
+  dispatch(setLoading(SET_LOADING_PROP));
   axios
-    .post("/api/data/property", null, {
-      params: {
-        propCode,
-        id
-      }
-    })
+    .post("/api/data/property")
     .then(res => {
       dispatch({
         type: GET_PROP_DATA,
@@ -43,7 +39,7 @@ export const getPropertyData = (id, propCode) => dispatch => {
 };
 
 export const postUserProperty = data => (dispatch, getState) => {
-  dispatch(setLoading());
+  dispatch(setLoading(SET_LOADING_PROP));
   const user = getState().auth.user;
   const property = getState().property.main._id;
   const organization = getState().organization.organization.main._id;
@@ -70,14 +66,14 @@ export const postUserProperty = data => (dispatch, getState) => {
       dispatch(logSuccess(`Successfully created a user: ${res.data.name}`));
     })
     .catch(err => {
-      dispatch(setLoading());
+      dispatch(setLoading(SET_LOADING_PROP));
       dispatch(logError(err.response.data));
     });
 };
 
 export const editUserProperty = data => (dispatch, getState) => {
   const user = getState().auth.user;
-  dispatch(setLoading());
+  dispatch(setLoading(SET_LOADING_PROP));
   axios
     .put("/api/users/" + data._id, {
       name: data.name,
@@ -121,12 +117,5 @@ export const setCurrentProperty = prop => {
   return {
     type: SET_CURRENT_PROPERTY,
     payload: prop
-  };
-};
-
-// Properties Loading
-export const setLoading = () => {
-  return {
-    type: SET_LOADING_PROP
   };
 };

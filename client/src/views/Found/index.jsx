@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { getOrganizations, setForm, setCurrentOrganization } from "actions";
+import { getPropertyFound } from "actions";
 import { isEmpty } from "util/validation";
 
 // External
@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from "layouts";
-import { DataTable, NotificationSnackbar } from "layouts";
+import { DataTable } from "layouts";
 
 // Material helpers
 import { makeStyles } from "@material-ui/core/styles";
@@ -30,35 +30,23 @@ const styles = makeStyles(theme => ({
   }
 }));
 
-function SoftwareAdminDashBoard({
-  getOrganizations,
-  setCurrentOrganization,
-  setForm,
-  organization,
-  notify
-}) {
+function Found({ getPropertyFound, property }) {
   const classes = styles();
-  const { isLoading, organizations } = organization;
+  const { isLoading, found } = property;
 
   /* eslint-disable */
   useEffect(() => {
-    getOrganizations(50, 0);
+    getPropertyFound();
   }, []);
     /* eslint-enable */
 
-  const column = ["Name", "Organization Code", "Address"];
+  const column = ["Ref", "Description", "Located At", "Status"];
   const options = {
-    colLink: { name: "Name", link: "/organization/" },
-    setSelectedData: data => setCurrentOrganization(data),
-    addButtonSetForm: type => setForm("Organization", type)
+    addButton: false
   };
 
   return (
-    <DashboardLayout title="Organizations">
-      {notify ? (
-        <NotificationSnackbar message={notify.message} type={notify.type} />
-      ) : null}
-
+    <DashboardLayout title="Found Items Records">
       <div className={classes.root}>
         <Grid container spacing={4}>
           <Grid item lg={12} sm={12} xl={12} xs={12}>
@@ -66,11 +54,11 @@ function SoftwareAdminDashBoard({
               <div className={classes.progressWrapper}>
                 <CircularProgress />
               </div>
-            ) : isEmpty(organizations) ? null : (
+            ) : (
               <DataTable
                 title=""
                 column={column}
-                data={organizations.data}
+                data={found}
                 options={options}
               />
             )}
@@ -81,20 +69,16 @@ function SoftwareAdminDashBoard({
   );
 }
 
-SoftwareAdminDashBoard.propTypes = {
-  getOrganizations: PropTypes.func.isRequired,
-  setCurrentOrganization: PropTypes.func.isRequired,
-  setForm: PropTypes.func.isRequired,
-  organization: PropTypes.object.isRequired,
-  notify: PropTypes.object
+Found.propTypes = {
+  getPropertyFound: PropTypes.func.isRequired,
+  property: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  organization: state.organization,
-  notify: state.notify
+  property: state.property
 });
 
 export default connect(
   mapStateToProps,
-  { getOrganizations, setForm, setCurrentOrganization }
-)(SoftwareAdminDashBoard);
+  { getPropertyFound }
+)(Found);

@@ -92,7 +92,7 @@ function Sidebar({ user }) {
               activeClassName={classes.activeListItem}
               className={classes.listItem}
               component={myNavLink}
-              to="/lost"
+              to={`/${user.property.propertyCode}/lost`}
             >
               <ListItemIcon className={classes.listItemIcon}>
                 <LostIcon />
@@ -108,7 +108,7 @@ function Sidebar({ user }) {
               activeClassName={classes.activeListItem}
               className={classes.listItem}
               component={myNavLink}
-              to="/found"
+              to={`/${user.property.propertyCode}/found`}
             >
               <ListItemIcon className={classes.listItemIcon}>
                 <FoundIcon />
@@ -124,7 +124,7 @@ function Sidebar({ user }) {
               activeClassName={classes.activeListItem}
               className={classes.listItem}
               component={myNavLink}
-              to="/inquiry"
+              to={`/${user.property.propertyCode}/inquiry`}
             >
               <ListItemIcon className={classes.listItemIcon}>
                 <InqueriesIcon />

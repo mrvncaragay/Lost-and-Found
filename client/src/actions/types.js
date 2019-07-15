@@ -52,7 +52,10 @@ export const LOG_ERRORS = "LOG_ERRORS";
 export const LOG_SUCCESS = "LOG_SUCCESS";
 
 // LOST
+export const GET_PROP_LOST = "GET_PROP_LOST";
 
 // FOUND
+export const GET_PROP_FOUND = "GET_PROP_FOUND";
 
 // INQUIRY
+export const GET_PROP_INQUIRY = "GET_PROP_INQUIRY";

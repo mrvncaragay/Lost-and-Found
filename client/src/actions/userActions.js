@@ -1,5 +1,6 @@
 import { GET_USERS, SEARCH_USERS, SET_LOADING_USER } from "./types";
 import { logError } from "./notificationActions";
+import { setLoading } from "./sharedActions";
 
 // External
 import axios from "axios";
@@ -17,7 +18,7 @@ export const postUser = uData => {
 };
 
 export const getUsers = rowsPerPage => (dispatch, getState) => {
-  dispatch(setLoading());
+  dispatch(setLoading(SET_LOADING_USER));
   const user = getState().auth.user;
 
   axios
@@ -35,13 +36,13 @@ export const getUsers = rowsPerPage => (dispatch, getState) => {
         payload: res.data
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => dispatch(logError(err.response.data)));
 };
 
 export const searchUsers = params => dispatch => {
   // Search first in the state?
   // then search db
-  dispatch(setLoading());
+  dispatch(setLoading(SET_LOADING_USER));
   axios
     .post("/api/users/search", null, {
       params: {
@@ -66,11 +67,4 @@ export const updateUser = newData => {
     adminType: newData.adminType,
     status: newData.status
   });
-};
-
-// Users Loading
-export const setLoading = () => {
-  return {
-    type: SET_LOADING_USER
-  };
 };

@@ -1,3 +1,5 @@
+import { setLoading } from "./sharedActions";
+
 import {
   GET_ORGANIZATIONS,
   SEARCH_ORGANIZATIONS,
@@ -20,7 +22,7 @@ export const postOrganization = orgData => {
 };
 
 export const getOrganizations = rowsPerPage => dispatch => {
-  dispatch(setLoading());
+  dispatch(setLoading(SET_LOADING_ORG));
   axios
     .post("/api/organizations/dashboard", null, {
       params: {
@@ -33,11 +35,11 @@ export const getOrganizations = rowsPerPage => dispatch => {
         payload: res.data
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => dispatch(logError(err.response.data)));
 };
 
 export const getOrganizationData = () => (dispatch, getState) => {
-  dispatch(setLoading());
+  dispatch(setLoading(SET_LOADING_ORG));
   const orgCode = getState().organization.organization.main.organizationCode;
 
   axios
@@ -58,7 +60,7 @@ export const getOrganizationData = () => (dispatch, getState) => {
 export const searchOrganizations = params => dispatch => {
   // Search first in the state?
   // then search db
-  dispatch(setLoading());
+  dispatch(setLoading(SET_LOADING_ORG));
   axios
     .post("/api/organizations/search", null, {
       params: {
@@ -71,7 +73,7 @@ export const searchOrganizations = params => dispatch => {
         payload: res.data
       })
     )
-    .catch(err => console.log(err));
+    .catch(err => dispatch(logError(err.response.data)));
 };
 
 export const updateOrganization = newData => {
@@ -86,12 +88,5 @@ export const setCurrentOrganization = org => {
   return {
     type: SET_CURRENT_ORGANIZATION,
     payload: org
-  };
-};
-
-// Organization Loading
-export const setLoading = () => {
-  return {
-    type: SET_LOADING_ORG
   };
 };

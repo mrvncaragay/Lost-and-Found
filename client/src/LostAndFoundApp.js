@@ -14,6 +14,9 @@ import { connect } from "react-redux";
 import Homepage from "./views/Homepage";
 import Dashboard from "./views/Dashboard";
 import User from "./views/User";
+import Lost from "./views/Lost";
+import Found from "./views/Found";
+import Inquiry from "./views/Inquiry";
 import Organization from "./views/Organization";
 import Property from "./views/Property";
 import SignIn from "./views/SignIn/User";
@@ -95,6 +98,24 @@ function LostAndFound({
         component={routeProps => (
           <Organization name={routeProps.match.params.name} />
         )}
+      />
+      <PrivateRoute
+        exact
+        admin="security propAdmin"
+        path="/:property/lost"
+        component={Lost}
+      />
+      <PrivateRoute
+        exact
+        admin="security propAdmin"
+        path="/:property/found"
+        component={Found}
+      />
+      <PrivateRoute
+        exact
+        admin="security propAdmin"
+        path="/:property/inquiry"
+        component={Inquiry}
       />
       <PrivateRoute
         exact

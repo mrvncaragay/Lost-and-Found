@@ -24,19 +24,19 @@ exports.getOrgData = async (req, res, next) => {
 };
 
 exports.getPropData = async (req, res, next) => {
-  const { propCode, id } = req.query;
-  const prop = Property.findById(id);
+  if (!req.user) return res.status(404).send('Unauthorized.');
+  const { _id: propId, propertyCode: propCode } = req.user.property;
+
+  const prop = Property.findById(propId);
   if (!prop) return res.status(404).send('The property with the given ID was not found.');
 
   const users = await User.find({ 'property.propertyCode': propCode })
     .select('-password -property')
     .sort({ name: 1 });
 
-  const lost = await Lost.find({ 'propertyId': id }).sort({ createdAt: 1 })  
-
-  const found = await Found.find({ 'propertyId': id }).sort({ createdAt: 1 })  
-
-  const inquiry = await Inquiry.find({ 'propertyId': id }).sort({ createdAt: 1 })  
+  const lost = await Lost.find({ propertyId: propId }).sort({ createdAt: 1 });
+  const found = await Found.find({ propertyId: propId }).sort({ createdAt: 1 });
+  const inquiry = await Inquiry.find({ propertyId: propId }).sort({ createdAt: 1 });
 
   res.send({ users, lost, found, inquiry });
 };

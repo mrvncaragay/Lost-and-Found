@@ -50,7 +50,7 @@ function PropAdminDashboard({ property, notify, getPropertyData }) {
   useEffect(() => {
 
   
-    getPropertyData(main._id, main.propertyCode);
+    getPropertyData();
   }, [])
   /* eslint-enable */
 

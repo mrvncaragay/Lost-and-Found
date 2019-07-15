@@ -1,5 +1,8 @@
 import {
   GET_PROP_DATA,
+  GET_PROP_LOST,
+  GET_PROP_INQUIRY,
+  GET_PROP_FOUND,
   SET_LOADING_PROP,
   SET_CURRENT_PROPERTY,
   POST_PROP_USER,
@@ -77,6 +80,30 @@ export default function(state = initialState, action) {
         recentLost: action.payload.lost.slice(0, 4),
         recentFound: action.payload.found.slice(0, 4),
         recentInquiry: action.payload.inquiry.slice(0, 4),
+        isLoading: false
+      };
+    }
+
+    case GET_PROP_LOST: {
+      return {
+        ...state,
+        lost: action.payload.lost,
+        isLoading: false
+      };
+    }
+
+    case GET_PROP_FOUND: {
+      return {
+        ...state,
+        found: action.payload.found,
+        isLoading: false
+      };
+    }
+
+    case GET_PROP_INQUIRY: {
+      return {
+        ...state,
+        inquiry: action.payload.inquiry,
         isLoading: false
       };
     }
